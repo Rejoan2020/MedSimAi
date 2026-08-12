@@ -3,9 +3,9 @@ import Options from "@/components/Options";
 import PerformanceIndicator from "@/components/PerformanceIndicator";
 import ResponsiveCircle from "@/components/ResponsiveCircle";
 import Tab from "@/components/Tab";
-import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/AdminDashboard";
+import Sidebar from "./components/Sidebar"; 
 import Footer from "./admin-dashboard/components/Footer";
+import Dashboard from "@/components/dashboard/Dashboard";
 
 export default function Home() {
   return (
@@ -15,8 +15,7 @@ export default function Home() {
       <PerformanceIndicator score = {4}/>
       <Options number = {1}/>
       <Button title={"Show details"} down = {false}/> */}
-      {/* <Dashboard/>  */}
-      
+      <Dashboard/> 
     </div>
   );
 }

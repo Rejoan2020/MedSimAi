@@ -5,7 +5,7 @@ import React from 'react'
 export default function Sidebar() {
     const menu = [
         {
-            'icon': '/sidebar/notification.png',
+            'icon': '/icons/students.svg',
             'title': 'Dashboard'
         },
         {
@@ -31,7 +31,7 @@ export default function Sidebar() {
                 className='m-10 w-[162px] h-[32px]' />
             <div className='pl-10 pb-4 text-[#D5D7DA]'>Platform</div>
             {
-                menu.map((m, idx) => <div key={idx} className='flex gap-1 p-4 pl-10 hover:bg-[#6796F2] cursor-pointer'>
+                menu.map((m, idx) => <div key={idx} className='flex gap-2 p-4 pl-10 hover:bg-[#6796F2] cursor-pointer'>
                     <Image width={24} height={24} alt={m.title} src={m.icon} className='w-6 h-6' />
                     <div>{m.title}</div>
                 </div>)
@@ -45,7 +45,7 @@ export default function Sidebar() {
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <div className='border flex items-center justify-center rounded-full bg-light-blue p-2 h-8 w-8 cursor-pointer'>{user.name.charAt(0)}</div>
+                    <div className='border-0 hover:border-1 flex items-center justify-center rounded-full bg-light-blue p-2 h-10 w-10 cursor-pointer'>{user.name.charAt(0)}</div>
                     <div>
                         <div>{user.name}</div>
                         <div className='text-Secondary-Text'>{user.accountType}</div>
