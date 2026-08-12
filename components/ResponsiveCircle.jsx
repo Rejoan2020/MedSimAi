@@ -1,10 +1,17 @@
 import React from 'react'
 
-export default function ResponsiveCircle() {
+export default function ResponsiveCircle({ percentage }) {
   return (
-    <div className='border w-40 h-40 rounded-full flex justify-center items-center'>
-      <div className='border w-20 h-30 rounded-full'>
-
+    <div
+      className={`border-0 w-38 h-38 rounded-full flex justify-center items-center`}
+      style={{
+        background: `conic-gradient(
+          var(--color-light-blue) 0 ${percentage}%,
+          var(--color-brand-secondary) ${percentage}% 100%
+        )`,
+      }}>
+      <div className='border-0 w-25 h-25 rounded-full flex justify-center items-center bg-white text-light-blue font-bold'>
+        {percentage}%
       </div>
     </div>
   )
