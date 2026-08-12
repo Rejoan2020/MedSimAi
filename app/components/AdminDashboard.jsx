@@ -1,7 +1,7 @@
 import React from 'react'
-import Header from '../dashboard/components/Header'
-import Card from '../dashboard/components/Card'
-import Footer from '../dashboard/components/Footer'
+import Header from '../admin-dashboard/components/Header'
+import Card from '../admin-dashboard/components/Card'
+import Footer from '../admin-dashboard/components/Footer'
 
 export default function Dashboard() {
     const cards = [
