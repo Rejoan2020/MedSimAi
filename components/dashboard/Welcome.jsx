@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Welcome() {
   return (
-    <div className='bg-[linear-gradient(to_right,#FFFDFC,#F8FDFF,#F7FAFF)] p-8 border-1 rounded-xl w-full max-w-220'>
+    <div className='bg-[linear-gradient(to_right,#FFFDFC,#F8FDFF,#F7FAFF)] p-8 border-1 border-[#F0F4FE] rounded-xl w-full max-w-300'>
       <div className='text-deep-blue font-medium'>Student Dashboard</div>
       <div className='text-light-blue text-[32px] font-bold'>Welcome back, Maruf</div>
       <div className='text-Secondary-Text'>Continue mastering clinical reasoning</div>
