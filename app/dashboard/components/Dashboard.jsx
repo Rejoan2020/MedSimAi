@@ -44,7 +44,7 @@ export default function Dashboard() {
     return (
         <div className='w-full m-8 flex flex-col items-center gap-8'>
             <Welcome />
-            <div className='flex justify-between w-full max-w-300 '>
+            <div className='grid grid-cols md:grid-cols-2 xl:grid-cols-3 justify-between w-full max-w-300 '>
                 {cards.map((card, index) => <Card key={index} title={card.title} number={card.number} icon={card.icon} />)}
             </div>
             <div className='flex flex-col gap-2 border p-8 w-full max-w-300 rounded-lg border-brand-secondary hover:border-brand-primary'>
