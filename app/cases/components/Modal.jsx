@@ -20,11 +20,11 @@ export default function Modal() {
     }
   ]
   return (
-    <div className='w-full border p-4'>
+    <div className='w-full max-w-300 border p-4 rounded-lg'>
       <div className='w-full max-w-300'>
         <div className='font-bold'>Filter Cases</div>
       </div>
-      <div>
+      <div className='flex justify-between gap-2'>
         {filters.map((f, index) => <Card key={index} icon={f.icon} title={f.title} options={f.options} />)}
       </div>
     </div>
