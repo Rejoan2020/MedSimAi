@@ -16,17 +16,13 @@ export default function PDFReader({ file }) {
 
   const [numPages, setNumPages] = useState(null)
   const [pageWidth, setPageWidth] = useState(null)
-
-  /*
-   * Get the width of the PDF container
-   */
+  
   useEffect(() => {
     if (!containerRef.current) return
 
     const observer = new ResizeObserver((entries) => {
       const width = entries[0].contentRect.width
 
-      // Leave some space for padding
       setPageWidth(width - 48)
     })
 
@@ -42,7 +38,6 @@ export default function PDFReader({ file }) {
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-gray-100">
 
-      {/* PDF toolbar */}
       <div className="flex shrink-0 items-center justify-between border-b bg-white px-4 py-3">
 
         <div className="text-sm font-medium text-gray-700">
@@ -56,7 +51,6 @@ export default function PDFReader({ file }) {
       </div>
 
 
-      {/* Scrollable PDF area */}
       <div
         ref={containerRef}
         className="flex-1 overflow-y-auto p-6"
@@ -80,7 +74,7 @@ export default function PDFReader({ file }) {
         >
 
           {numPages &&
-            Array.from({ length: numPages }, (_, index) => (
+            Array.from({ length: numPages }, (val, index) => (
               <div
                 key={index}
                 className="mb-6 flex justify-center"
