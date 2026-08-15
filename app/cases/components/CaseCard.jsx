@@ -2,6 +2,8 @@ import { ArrowRight, Clock, File, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import Stars from './Stars'
+import Link from 'next/link'
+import { slugify } from '@/utils/slugify'
 
 export default function CaseCard({ title, image, tags, specialty, difficulty, duration, patient, description, }) {
     const cardSide = [
@@ -22,6 +24,9 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
             'value': '78%',
         }
     ]
+    const slug = slugify(title);
+
+    console.log(slug);
     return (
         <div className='border border-brand-secondary rounded-lg p-4'>
             <div className='flex'>
@@ -37,10 +42,10 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
                         <div className='flex flex-col gap-4'>
                             <div className='text-[24px] font-bold'>{title}</div>
                             <div className='text-Secondary-Text'>{description}</div>
-                            <div className='flex gap-2'>
-                                <div className='border p-1'>{difficulty}</div>
-                                <div className='flex justify-center items-center border p-1'><Clock className='w-4 h-4' /> <div>{duration}</div></div>
-                                <div className='border flex p-1 items-center'>
+                            <div className='grid grid-cols-2 gap-1'>
+                                <div className='flex justify-center items-center border rounded-lg p-1'>{difficulty}</div>
+                                <div className='flex justify-center items-center border rounded-lg p-1'><Clock className='w-4 h-4' /> <div>{duration}</div></div>
+                                <div className='border rounded-lg flex p-1 items-center justify-center'>
                                     <PersonStanding />
                                     <div>{patient.age >= 18 ? "Adult" : "Pediatric patient"}</div>
                                 </div>
@@ -63,17 +68,21 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
                     {cardSide.map((card, index) =>
                         <div key={index}>
                             <div className='font-bold text-Secondary-Text'>{card.title}</div>
-                            <div className='text-lg'>{card.value}</div>
+                            <div className={`text-lg ${card.title === 'Your best score' ?
+                                "text-[28px] text-green-600 font-bold" : ""}`}>{card.value}</div>
                         </div>
                     )}
 
                 </div>
             </div>
             <div className='border-t border-brand-secondary mt-4 pt-4 flex justify-end'>
-                <div className='text-white border p-2 flex justify-evenly px-4 bg-deep-blue'>
+                <Link
+                    className='text-white border rounded-lg p-2 flex justify-evenly px-4 bg-deep-blue cursor-pointer'
+                    href={`/cases/${slug}`}
+                >
                     <div>Start Case</div>
                     <ArrowRight />
-                </div>
+                </Link>
             </div>
         </div>
     )

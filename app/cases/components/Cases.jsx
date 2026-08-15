@@ -18,7 +18,7 @@ export default function Cases() {
             image: '/cases/lungs.png',
             specialty: "Respiratory",
             difficulty: "Beginner",
-            duration: "10 min",
+            duration: "10 minutes",
             patient: {
                 age: 45,
                 gender: "Male"
@@ -32,10 +32,10 @@ export default function Cases() {
         {
             id: 2,
             title: "Acute Chest Pain",
-            image: '/cases/lungs.png',
+            image: '/cases/chestt.jpg',
             specialty: "Cardiology",
             difficulty: "Intermediate",
-            duration: "15 min",
+            duration: "15 minutes",
             patient: {
                 age: 58,
                 gender: "Male"
@@ -49,10 +49,10 @@ export default function Cases() {
         {
             id: 3,
             title: "Severe Headache",
-            image: '/cases/lungs.png',
+            image: '/cases/headache.webp',
             specialty: "Neurology",
             difficulty: "Advanced",
-            duration: "20 min",
+            duration: "20 minutes",
             patient: {
                 age: 32,
                 gender: "Female"
@@ -84,7 +84,7 @@ export default function Cases() {
             <div className='flex w-full max-w-300 gap-2'>
                 {levels.map((lvl, index) => <Levels key={index} title={lvl} />)}
             </div>
-            <div className='grid grid-cols-1 2xl:grid-cols-2 w-full max-w-300 gap-2'>
+            <div className='grid grid-cols-1 2xl:grid-cols-2 w-full max-w-300 gap-8'>
                 {cases.map((item) => (
                     <CaseCard
                         key={item.id}
