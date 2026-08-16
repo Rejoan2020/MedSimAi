@@ -31,7 +31,7 @@ export default async function Page({ params }) {
           </div>
         </div>
 
-        <div className='border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer'>Start Session</div>
+        <div className='border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500'>Start Session</div>
 
       </div>
 
@@ -50,7 +50,7 @@ export default async function Page({ params }) {
           <PDFReader file="/cases/cardio-report.pdf" />
         </div>
 
-        <div className="min-h-0 overflow-y-auto rounded-xl border border-gray-200 bg-gray-100/20 p-6 max-w-100">
+        <div className="min-h-0 overflow-y-auto rounded-xl border border-gray-200 bg-gray-100/20 p-6 max-w-150">
           <div>
             <h1 className="text-xl font-semibold text-blue-800">
               Learning objectives
@@ -87,7 +87,7 @@ export default async function Page({ params }) {
               <div className='flex gap-2'>
                 {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
               </div>
-              <div className='flex justify-between text-gray-200'>
+              <div className='flex justify-between text-gray-200 max-w-105'>
                 <div>Not confident</div>
                 <div>Very confident</div>
               </div>
@@ -98,7 +98,7 @@ export default async function Page({ params }) {
               <div className='flex gap-2'>
                 {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
               </div>
-              <div className='flex justify-between text-gray-200'>
+              <div className='flex justify-between text-gray-200 max-w-105'>
                 <div>Not confident</div>
                 <div>Very confident</div>
               </div>
@@ -109,7 +109,7 @@ export default async function Page({ params }) {
               <div className='flex gap-2'>
                 {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
               </div>
-              <div className='flex justify-between text-gray-200'>
+              <div className='flex justify-between text-gray-200 max-w-105'>
                 <div>Not confident</div>
                 <div>Very confident</div>
               </div>
@@ -120,7 +120,7 @@ export default async function Page({ params }) {
               <div className='flex gap-2'>
                 {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
               </div>
-              <div className='flex justify-between text-gray-200'>
+              <div className='flex justify-between text-gray-200 max-w-105'>
                 <div>Not confident</div>
                 <div>Very confident</div>
               </div>
@@ -131,7 +131,7 @@ export default async function Page({ params }) {
               <div className='flex gap-2'>
                 {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
               </div>
-              <div className='flex justify-between text-gray-200'>
+              <div className='flex justify-between text-gray-200 max-w-105'>
                 <div>Not confident</div>
                 <div>Very confident</div>
               </div>
