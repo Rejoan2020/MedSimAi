@@ -42,7 +42,7 @@ export default function page() {
                         <div className='font-semibold pb-4'>
                             Key Strength
                         </div>
-                        {Array.from({ length: 3 }, (val, idx) => <div className='flex gap-2'>
+                        {Array.from({ length: 3 }, (val, idx) => <div key={idx} className='flex gap-2'>
                             <Check color='green' className='w-6 h-6' />
                             <div className='text-Secondary-Text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam explicabo minus excepturi atque voluptatem dolor ea vitae esse consequatur? </div>
                         </div>)}
@@ -51,7 +51,7 @@ export default function page() {
                         <div className='font-semibold pb-4'>
                             Areas to improve
                         </div>
-                        {Array.from({ length: 3 }, (val, idx) => <div className='flex gap-2'>
+                        {Array.from({ length: 3 }, (val, idx) => <div key={idx} className='flex gap-2'>
                             <CircleAlert color='red' className='w-6 h-6' />
                             <div className='text-Secondary-Text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam explicabo minus excepturi atque voluptatem dolor ea vitae esse consequatur? </div>
                         </div>)}

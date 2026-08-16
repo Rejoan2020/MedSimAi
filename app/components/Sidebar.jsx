@@ -1,24 +1,29 @@
 import { LogOut, MoonIcon, Settings } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 export default function Sidebar() {
     const menu = [
         {
             'icon': '/icons/students.svg',
-            'title': 'Dashboard'
+            'title': 'Dashboard',
+            'link': '/dashboard'
         },
         {
             'icon': '/sidebar/learningpaths.png',
-            'title': 'Cases'
+            'title': 'Cases',
+            'link': '/cases'
         },
         {
             'icon': '/sidebar/notification.png',
-            'title': 'Announcements'
+            'title': 'Announcements',
+            'link': '/announcements'
         },
         {
             'icon': '/sidebar/questions.png',
-            'title': 'Help & FAQ'
+            'title': 'Help & FAQ',
+            'link': '/help&faq'
         }
     ]
     const user = {
@@ -31,17 +36,22 @@ export default function Sidebar() {
                 className='m-10 w-[162px] h-[32px]' />
             <div className='pl-10 pb-4 text-[#D5D7DA]'>Platform</div>
             {
-                menu.map((m, idx) => <div key={idx} className='flex gap-2 p-4 pl-10 hover:bg-[#6796F2] cursor-pointer'>
-                    <Image width={24} height={24} alt={m.title} src={m.icon} className='w-6 h-6' />
-                    <div>{m.title}</div>
-                </div>)
+                menu.map((m, idx) =>
+                    <Link
+                        key={idx}
+                        className='flex gap-2 p-4 pl-10 hover:bg-[#6796F2] cursor-pointer'
+                        href={m.link}
+                    >
+                        <Image width={24} height={24} alt={m.title} src={m.icon} className='w-6 h-6' />
+                        <div>{m.title}</div>
+                    </Link>)
             }
             <div className='mt-auto p-4 pl-10 flex flex-col gap-4'>
                 <div className='flex justify-between'>
                     <div className='text-Secondary-Text'>THEME</div>
                     <div className='flex gap-2'>
-                        <Image width={24} height={24} alt='notification' src={'/sidebar/notification.png'} className='w-6 h-6'/>
-                        <MoonIcon className='w-6 h-6'/>
+                        <Image width={24} height={24} alt='notification' src={'/sidebar/notification.png'} className='w-6 h-6' />
+                        <MoonIcon className='w-6 h-6' />
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
@@ -50,10 +60,10 @@ export default function Sidebar() {
                         <div>{user.name}</div>
                         <div className='text-Secondary-Text'>{user.accountType}</div>
                     </div>
-                    <Settings className='w-6 h-6 cursor-pointer'/>
+                    <Settings className='w-6 h-6 cursor-pointer' />
                 </div>
                 <div className='flex gap-2 mt-2 text-Secondary-Text hover:text-white cursor-pointer'>
-                    <LogOut/>
+                    <LogOut />
                     <div>Sign out</div>
                 </div>
             </div>

@@ -1,7 +1,9 @@
 import { ArrowLeft, Clock, StopCircle } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
-export default function Header() {
+export default function Header({id}) {
+    console.log(id)
     return (
         <div className='flex justify-between max-w-350 w-full gap-4'>
             <div className='flex justify-between gap-2 cursor-pointer min-w-54 p-2'>
@@ -10,10 +12,11 @@ export default function Header() {
             </div>
 
             <div className='flex min-w-64 gap-4'>
-                <div className='flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2'>
+                <Link className='flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2'
+                href={`/cases/${id}/feedback`}>
                     <StopCircle/>
                     <div>Stop Session</div>
-                </div>
+                </Link>
                 <div className='flex justify-between gap-2 p-2'>
                     <Clock/>
                     <div>30:15</div>

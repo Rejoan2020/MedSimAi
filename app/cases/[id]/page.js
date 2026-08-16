@@ -3,6 +3,7 @@ import PDFReader from './components/PDFReader'
 import { Check, ChevronDown, Clock, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
 import Options from '@/components/Options';
+import Link from 'next/link';
 
 export default async function Page({ params }) {
   const { id } = await params;
@@ -30,7 +31,10 @@ export default async function Page({ params }) {
           </div>
         </div>
 
-        <div className='border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500'>Start Session</div>
+        <Link 
+        className='border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500'
+        href={`/cases/${id}/active-session`}
+        >Start Session</Link>
 
       </div>
 
