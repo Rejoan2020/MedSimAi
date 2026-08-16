@@ -141,13 +141,21 @@ export default async function Page({ params }) {
 
       </div>
 
-      <div className="h-100 w-100 m-6 border border-gray-200 p-4 rounded-lg">
+      <div className="w-100 m-6 border border-gray-200 p-4 rounded-lg">
         <div className='flex justify-between text-blue-800 border-b border-gray-200 pb-4 mb-4'>
           <div>Consultation Plan</div>
           <ChevronDown />
         </div>
-        <textarea className='border w-80 h-80'/>
-        <button className='border'>Save</button>
+        <textarea
+          className='border w-80 h-80 border-gray-200 rounded-lg p-4 outline-none'
+          placeholder='Add your consultation plan here...'
+        />
+        <div className='flex gap-4 p-4'>
+          <Check size={48} className='w-6 h-6 text-blue-500' />
+          <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+        </div>
+        <button className='border border-gray-200 p-2 rounded-lg w-full bg-light-blue text-white'>Save</button>
+
       </div>
 
     </div>
