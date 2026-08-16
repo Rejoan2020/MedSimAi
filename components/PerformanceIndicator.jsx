@@ -3,7 +3,7 @@ import React from 'react'
 export default function PerformanceIndicator({ score }) {
   const percentage = score * 10;
   return (
-    <div className='border-0 w-152 h-4 rounded-lg'
+    <div className='border-0 max-w-240 h-4 rounded-lg'
       style={{
         background: `linear-gradient(
           to right,

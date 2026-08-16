@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Header() {
     return (
-        <div className='flex justify-between max-w-300 w-full gap-4'>
+        <div className='flex justify-between max-w-350 w-full gap-4'>
             <div className='flex justify-between gap-2 cursor-pointer min-w-54 p-2'>
                 <ArrowLeft className='w-6 h-6'/>
                 <div>Nutrition Support (SS1)</div>

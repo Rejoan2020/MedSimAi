@@ -20,8 +20,8 @@ export default function Modal() {
     }
   ]
   return (
-    <div className='w-full max-w-300 border p-4 rounded-lg'>
-      <div className='w-full max-w-300'>
+    <div className='w-full max-w-350 border p-4 rounded-lg'>
+      <div className='w-full max-w-350'>
         <div className='font-bold'>Filter Cases</div>
       </div>
       <div className='flex justify-between gap-2'>

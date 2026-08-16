@@ -66,7 +66,7 @@ export default function Cases() {
     ];
     return (
         <div className='w-full min-w-150 flex flex-col items-center p-8 gap-6'>
-            <div className='flex justify-between w-full max-w-300'>
+            <div className='flex justify-between w-full max-w-350'>
                 <div>
                     <div className='font-bold text-[24px]'>Clinical Cases</div>
                     <div className='text-Secondary-Text'>XYZ College of Medicine</div>
@@ -76,15 +76,15 @@ export default function Cases() {
                     <div className='text-Secondary-Text'>Cases available</div>
                 </div>
             </div>
-            <div className='flex w-full max-w-300 gap-2'>
+            <div className='flex w-full max-w-350 gap-2'>
                 <Search keyword={keyword} setKeyword={setKeyword} />
                 <Filter isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             </div>
             {isModalOpen && <Modal />}
-            <div className='flex w-full max-w-300 gap-2'>
+            <div className='flex w-full max-w-350 gap-2'>
                 {levels.map((lvl, index) => <Levels key={index} title={lvl} />)}
             </div>
-            <div className='grid grid-cols-1 2xl:grid-cols-2 w-full max-w-300 gap-8'>
+            <div className='grid grid-cols-1 2xl:grid-cols-2 w-full max-w-350 gap-8'>
                 {cases.map((item) => (
                     <CaseCard
                         key={item.id}

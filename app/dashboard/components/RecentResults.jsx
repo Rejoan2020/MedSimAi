@@ -24,7 +24,7 @@ export default function RecentResults() {
         }
     ]
     return (
-        <div className='flex flex-col gap-2 border p-8 w-full max-w-300 rounded-lg border-brand-secondary hover:border-brand-primary'>
+        <div className='flex flex-col gap-2 border p-8 w-full max-w-350 rounded-lg border-brand-secondary hover:border-brand-primary'>
             <div className='flex gap-1 items-center font-bold text-[24px]'>
                 <Sheet />
                 <div>Recent Results</div>
