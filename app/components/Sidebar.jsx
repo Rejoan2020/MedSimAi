@@ -1,7 +1,9 @@
+'use client'
 import { LogOut, MoonIcon, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { logout } from '../actions/auth'
 
 export default function Sidebar() {
     const menu = [
@@ -62,10 +64,15 @@ export default function Sidebar() {
                     </div>
                     <Settings className='w-6 h-6 cursor-pointer' />
                 </div>
-                <div className='flex gap-2 mt-2 text-Secondary-Text hover:text-white cursor-pointer'>
-                    <LogOut />
-                    <div>Sign out</div>
-                </div>
+                <form action={logout}>
+                    <button
+                        type="submit"
+                        className="flex gap-2 mt-2 text-Secondary-Text hover:text-white cursor-pointer"
+                    >
+                        <LogOut />
+                        <div>Sign out</div>
+                    </button>
+                </form>
             </div>
         </div>
     )
