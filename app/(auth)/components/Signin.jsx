@@ -1,10 +1,12 @@
 'use client'
 import { signin } from '@/app/actions/auth';
 import { Lock, Mail } from 'lucide-react'
-import Image from 'next/image' 
+import Image from 'next/image'
+import { useState } from 'react';
 
-export default function Signin() { 
-    
+export default function Signin() {
+    const [email, setEmail] = useState("rejoan@gmail.com");
+    const [pass, setPass] = useState("asdf");
     return (
         <div className='grid xl:grid-cols-2 items-center w-full h-full'>
             <div className='flex flex-col w-full items-center gap-16'>
@@ -21,8 +23,10 @@ export default function Signin() {
                             <Mail />
                             <input
                                 required
-                                name='email' 
-                                type='email' 
+                                name='email'
+                                type='email'
+                                value={email}
+                                onChange={(e) => { setPass(e.target.value) }}
                                 className='h-12 outline-none px-4 w-full'>
                             </input>
                         </div>
@@ -33,8 +37,10 @@ export default function Signin() {
                             <Lock />
                             <input
                                 required
-                                name='password'  
+                                name='password'
                                 type='password'
+                                value={pass}
+                                onChange={(e) => { setPass(e.target.value) }}
                                 className='h-12 outline-none px-4 w-full'>
                             </input>
                         </div>
@@ -44,11 +50,12 @@ export default function Signin() {
                         className='border p-2 flex justify-center items-center bg-light-blue text-white rounded-md cursor-pointer'
 
                     >
-                        Sign in
+                        Sign in (Demo)
                     </button>
 
                     <div className='text-Secondary-Text'>Don't have an account? contact institution</div>
                 </form>
+
 
             </div>
 
