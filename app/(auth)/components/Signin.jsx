@@ -26,7 +26,7 @@ export default function Signin() {
                                 name='email'
                                 type='email'
                                 value={email}
-                                onChange={(e) => { setPass(e.target.value) }}
+                                onChange={(e) => { setEmail(e.target.value) }}
                                 className='h-12 outline-none px-4 w-full'>
                             </input>
                         </div>
