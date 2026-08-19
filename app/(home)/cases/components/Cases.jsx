@@ -7,7 +7,7 @@ import Levels from './Levels'
 import Modal from './Modal'
 import CaseCard from './CaseCard'
 
-export default function Cases() {
+export default function Cases({data}) {
     const [keyword, setKeyword] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const levels = ['All levels', 'Beginner', 'Intermediate', 'Advanced'];
@@ -63,7 +63,8 @@ export default function Cases() {
             tags: ["History Taking", "Neurology", "Investigation"],
             status: "Not Started"
         }
-    ];
+    ]; 
+    console.log(data.data)
     return (
         <div className='w-full min-w-150 flex flex-col items-center p-8 gap-6'>
             <div className='flex justify-between w-full max-w-350'>
@@ -85,17 +86,17 @@ export default function Cases() {
                 {levels.map((lvl, index) => <Levels key={index} title={lvl} />)}
             </div>
             <div className='grid grid-cols-1 2xl:grid-cols-2 w-full max-w-350 gap-8'>
-                {cases.map((item) => (
+                {data.data.map((item) => (
                     <CaseCard
-                        key={item.id}
+                        key={item._id}
                         title={item.title}
                         image={item.image}
                         specialty={item.specialty}
                         difficulty={item.difficulty}
                         duration={item.duration}
-                        patient={item.patient}
+                        patient= {23}
                         description={item.description}
-                        tags = {item.tags}
+                        tags = {item.features}
                     />
                 ))}
             </div>

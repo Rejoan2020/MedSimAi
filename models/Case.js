@@ -4,7 +4,7 @@ const CasesSchema = new mongoose.Schema({
     title: { type: String, required: true, },
     description: { type: String, required: true },
     difficulty: { type: String, enum: ['Beginner', 'Intermediate', 'Hard'] },
-    image: '',
+    image: String,
     features: [String],
     pdfUrl: String,
     duration: String,
@@ -18,4 +18,4 @@ const CasesSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-export default mongoose.models.Cases || mongoose.model("Cases", CasesSchema);
+export default mongoose.models.Case || mongoose.model("Case", CasesSchema);
