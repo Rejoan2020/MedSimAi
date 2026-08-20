@@ -1,3 +1,4 @@
+
 import React from 'react'
 import PDFReader from './components/PDFReader'
 import { Check, ChevronDown, Clock, PersonStanding } from 'lucide-react'
@@ -7,6 +8,9 @@ import Link from 'next/link';
 
 export default async function Page({ params }) {
   const { id } = await params;
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cases/${id}`);
+  const data = await response.json();
+  const patient = data.data;
 
   return (
     <div className="min-h-screen text-black flex flex-col justify-center items-center p-8 gap-6 min-w-200 w-full">
@@ -17,12 +21,12 @@ export default async function Page({ params }) {
           />
           <div className="px-4 p-2 flex flex-col gap-2 max-w-350 min-w-100">
             <h1 className="text-xl font-semibold">
-              Shortness of Breath
+              {patient.title}
             </h1>
-            <div className='text-Secondary-Text'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            <div className='text-Secondary-Text'>{patient.description}</div>
             <div className='flex gap-1 text-blue-800'>
-              <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'>Intermediate</div>
-              <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'><Clock className='w-4 h-4' /> <div>10 minute</div></div>
+              <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'>{patient.difficulty}</div>
+              <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'><Clock className='w-4 h-4' /> <div>{patient.duration}</div></div>
               <div className='border rounded-lg flex p-1 items-center justify-center bg-blue-100/30'>
                 <PersonStanding />
                 <div>Adult</div>
@@ -43,14 +47,14 @@ export default async function Page({ params }) {
           Clinical Scenario
         </h1>
         <div>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.
+          {patient.description}
         </div>
       </div>
 
       <div className="grid h-[calc(100vh-10rem)] grid-cols-2 gap-6 p-6 w-full max-w-350">
 
         <div className="min-h-0 overflow-hidden w-full">
-          <PDFReader file="/cases/cardio-report.pdf" />
+          <PDFReader file={patient.pdfUrl} />
         </div>
 
         <div className="min-h-0 overflow-y-auto rounded-xl border border-gray-200 bg-gray-100/20 p-6 max-w-150">

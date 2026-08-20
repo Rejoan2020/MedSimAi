@@ -63,8 +63,7 @@ export default function Cases({data}) {
             tags: ["History Taking", "Neurology", "Investigation"],
             status: "Not Started"
         }
-    ]; 
-    console.log(data.data)
+    ];  
     return (
         <div className='w-full min-w-150 flex flex-col items-center p-8 gap-6'>
             <div className='flex justify-between w-full max-w-350'>

@@ -27,10 +27,11 @@ export async function POST(request) {
         const newCase = await Case.create({
             title: body.title,
             description: body.description,
+            slug: body.slug,
             difficulty: body.difficulty,
-            image: '',
+            image: body.image,
             features: body.tags,
-            pdfUrl: '',
+            pdfUrl: '/cases/cardio-report.pdf',
             duration: body.duration,
             specialty: body.specialty,
             completedBy: 10,

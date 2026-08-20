@@ -3,6 +3,7 @@ import React from 'react'
 import Header from '../admin-dashboard/components/Header'
 import Card from '../admin-dashboard/components/Card'
 import Footer from '../admin-dashboard/components/Footer'
+import { slugify } from '@/utils/slugify'
 
 export default function Dashboard() {
     const cards = [
@@ -32,6 +33,7 @@ export default function Dashboard() {
         {
             id: 1,
             title: "Shortness of Breath",
+            slug: slugify("Shortness of Breath"),
             image: '/cases/lungs.png',
             specialty: "Respiratory",
             difficulty: "Beginner",
@@ -49,6 +51,7 @@ export default function Dashboard() {
         {
             id: 2,
             title: "Acute Chest Pain",
+            slug: slugify("Acute Chest Pain"),
             image: '/cases/chestt.jpg',
             specialty: "Cardiology",
             difficulty: "Intermediate",
@@ -66,6 +69,7 @@ export default function Dashboard() {
         {
             id: 3,
             title: "Severe Headache",
+            slug: slugify("Severe Headache"),
             image: '/cases/headache.webp',
             specialty: "Neurology",
             difficulty: "Beginner",
@@ -88,7 +92,7 @@ export default function Dashboard() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(cases[2])
+            body: JSON.stringify(cases[0])
         });
         const data = await response.json();
 

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const CasesSchema = new mongoose.Schema({
     title: { type: String, required: true, },
     description: { type: String, required: true },
+    slug: String,
     difficulty: { type: String, enum: ['Beginner', 'Intermediate', 'Hard'] },
     image: String,
     features: [String],
