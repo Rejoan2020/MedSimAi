@@ -5,9 +5,20 @@ import { Check, ChevronDown, Clock, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
 import Options from '@/components/Options';
 import Link from 'next/link';
+import { auth } from '@/auth';
+import { startSession } from '@/app/actions/session';
+import User from '@/models/User';
+import Case from '@/models/Case';
 
 export default async function Page({ params }) {
   const { id } = await params;
+  const session = await auth();
+  const user = await User.findOne({ email: session?.user.email }); 
+  const userId = user._id.toString();
+  
+  const cs = await Case.findOne({slug:id});
+  const caseId = cs._id.toString();
+
   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cases/${id}`);
   const data = await response.json();
   const patient = data.data;
@@ -35,10 +46,17 @@ export default async function Page({ params }) {
           </div>
         </div>
 
-        <Link 
-        className='border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500'
-        href={`/cases/${id}/active-session`}
-        >Start Session</Link>
+        <form action={startSession}>
+          <input type="hidden" name="caseId" value={caseId} />
+          <input type="hidden" name="userId" value={userId} />
+
+          <button
+            type="submit"
+            className="border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500"
+          >
+            Start Session
+          </button>
+        </form>
 
       </div>
 
