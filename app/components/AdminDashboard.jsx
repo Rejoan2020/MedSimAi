@@ -4,6 +4,7 @@ import Header from '../admin-dashboard/components/Header'
 import Card from '../admin-dashboard/components/Card'
 import Footer from '../admin-dashboard/components/Footer'
 import { slugify } from '@/utils/slugify'
+import CreateCase from './CreateCase'
 
 export default function Dashboard() {
     const cards = [
@@ -94,9 +95,7 @@ export default function Dashboard() {
             },
             body: JSON.stringify(cases[0])
         });
-        const data = await response.json();
-
-        console.log(data);
+        const data = await response.json(); 
     }
 
     return (
@@ -106,10 +105,9 @@ export default function Dashboard() {
                 E2E Test path</div>
             <div className='flex flex-col gap-4'>
                 <Header />
-                <button
-                    className='border p-4 bg-light-blue text-white cursor-pointer hover:bg-blue-500'
-                    onClick={handleClick}
-                >Create</button>
+                <CreateCase/>
+                
+
                 <div className='h-14 w-80 border mt-4 flex justify-center items-center border border-[#F0F4FE] rounded-full bg-[#FFFFFF]'>
                     <div className='border h-10 w-38 rounded-full flex justify-center items-center bg-[#6796F2] text-white'>Overview</div>
                     <div className='border-0 h-10 w-38 rounded-full flex justify-center items-center'>Students</div>
