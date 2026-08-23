@@ -1,10 +1,12 @@
 'use client'
 
+import { slugify } from '@/utils/slugify'
 import React, { useState } from 'react'
 
 export default function CreateCase() {
     const [formData, setFormData] = useState({
         title: '',
+        slug:'',
         image: '',
         specialty: '',
         difficulty: 'Beginner',
@@ -45,7 +47,8 @@ export default function CreateCase() {
 
         const caseData = {
             ...formData,
-            duration: Number(formData.duration),
+            slug: slugify(formData.title),
+            duration: formData.duration+" minutes",
             patient: {
                 age: Number(formData.patient.age),
                 gender: formData.patient.gender,
@@ -56,22 +59,38 @@ export default function CreateCase() {
                 .filter(Boolean),
         }
 
-        console.log('Case:', caseData)
+        const response = await fetch("/api/cases", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(caseData)
+        });
+        
+        const data = await response.json();
+        if (data?.success) {
+            setFormData({
+                title: '',
+                image: '',
+                specialty: '',
+                difficulty: 'Beginner',
+                duration: 10,
+                patient: {
+                    age: '',
+                    gender: 'Male',
+                },
+                chiefComplaint: '',
+                description: '',
+                tags: '',
+                status: 'Not Started',
+            })
+        }
 
-        // Later:
-        // await fetch('/api/cases', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(caseData),
-        // })
     }
 
-    return (
-        <div className="w-full max-w-4xl rounded-xl border border-gray-200 bg-white p-8">
 
-            {/* Header */}
+    return (
+        <div className=" m-10 rounded-xl border border-gray-200 bg-white p-8">
             <div className="mb-8">
                 <h1 className="text-2xl font-semibold text-gray-900">
                     Create New Case
@@ -83,16 +102,12 @@ export default function CreateCase() {
             </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-
-                {/* Basic Information */}
                 <section>
                     <h2 className="mb-4 text-lg font-semibold">
                         Basic Information
                     </h2>
 
-                    <div className="grid gap-5 md:grid-cols-2">
-
-                        {/* Title */}
+                    <div className="grid gap-5 md:grid-cols-2"> 
                         <div className="md:col-span-2">
                             <label className="mb-2 block text-sm font-medium">
                                 Case title
@@ -106,9 +121,7 @@ export default function CreateCase() {
                                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-light-blue focus:ring-2 focus:ring-light-blue/20"
                                 required
                             />
-                        </div>
-
-                        {/* Specialty */}
+                        </div>  
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Specialty
@@ -130,8 +143,6 @@ export default function CreateCase() {
                                 <option value="Emergency">Emergency</option>
                             </select>
                         </div>
-
-                        {/* Difficulty */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Difficulty
@@ -148,8 +159,6 @@ export default function CreateCase() {
                                 <option value="Advanced">Advanced</option>
                             </select>
                         </div>
-
-                        {/* Duration */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Duration (minutes)
@@ -165,8 +174,6 @@ export default function CreateCase() {
                                 required
                             />
                         </div>
-
-                        {/* Image */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Image URL
@@ -183,9 +190,6 @@ export default function CreateCase() {
 
                     </div>
                 </section>
-
-
-                {/* Patient Information */}
                 <section>
                     <h2 className="mb-4 text-lg font-semibold">
                         Patient Information
@@ -193,7 +197,6 @@ export default function CreateCase() {
 
                     <div className="grid gap-5 md:grid-cols-2">
 
-                        {/* Age */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Patient age
@@ -211,8 +214,6 @@ export default function CreateCase() {
                                 required
                             />
                         </div>
-
-                        {/* Gender */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Gender
@@ -233,8 +234,6 @@ export default function CreateCase() {
                     </div>
                 </section>
 
-
-                {/* Clinical Information */}
                 <section>
                     <h2 className="mb-4 text-lg font-semibold">
                         Clinical Information
@@ -242,7 +241,6 @@ export default function CreateCase() {
 
                     <div className="flex flex-col gap-5">
 
-                        {/* Chief Complaint */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Chief complaint
@@ -258,7 +256,6 @@ export default function CreateCase() {
                             />
                         </div>
 
-                        {/* Description */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Case description
@@ -274,8 +271,6 @@ export default function CreateCase() {
                                 required
                             />
                         </div>
-
-                        {/* Tags */}
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Tags
@@ -297,8 +292,6 @@ export default function CreateCase() {
                     </div>
                 </section>
 
-
-                {/* Status */}
                 <section>
                     <h2 className="mb-4 text-lg font-semibold">
                         Case Status
@@ -317,19 +310,33 @@ export default function CreateCase() {
                 </section>
 
 
-                {/* Actions */}
                 <div className="flex justify-end gap-3 border-t border-gray-200 pt-6">
 
                     <button
                         type="button"
                         className="rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium hover:bg-gray-50"
+                        onClick={() => setFormData({
+                            title: '',
+                            image: '',
+                            specialty: '',
+                            difficulty: 'Beginner',
+                            duration: 10,
+                            patient: {
+                                age: '',
+                                gender: 'Male',
+                            },
+                            chiefComplaint: '',
+                            description: '',
+                            tags: '',
+                            status: 'Not Started',
+                        })}
                     >
                         Cancel
                     </button>
 
                     <button
                         type="submit"
-                        className="rounded-lg bg-light-blue px-6 py-3 text-sm font-medium text-white hover:bg-blue-500"
+                        className="rounded-lg bg-light-blue px-6 py-3 text-sm font-medium text-white hover:bg-blue-500" 
                     >
                         Create Case
                     </button>

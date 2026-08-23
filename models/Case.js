@@ -4,7 +4,7 @@ const CasesSchema = new mongoose.Schema({
     title: { type: String, required: true, },
     description: { type: String, required: true },
     slug: String,
-    difficulty: { type: String, enum: ['Beginner', 'Intermediate', 'Hard'] },
+    difficulty: { type: String, enum: ['Beginner', 'Intermediate', 'Advanced'] },
     image: String,
     features: [String],
     pdfUrl: String,

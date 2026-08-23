@@ -18,6 +18,11 @@ export default function Header({ id }) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
 
+    async function handleSession() {
+        const response = await fetch(`http://localhost:3000/cases/${id}/active-session`,{
+
+        });
+    }
     return (
         <div className='flex justify-between max-w-350 w-full gap-4'>
             <div className='flex justify-between gap-2 cursor-pointer min-w-54 p-2'>
@@ -26,8 +31,11 @@ export default function Header({ id }) {
             </div>
 
             <div className='flex min-w-64 gap-4'>
-                <Link className='flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2'
-                    href={`/cases/${id}/feedback`}>
+                <Link
+                    className='flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2'
+                    href={`/cases/${id}/feedback`}
+                    onClick={handleSession}
+                >
                     <StopCircle />
                     <div>Stop Session</div>
                 </Link>

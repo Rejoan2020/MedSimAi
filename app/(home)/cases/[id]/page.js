@@ -3,8 +3,7 @@ import React from 'react'
 import PDFReader from './components/PDFReader'
 import { Check, ChevronDown, Clock, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
-import Options from '@/components/Options';
-import Link from 'next/link';
+import Options from '@/components/Options'; 
 import { auth } from '@/auth';
 import { startSession } from '@/app/actions/session';
 import User from '@/models/User';
@@ -60,7 +59,7 @@ export default async function Page({ params }) {
 
       </div>
 
-      <div className='flex flex-col gap-4 justify-between border border-gray-200 rounded-lg m-2 p-8 max-w-350'>
+      <div className='flex flex-col gap-4 justify-between border border-gray-200 rounded-lg m-2 p-8 w-full max-w-350'>
         <h1 className="text-xl font-semibold text-blue-800">
           Clinical Scenario
         </h1>

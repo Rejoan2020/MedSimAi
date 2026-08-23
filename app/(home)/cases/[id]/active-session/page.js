@@ -4,6 +4,7 @@ import Note from './components/Note'
 
 export default async function page({params}) {
     const {id} = await params; 
+    console.log("active session : ", id)
     return (
         <div className='w-full flex flex-col items-center p-8 gap-4'>
             <Header id = {id}/>

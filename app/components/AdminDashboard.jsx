@@ -4,7 +4,7 @@ import Header from '../admin-dashboard/components/Header'
 import Card from '../admin-dashboard/components/Card'
 import Footer from '../admin-dashboard/components/Footer'
 import { slugify } from '@/utils/slugify'
-import CreateCase from './CreateCase'
+import Link from 'next/link'
 
 export default function Dashboard() {
     const cards = [
@@ -87,27 +87,18 @@ export default function Dashboard() {
         }
     ];
 
-    const handleClick = async () => {
-        const response = await fetch("/api/cases", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(cases[0])
-        });
-        const data = await response.json(); 
-    }
-
     return (
-        <div className='m-10 w-full'>
+        <div className='p-10 w-full'>
             <div className='mb-10'>
                 <a className='text-[#717680]'>Learning paths {'>'} </a>
                 E2E Test path</div>
             <div className='flex flex-col gap-4'>
                 <Header />
-                <CreateCase/>
-                
-
+                <div>
+                    <Link href={'/admin-dashboard/create-new-case'} className='text-black border p-2 bg-green-500 text-white rounded-lg'>
+                        Create a new case
+                    </Link>
+                </div>
                 <div className='h-14 w-80 border mt-4 flex justify-center items-center border border-[#F0F4FE] rounded-full bg-[#FFFFFF]'>
                     <div className='border h-10 w-38 rounded-full flex justify-center items-center bg-[#6796F2] text-white'>Overview</div>
                     <div className='border-0 h-10 w-38 rounded-full flex justify-center items-center'>Students</div>
