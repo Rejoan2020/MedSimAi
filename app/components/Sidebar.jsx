@@ -4,8 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { logout } from '../actions/auth'
+import { usePathname } from 'next/navigation'
 
 export default function Sidebar() {
+    const pathname = usePathname()
+
     const menu = [
         {
             'icon': '/icons/students.svg',
@@ -41,7 +44,7 @@ export default function Sidebar() {
                 menu.map((m, idx) =>
                     <Link
                         key={idx}
-                        className='flex gap-2 p-4 pl-10 hover:bg-[#6796F2] cursor-pointer'
+                        className={`flex gap-2 p-4 pl-10 hover:bg-[#6796F2] ${pathname.includes(m.link) ? "bg-[#6796F2]" : ""} cursor-pointer`}
                         href={m.link}
                     >
                         <Image width={24} height={24} alt={m.title} src={m.icon} className='w-6 h-6' />
