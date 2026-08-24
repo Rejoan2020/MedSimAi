@@ -6,9 +6,8 @@ import React from 'react'
 import { logout } from '../actions/auth'
 import { usePathname } from 'next/navigation'
 
-export default function Sidebar() {
+export default function Sidebar({ name, email }) {
     const pathname = usePathname()
-
     const menu = [
         {
             'icon': '/icons/students.svg',
@@ -60,10 +59,10 @@ export default function Sidebar() {
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <div className='border-0 hover:border-1 flex items-center justify-center rounded-full bg-light-blue p-2 h-10 w-10 cursor-pointer'>{user.name.charAt(0)}</div>
+                    <div className='border-0 hover:border-1 flex items-center justify-center rounded-full bg-light-blue p-2 h-10 w-10 cursor-pointer'>{name.charAt(0)}</div>
                     <div>
-                        <div>{user.name}</div>
-                        <div className='text-Secondary-Text'>{user.accountType}</div>
+                        <div>{name}</div>
+                        <div className='text-Secondary-Text'>Student</div>
                     </div>
                     <Settings className='w-6 h-6 cursor-pointer' />
                 </div>
