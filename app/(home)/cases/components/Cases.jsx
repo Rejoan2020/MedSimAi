@@ -15,7 +15,7 @@ export default function Cases({ data }) {
     const [casetype, setCasetype] = useState('All');
     const cards = data.data;
     const searchedData = cards.filter((card) => {
-        if(keyword==='')return true;
+        if (keyword === '') return true;
         return card.title.toLowerCase().includes(keyword.toLocaleLowerCase());
     })
     const filteredByDifficulty = searchedData.filter((card) => {
@@ -24,12 +24,12 @@ export default function Cases({ data }) {
     })
 
     const filteredBySpecialty = filteredByDifficulty.filter((card) => {
-        if(specialty.toLocaleLowerCase()=='all') return true;
+        if (specialty.toLocaleLowerCase() == 'all') return true;
         return card.specialty.toLowerCase().includes(specialty.toLocaleLowerCase());
     })
 
     const filteredByCasetype = filteredBySpecialty.filter((card) => {
-        if(casetype.toLocaleLowerCase()=='all') return true;
+        if (casetype.toLocaleLowerCase() == 'all') return true;
         return card.features.includes(casetype.toLocaleLowerCase());
     })
 
