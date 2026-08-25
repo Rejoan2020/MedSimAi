@@ -29,15 +29,19 @@ export default function Sidebar({ name, email }) {
             'title': 'Help & FAQ',
             'link': '/help&faq'
         }
-    ]
-    const user = {
-        'name': 'Abdullah-Al Maruf',
-        'accountType': 'student'
-    }
+    ] 
     return (
         <div className='flex flex-col w-70 shrink-0 bg-deep-blue text-white'>
-            <Image width={162} height={32} alt='medsimai logo' src={'/logo/medsimailogo.png'}
-                className='m-10 w-[162px] h-[32px]' />
+            <Link href={'/dashboard'}>
+                <Image
+                    width={162}
+                    height={32}
+                    alt='medsimai logo'
+                    src={'/logo/medsimailogo.png'}
+                    className='m-10 w-[162px] h-[32px]'
+                />
+            </Link>
+
             <div className='pl-10 pb-4 text-[#D5D7DA]'>Platform</div>
             {
                 menu.map((m, idx) =>
@@ -61,7 +65,7 @@ export default function Sidebar({ name, email }) {
                 <div className='flex items-center justify-between'>
                     <div className='border-0 hover:border-1 flex items-center justify-center rounded-full bg-light-blue p-2 h-10 w-10 cursor-pointer'>{name?.charAt(0)}</div>
                     <div>
-                        <div>{name?name:"No user"}</div>
+                        <div>{name ? name : "No user"}</div>
                         <div className='text-Secondary-Text'>Student</div>
                     </div>
                     <Settings className='w-6 h-6 cursor-pointer' />

@@ -27,10 +27,10 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
     const slug = slugify(title);
 
     return (
-        <div className='border border-brand-secondary rounded-lg p-4'>
+        <div className='border border-brand-secondary rounded-lg p-4 min-w-155'>
             <div className='flex'>
-                <div className='w-full min-w-90'>
-                    <div className='flex pb-2'>
+                <div className='w-full min-w-110'>
+                    <div className='flex pb-2 w-full'>
                         <div className='h-50 w-100 border border-brand-secondary rounded-lg m-2'>
                             <Image
                                 height={200} width={200} alt='Lungs' src={image}
@@ -38,16 +38,19 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
                             />
                         </div>
 
-                        <div className='flex flex-col gap-4'>
+                        <div className='flex flex-col gap-4 w-full'>
                             <div className='text-[24px] font-bold'>{title}</div>
                             <div className='text-Secondary-Text'>{description}</div>
-                            <div className='grid grid-cols-2 gap-1'>
-                                <div className='flex justify-center items-center border rounded-lg p-1'>{difficulty}</div>
-                                <div className='flex justify-center items-center border rounded-lg p-1'><Clock className='w-4 h-4' /> <div>{duration}</div></div>
-                                <div className='border rounded-lg flex p-1 items-center justify-center'>
-                                    <PersonStanding />
-                                    <div>{patient.age >= 18 ? "Adult" : "Pediatric patient"}</div>
+                            <div className='flex flex-col gap-2 w-full'> 
+                                <div className='grid grid-cols-2 gap-1 w-full'>
+                                    <div className='flex justify-center items-center border rounded-lg p-1'>{difficulty}</div>
+                                    <div className='flex justify-center items-center border rounded-lg p-1'><Clock className='w-4 h-4' /> <div>{duration}</div></div>
+
                                 </div>
+                                <div className='border rounded-lg flex p-1 items-center justify-center w-full'>
+                                    <PersonStanding className='w-4 h-4' />
+                                    <div>{patient.age >= 18 ? "Adult" : "Pediatric patient"}</div>
+                                </div> 
                             </div>
                         </div>
                     </div>
