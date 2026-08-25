@@ -30,7 +30,8 @@ export default function Cases({ data }) {
 
     const filteredByCasetype = filteredBySpecialty.filter((card) => {
         if (casetype.toLocaleLowerCase() == 'all') return true;
-        return card.features.includes(casetype.toLocaleLowerCase());
+        console.log("card feat : ",card.features)
+        return card.features.includes(casetype);
     })
 
     const levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
