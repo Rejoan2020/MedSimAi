@@ -59,9 +59,9 @@ export default function Sidebar({ name, email }) {
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <div className='border-0 hover:border-1 flex items-center justify-center rounded-full bg-light-blue p-2 h-10 w-10 cursor-pointer'>{name.charAt(0)}</div>
+                    <div className='border-0 hover:border-1 flex items-center justify-center rounded-full bg-light-blue p-2 h-10 w-10 cursor-pointer'>{name?.charAt(0)}</div>
                     <div>
-                        <div>{name}</div>
+                        <div>{name?name:"No user"}</div>
                         <div className='text-Secondary-Text'>Student</div>
                     </div>
                     <Settings className='w-6 h-6 cursor-pointer' />
