@@ -3,19 +3,20 @@ import React from 'react'
 import PDFReader from './components/PDFReader'
 import { Check, ChevronDown, Clock, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
-import Options from '@/components/Options'; 
+import Options from '@/components/Options';
 import { auth } from '@/auth';
 import { startSession } from '@/app/actions/session';
 import User from '@/models/User';
 import Case from '@/models/Case';
 
 export default async function Page({ params }) {
+  await dbconnect();
   const { id } = await params;
   const session = await auth();
-  const user = await User.findOne({ email: session?.user.email }); 
+  const user = await User.findOne({ email: session?.user.email });
   const userId = user._id.toString();
-  
-  const cs = await Case.findOne({slug:id});
+
+  const cs = await Case.findOne({ slug: id });
   const caseId = cs._id.toString();
 
   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cases/${id}`);
