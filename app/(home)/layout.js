@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
 import { auth } from '@/auth';
+import { dbconnect } from '@/lib/mongo';
 
 export default async function layout({ children }) {
     await dbconnect();

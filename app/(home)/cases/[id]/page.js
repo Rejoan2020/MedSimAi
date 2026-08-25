@@ -8,6 +8,7 @@ import { auth } from '@/auth';
 import { startSession } from '@/app/actions/session';
 import User from '@/models/User';
 import Case from '@/models/Case';
+import { dbconnect } from '@/lib/mongo';
 
 export default async function Page({ params }) {
   await dbconnect();

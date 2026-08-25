@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from './components/Header'
 import Note from './components/Note'
+import { dbconnect } from '@/lib/mongo';
 
 export default async function page({ params }) {
     await dbconnect();
