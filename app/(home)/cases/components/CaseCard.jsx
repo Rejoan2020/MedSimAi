@@ -9,7 +9,7 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
     const cardSide = [
         {
             'title': 'Specialty',
-            'value': 'Pulmology',
+            'value': specialty,
         },
         {
             'title': 'Difficulty',
@@ -25,7 +25,7 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
         }
     ]
     const slug = slugify(title);
- 
+
     return (
         <div className='border border-brand-secondary rounded-lg p-4'>
             <div className='flex'>

@@ -7,63 +7,34 @@ import Levels from './Levels'
 import Modal from './Modal'
 import CaseCard from './CaseCard'
 
-export default function Cases({data}) {
+export default function Cases({ data }) {
     const [keyword, setKeyword] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const levels = ['All levels', 'Beginner', 'Intermediate', 'Advanced'];
-    const cases = [
-        {
-            id: 1,
-            title: "Shortness of Breath",
-            image: '/cases/lungs.png',
-            specialty: "Respiratory",
-            difficulty: "Beginner",
-            duration: "10 minutes",
-            patient: {
-                age: 45,
-                gender: "Male"
-            },
-            chiefComplaint: "Progressive shortness of breath for 3 days.",
-            description:
-                "A 45-year-old man presents with worsening shortness of breath accompanied by cough and fever.",
-            tags: ["History Taking", "Respiratory", "Diagnosis"],
-            status: "Not Started"
-        },
-        {
-            id: 2,
-            title: "Acute Chest Pain",
-            image: '/cases/chestt.jpg',
-            specialty: "Cardiology",
-            difficulty: "Intermediate",
-            duration: "15 minutes",
-            patient: {
-                age: 58,
-                gender: "Male"
-            },
-            chiefComplaint: "Sudden onset of chest pain for 30 minutes.",
-            description:
-                "A 58-year-old man presents to the emergency department with severe central chest pain radiating to his left arm.",
-            tags: ["History Taking", "Emergency", "Cardiology"],
-            status: "Not Started"
-        },
-        {
-            id: 3,
-            title: "Severe Headache",
-            image: '/cases/headache.webp',
-            specialty: "Neurology",
-            difficulty: "Advanced",
-            duration: "20 minutes",
-            patient: {
-                age: 32,
-                gender: "Female"
-            },
-            chiefComplaint: "Sudden severe headache with nausea and vomiting.",
-            description:
-                "A 32-year-old woman presents with a sudden, severe headache that began earlier today.",
-            tags: ["History Taking", "Neurology", "Investigation"],
-            status: "Not Started"
-        }
-    ];  
+    const [difficulty, setDifficulty] = useState('All');
+    const [specialty, setSpecialty] = useState('All');
+    const [casetype, setCasetype] = useState('All');
+    const cards = data.data;
+    const searchedData = cards.filter((card) => {
+        return card.title.toLowerCase().includes(keyword.toLocaleLowerCase());
+    })
+    const filteredByDifficulty = searchedData.filter((card) => {
+        if (difficulty.toLocaleLowerCase() == 'all') return true;
+        return card.difficulty.toLowerCase().includes(difficulty.toLocaleLowerCase());
+    })
+
+    const filteredBySpecialty = filteredByDifficulty.filter((card) => {
+        if(specialty.toLocaleLowerCase()=='all') return true;
+        return card.specialty.toLowerCase().includes(specialty.toLocaleLowerCase());
+    })
+
+    const filteredByCasetype = filteredBySpecialty.filter((card) => {
+        if(casetype.toLocaleLowerCase()=='all') return true;
+        return card.features.includes(casetype.toLocaleLowerCase());
+    })
+
+    const levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
+
+
     return (
         <div className='w-full min-w-150 flex flex-col items-center p-8 gap-6'>
             <div className='flex justify-between w-full max-w-350'>
@@ -80,24 +51,43 @@ export default function Cases({data}) {
                 <Search keyword={keyword} setKeyword={setKeyword} />
                 <Filter isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             </div>
-            {isModalOpen && <Modal />}
+            {isModalOpen &&
+                <Modal
+                    difficulty={difficulty}
+                    setDifficulty={setDifficulty}
+                    specialty={specialty}
+                    setSpecialty={setSpecialty}
+                    casetype={casetype}
+                    setCasetype={setCasetype}
+                />
+            }
             <div className='flex w-full max-w-350 gap-2'>
-                {levels.map((lvl, index) => <Levels key={index} title={lvl} />)}
+                {levels.map((lvl, index) =>
+                    <Levels
+                        key={index}
+                        title={lvl}
+                        difficulty={difficulty}
+                        setDifficulty={setDifficulty}
+                    />)
+                }
             </div>
             <div className='grid grid-cols-1 2xl:grid-cols-2 w-full max-w-350 gap-8'>
-                {data.data.map((item) => (
-                    <CaseCard
-                        key={item._id}
-                        title={item.title}
-                        image={item.image}
-                        specialty={item.specialty}
-                        difficulty={item.difficulty}
-                        duration={item.duration}
-                        patient= {23}
-                        description={item.description}
-                        tags = {item.features}
-                    />
-                ))}
+                {
+                    filteredByCasetype.length === 0 ?
+                        <div >No data available</div> :
+                        filteredByCasetype.map((item) => (
+                            <CaseCard
+                                key={item._id}
+                                title={item.title}
+                                image={item.image}
+                                specialty={item.specialty}
+                                difficulty={item.difficulty}
+                                duration={item.duration}
+                                patient={23}
+                                description={item.description}
+                                tags={item.features}
+                            />
+                        ))}
             </div>
         </div>
 
