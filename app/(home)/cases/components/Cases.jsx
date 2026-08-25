@@ -15,6 +15,7 @@ export default function Cases({ data }) {
     const [casetype, setCasetype] = useState('All');
     const cards = data.data;
     const searchedData = cards.filter((card) => {
+        if(keyword==='')return true;
         return card.title.toLowerCase().includes(keyword.toLocaleLowerCase());
     })
     const filteredByDifficulty = searchedData.filter((card) => {
