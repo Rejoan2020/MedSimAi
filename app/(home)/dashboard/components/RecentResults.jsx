@@ -26,7 +26,7 @@ export default function RecentResults() {
     return (
         <div className='flex flex-col gap-2 border p-8 w-full max-w-350 rounded-lg border-brand-secondary hover:border-brand-primary'>
             <div className='flex gap-1 items-center font-bold text-[24px]'>
-                <Sheet />
+                <Sheet size={24}/>
                 <div>Recent Results</div>
             </div>
             {results.map((result, index) => <CaseCard key={index} title={result.title} type={result.type} level={result.level} result={result.score}/>)}

@@ -30,16 +30,16 @@ export default function Header({ id }) {
                 <div>Nutrition Support (SS1)</div>
             </div>
 
-            <div className='flex min-w-64 gap-4'>
+            <div className='sm:flex sm:min-w-64 gap-4'>
                 <Link
-                    className='flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2'
+                    className='min-w-36 flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2'
                     href={`/cases/${id}/feedback`}
                     onClick={handleSession}
                 >
                     <StopCircle />
                     <div>Stop Session</div>
                 </Link>
-                <div className='flex justify-between gap-2 p-2'>
+                <div className='flex sm:justify-between gap-2 p-2'>
                     <Clock />
                     <div>
                         {String(minutes).padStart(2, '0')}:

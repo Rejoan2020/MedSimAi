@@ -16,12 +16,12 @@ export default function Card({ icon: Icon, title, options, value, setVal }) {
         <div>{value}</div>
         <ChevronUp className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </div>
-      <div className={isOpen ? 'bg-white absolute left-0 top-full w-full' : 'hidden'}>
+      <div className={isOpen ? 'z-1 bg-white absolute left-0 top-full w-full' : 'hidden'}>
         {options.map((opt, index) =>
           <div
             className='border-0 text-deep-blue hover:text-light-blue m-1 flex justify-center cursor-pointer hover:bg-brand-primary bg-brand-secondary'
             key={index}
-            onClick={()=>{setIsOpen(false); setVal(opt)}}
+            onClick={() => { setIsOpen(false); setVal(opt) }}
           >
             {opt}
           </div>)

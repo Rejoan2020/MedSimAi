@@ -31,7 +31,7 @@ export default function Sidebar({ name, email }) {
         }
     ] 
     return (
-        <div className='flex flex-col w-70 shrink-0 bg-deep-blue text-white'>
+        <div className='flex flex-col max-sm:hidden w-70 shrink-0 bg-deep-blue text-white/70'>
             <Link href={'/dashboard'}>
                 <Image
                     width={162}
@@ -47,13 +47,13 @@ export default function Sidebar({ name, email }) {
                 menu.map((m, idx) =>
                     <Link
                         key={idx}
-                        className={`flex gap-2 p-4 pl-10 hover:bg-[#6796F2] ${pathname.includes(m.link) ? "bg-[#6796F2]" : ""} cursor-pointer`}
+                        className={`flex gap-2 p-4 pl-10 hover:bg-white/10 hover:text-white ${pathname.includes(m.link) ? "bg-white/10 text-white" : ""} cursor-pointer`}
                         href={m.link}
                     >
                         <Image width={24} height={24} alt={m.title} src={m.icon} className='w-6 h-6' />
                         <div>{m.title}</div>
                     </Link>)
-            }
+            } 
             <div className='mt-auto p-4 pl-10 flex flex-col gap-4'>
                 <div className='flex justify-between'>
                     <div className='text-Secondary-Text'>THEME</div>

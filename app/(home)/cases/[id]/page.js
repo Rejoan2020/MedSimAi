@@ -25,13 +25,26 @@ export default async function Page({ params }) {
   const patient = data.data;
 
   return (
-    <div className="min-h-screen text-black flex flex-col justify-center items-center p-8 gap-6 min-w-200 w-full">
+    <div className="min-h-screen text-black flex flex-col justify-center items-center p-8 gap-6 sm:min-w-200 w-full">
       <div className='flex justify-between max-w-350 w-full'>
-        <div className='flex'>
-          <Image height={100} width={200} alt='person' src={'/cases/person.png'}
-            className='h-30 w-36'
-          />
-          <div className="px-4 p-2 flex flex-col gap-2 max-w-350 min-w-100">
+        <div className='sm:flex'>
+          <div className='flex justify-between'>
+            <Image height={100} width={200} alt='person' src={'/cases/person.png'}
+              className='h-30 w-36'
+            />
+            <form action={startSession} className='sm:hidden'>
+              <input type="hidden" name="caseId" value={caseId} />
+              <input type="hidden" name="userId" value={userId} />
+
+              <button
+                type="submit"
+                className="border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500"
+              >
+                Start Session
+              </button>
+            </form>
+          </div>
+          <div className="px-4 p-2 flex flex-col gap-2 max-w-350 sm:min-w-100">
             <h1 className="text-xl font-semibold">
               {patient.title}
             </h1>
@@ -47,7 +60,7 @@ export default async function Page({ params }) {
           </div>
         </div>
 
-        <form action={startSession}>
+        <form action={startSession} className='max-sm:hidden'>
           <input type="hidden" name="caseId" value={caseId} />
           <input type="hidden" name="userId" value={userId} />
 
@@ -70,7 +83,7 @@ export default async function Page({ params }) {
         </div>
       </div>
 
-      <div className="grid h-[calc(100vh-10rem)] grid-cols-2 gap-6 p-6 w-full max-w-350">
+      <div className="grid h-[calc(100vh-10rem)] sm:grid-cols-2 gap-6 p-6 w-full max-w-350">
 
         <div className="min-h-0 overflow-hidden w-full">
           <PDFReader file={patient.pdfUrl} />
@@ -168,13 +181,13 @@ export default async function Page({ params }) {
       </div>
 
       <div className='w-full max-w-350'>
-        <div className="w-100 m-6 border border-gray-200 p-4 rounded-lg">
+        <div className="sm:w-100 m-6 border border-gray-200 p-4 rounded-lg">
           <div className='flex justify-between text-blue-800 border-b border-gray-200 pb-4 mb-4'>
             <div>Consultation Plan</div>
             <ChevronDown />
           </div>
           <textarea
-            className='border w-80 h-80 border-gray-200 rounded-lg p-4 outline-none'
+            className='border sm:w-80 sm:h-80 max-sm:w-60 max-sm:h-60 border-gray-200 rounded-lg p-4 outline-none'
             placeholder='Add your consultation plan here...'
           />
           <div className='flex gap-4 p-4'>

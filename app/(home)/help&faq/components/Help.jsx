@@ -4,7 +4,7 @@ import FAQ from './FAQ'
 
 export default function Help() {
     return (
-        <div className="w-full px-8 py-8 text-black"> 
+        <div className="w-full px-8 py-8 text-black h-screen"> 
             <div className="mb-8">
                 <div className="flex items-center gap-3">
 

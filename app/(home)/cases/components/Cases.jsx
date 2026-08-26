@@ -29,8 +29,7 @@ export default function Cases({ data }) {
     })
 
     const filteredByCasetype = filteredBySpecialty.filter((card) => {
-        if (casetype.toLocaleLowerCase() == 'all') return true;
-        console.log("card feat : ",card.features)
+        if (casetype.toLocaleLowerCase() == 'all') return true; 
         return card.features.includes(casetype);
     })
 
@@ -38,7 +37,7 @@ export default function Cases({ data }) {
 
 
     return (
-        <div className='w-full min-w-155 flex flex-col items-center p-8 gap-6'>
+        <div className='w-full sm:min-w-155 flex flex-col items-center p-8 gap-6'>
             <div className='flex justify-between w-full max-w-350'>
                 <div>
                     <div className='font-bold text-[24px]'>Clinical Cases</div>
@@ -63,7 +62,7 @@ export default function Cases({ data }) {
                     setCasetype={setCasetype}
                 />
             }
-            <div className='flex w-full max-w-350 gap-2'>
+            <div className='grid grid-cols-2 sm:grid-cols-4 justify-center items-center w-full max-w-350 gap-2 '>
                 {levels.map((lvl, index) =>
                     <Levels
                         key={index}

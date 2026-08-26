@@ -27,11 +27,11 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
     const slug = slugify(title);
 
     return (
-        <div className='border border-brand-secondary rounded-lg p-4 min-w-155'>
-            <div className='flex'>
-                <div className='w-full min-w-110'>
-                    <div className='flex pb-2 w-full'>
-                        <div className='h-50 w-100 border border-brand-secondary rounded-lg m-2'>
+        <div className='border border-brand-secondary rounded-lg p-4 sm:min-w-155'>
+            <div className='sm:flex'>
+                <div className='w-full sm:min-w-110'>
+                    <div className='flex max-sm:flex-col pb-2 w-full'>
+                        <div className='sm:h-50 sm:w-100 border border-brand-secondary rounded-lg m-2 max-sm:flex max-sm:justify-center'>
                             <Image
                                 height={200} width={200} alt='Lungs' src={image}
                                 className='p-4 h-40 w-40'
@@ -41,32 +41,37 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
                         <div className='flex flex-col gap-4 w-full'>
                             <div className='text-[24px] font-bold'>{title}</div>
                             <div className='text-Secondary-Text'>{description}</div>
-                            <div className='flex flex-col gap-2 w-full'> 
+                            <div className='flex flex-col gap-2 w-full'>
                                 <div className='grid grid-cols-2 gap-1 w-full'>
                                     <div className='flex justify-center items-center border rounded-lg p-1'>{difficulty}</div>
-                                    <div className='flex justify-center items-center border rounded-lg p-1'><Clock className='w-4 h-4' /> <div>{duration}</div></div>
-
+                                    <div className='flex justify-center items-center border rounded-lg p-1'>
+                                        <Clock className='w-4 h-4' />
+                                        <div>{duration}</div>
+                                    </div>
                                 </div>
                                 <div className='border rounded-lg flex p-1 items-center justify-center w-full'>
                                     <PersonStanding className='w-4 h-4' />
                                     <div>{patient.age >= 18 ? "Adult" : "Pediatric patient"}</div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className='border-b border-brand-secondary'></div>
+                    <div className=' border-b border-brand-secondary'></div>
                     <div>
                         <div className='font-bold'>Case Features</div>
                         <div className='flex gap-2'>
                             {tags.map((t, index) =>
-                                <div key={index} className='flex justify-center items-center'>
-                                    <File className='w-4 h-4 text-light-blue' />
+                                <div key={index} className='flex justify-center '>
+                                    <div>
+                                        <File className='w-4 h-4 text-light-blue mt-1' />
+                                    </div>
                                     <div className='text-deep-blue'>{t}</div>
                                 </div>)}
                         </div>
                     </div>
                 </div>
-                <div className='border-l ml-4 pl-4 border-brand-secondary flex flex-col gap-4 max-w-40 w-full'>
+
+                <div className='sm:border-l sm:ml-4 sm:pl-4 max-sm:pt-4 border-brand-secondary sm:flex sm:flex-col max-sm:grid max-sm:grid-cols-2 gap-4 sm:max-w-40 w-full'>
                     {cardSide.map((card, index) =>
                         <div key={index}>
                             <div className='font-bold text-Secondary-Text'>{card.title}</div>

@@ -10,7 +10,7 @@ export default function Note() {
             </div>
             <div className='border rounded-lg border-gray-200 p-4 text-Secondary-Text'>
                 <div className='border-b border-gray-200 p-2'>Note title</div> 
-                <textarea className='border-gray-200 p-2 outline-none min-h-[calc(100vh-20rem)] min-w-full'
+                <textarea className='border-gray-200 p-2 outline-none sm:min-h-[calc(100vh-20rem)] min-h-50 min-w-full'
                     placeholder='Take a note...'
                 />
                 <div className='flex justify-between items-center'>

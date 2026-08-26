@@ -40,7 +40,7 @@ export default function Dashboard() {
             'level': 'Intermediate',
         }
     ]
-    
+
     return (
         <div className='w-full m-8 flex flex-col items-center gap-8'>
             <Welcome />
@@ -48,8 +48,10 @@ export default function Dashboard() {
                 {cards.map((card, index) => <Card key={index} title={card.title} number={card.number} icon={card.icon} />)}
             </div>
             <div className='flex flex-col gap-2 border p-8 w-full max-w-350 rounded-lg border-brand-secondary hover:border-brand-primary'>
-                <div className='flex gap-2 items-center pb-4'>
-                    <TargetIcon />
+                <div className='flex gap-2 pb-4'>
+                    <div>
+                        <TargetIcon size={24} className='mt-2' />
+                    </div>
                     <div className='font-bold text-[24px]'>Recommended next cases</div>
                 </div>
 
@@ -57,8 +59,10 @@ export default function Dashboard() {
             </div>
             <div className='flex flex-col gap-2 border p-8 w-full max-w-350 rounded-lg border-brand-secondary hover:border-brand-primary'>
                 <div className='flex gap-2 items-center pb-4 justify-between'>
-                    <div className='flex gap-2 items-center'>
-                        <LucideBookMarked />
+                    <div className='flex gap-2'>
+                        <div>
+                            <LucideBookMarked size={24} className='mt-2'/>
+                        </div>
                         <div className='font-bold text-[24px]'>Already attempted cases</div>
                     </div>
                     <div className='flex gap-1 text-deep-blue hover:text-light-blue cursor-pointer'><div> View All </div> <ArrowRight /></div>
@@ -66,7 +70,7 @@ export default function Dashboard() {
 
                 {cases.map((cs, index) => <CaseCard key={index} title={cs.title} type={cs.type} level={cs.level} />)}
             </div>
-            <RecentResults /> 
+            <RecentResults />
         </div>
     )
 }

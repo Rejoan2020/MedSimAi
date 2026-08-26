@@ -17,18 +17,18 @@ export default function Modal({ difficulty, setDifficulty, specialty, setSpecial
     {
       'icon': TypeIcon,
       'title': 'Case Type',
-      'options': ['All', 'History Taking', 'Diagnosis', 'Physical Examination', 'Investigation']
+      'options': ['All', 'History Taking', 'Diagnosis', 'Phys. Examination', 'Investigation']
     }
   ]
   const val = [specialty, difficulty, casetype];
   const setVal = [setSpecialty, setDifficulty, setCasetype];
-  console.log('val array : ', val)
+
   return (
     <div className='w-full max-w-350 border p-4 rounded-lg'>
       <div className='w-full max-w-350'>
         <div className='font-bold'>Filter Cases</div>
       </div>
-      <div className='flex justify-between gap-2'>
+      <div className='grid grid-cols-3 justify-between gap-2 max-sm:grid-cols-2'>
         {filters.map((f, index) => {
           return <Card
             key={index}
