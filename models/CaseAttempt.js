@@ -22,7 +22,7 @@ const caseAttemptSchema = new mongoose.Schema({
         enum: ['started', 'completed'],
         default: 'started',
     },
-
+    messages:[],
     score: Number,
 
     feedback: {

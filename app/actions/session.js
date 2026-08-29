@@ -14,8 +14,9 @@ export async function startSession(formData) {
         user: userId,
         case: caseId,
         startedAt: new Date(),
+        messages:[],
         status: 'started',
     })
 
-    redirect(`/cases/${caseId}/active-session`)
+    redirect(`/cases/${caseId}/active-session`);
 }

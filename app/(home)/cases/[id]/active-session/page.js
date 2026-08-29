@@ -37,17 +37,13 @@ export default async function Page({ params }) {
 
     return (
         <div className="flex h-full min-h-0 w-full flex-col p-4 sm:p-6 lg:p-8">
-
-            {/* Session Header */}
+ 
             <Header id={id} />
-
-            {/* Main consultation area */}
+ 
             <div className="mt-4 flex min-h-0 flex-1 w-full max-w-350 mx-auto gap-4">
-
-                {/* AI Patient / Chat */}
+ 
                 <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
-
-                    {/* Patient header */}
+ 
                     <div className="flex shrink-0 items-center gap-3 border-b border-gray-200 p-4">
 
                         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-light-blue text-white font-semibold">
@@ -66,14 +62,11 @@ export default async function Page({ params }) {
                         </div>
 
                     </div>
-
-                    {/* Chat */}
+ 
                     <ChatBox />
 
                 </main>
-
-
-                {/* Notes */}
+ 
                 <aside className="hidden lg:flex w-80 shrink-0 min-h-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
 
                     <div className="shrink-0 border-b border-gray-200 p-4">

@@ -32,14 +32,12 @@ export default function ChatBox() {
 
         setMessage('')
 
-        // Later:
         // const response = await fetch('/api/ai/consultation', ...)
     }
 
     return (
         <div className="flex min-h-0 flex-1 flex-col">
 
-            {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 sm:p-6">
 
                 <div className="mx-auto flex max-w-3xl flex-col gap-5">
@@ -48,19 +46,14 @@ export default function ChatBox() {
 
                         <div
                             key={index}
-                            className={`flex ${
-                                message.role === 'student'
-                                    ? 'justify-end'
-                                    : 'justify-start'
-                            }`}
+                            className={`flex ${message.role === 'student' ? 'justify-end' : 'justify-start'}`}
                         >
 
                             <div
-                                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-6 ${
-                                    message.role === 'student'
-                                        ? 'rounded-br-sm bg-light-blue text-white'
-                                        : 'rounded-bl-sm bg-gray-100 text-gray-800'
-                                }`}
+                                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-6 ${message.role === 'student'
+                                    ? 'rounded-br-sm bg-light-blue text-white'
+                                    : 'rounded-bl-sm bg-gray-100 text-gray-800'
+                                    }`}
                             >
                                 {message.content}
                             </div>
@@ -73,8 +66,6 @@ export default function ChatBox() {
 
             </div>
 
-
-            {/* Input */}
             <div className="shrink-0 border-t border-gray-200 p-4">
 
                 <form
