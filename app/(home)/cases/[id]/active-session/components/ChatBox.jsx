@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Send, Mic } from 'lucide-react'
 
-export default function ChatBox() {
+export default function ChatBox({caseId,userId,attemptId}) {
 
     const [message, setMessage] = useState('')
 
@@ -32,7 +32,20 @@ export default function ChatBox() {
 
         setMessage('')
 
-        // const response = await fetch('/api/ai/consultation', ...)
+        const response = await fetch("/api/ai/consultation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                attemptId,
+                message: userMessage,
+            }),
+        });
+
+        const data = await response.json();
+
+        console.log(data)
     }
 
     return (

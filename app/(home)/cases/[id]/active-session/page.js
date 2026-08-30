@@ -7,7 +7,7 @@
 // export default async function page({ params }) {
 //     await dbconnect();
 //     const { id } = await params;
-    
+
 //     return (
 //         <div className='w-full flex flex-col items-center p-8 gap-4'>
 //             <Header id={id} />
@@ -29,21 +29,29 @@ import Header from './components/Header'
 import Note from './components/Note'
 import ChatBox from './components/ChatBox'
 import { dbconnect } from '@/lib/mongo'
+import { auth } from '@/auth'
+import User from '@/models/User'
+import CaseAttempt from '@/models/CaseAttempt'
 
 export default async function Page({ params }) {
     await dbconnect()
 
-    const { id } = await params
+    const { id } = await params;
+
+    const session = await auth();
+    const user = await User.findOne({ email: session.user.email });
+
+    const caseAttempt = await CaseAttempt.findOne({user:user._id, case:id});
 
     return (
         <div className="flex h-full min-h-0 w-full flex-col p-4 sm:p-6 lg:p-8">
- 
+
             <Header id={id} />
- 
+
             <div className="mt-4 flex min-h-0 flex-1 w-full max-w-350 mx-auto gap-4">
- 
+
                 <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
- 
+
                     <div className="flex shrink-0 items-center gap-3 border-b border-gray-200 p-4">
 
                         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-light-blue text-white font-semibold">
@@ -62,11 +70,11 @@ export default async function Page({ params }) {
                         </div>
 
                     </div>
- 
-                    <ChatBox />
+
+                    <ChatBox caseId={id} userId={user._id?.toString()} caseAttempt = {caseAttempt._id?.toString()} />
 
                 </main>
- 
+
                 <aside className="hidden lg:flex w-80 shrink-0 min-h-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
 
                     <div className="shrink-0 border-b border-gray-200 p-4">

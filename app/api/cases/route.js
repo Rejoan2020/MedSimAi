@@ -24,7 +24,7 @@ export async function POST(request) {
     try {
         await dbconnect();
         const body = await request.json();
-        console.log("received body: ", body);
+        
         const newCase = await Case.create({
             title: body.title,
             description: body.description,

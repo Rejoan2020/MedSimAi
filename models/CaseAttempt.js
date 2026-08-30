@@ -22,7 +22,25 @@ const caseAttemptSchema = new mongoose.Schema({
         enum: ['started', 'completed'],
         default: 'started',
     },
-    messages:[],
+    messages: [
+        {
+            role: {
+                type: String,
+                enum: ["student", "patient"],
+                required: true,
+            },
+
+            content: {
+                type: String,
+                required: true,
+            },
+
+            createdAt: {
+                type: Date,
+                default: Date.now,
+            },
+        },
+    ],
     score: Number,
 
     feedback: {
