@@ -42,6 +42,7 @@ export default async function Page({ params }) {
     const user = await User.findOne({ email: session.user.email });
 
     const caseAttempt = await CaseAttempt.findOne({user:user._id, case:id});
+ 
 
     return (
         <div className="flex h-full min-h-0 w-full flex-col p-4 sm:p-6 lg:p-8">
@@ -71,7 +72,7 @@ export default async function Page({ params }) {
 
                     </div>
 
-                    <ChatBox caseId={id} userId={user._id?.toString()} caseAttempt = {caseAttempt._id?.toString()} />
+                    <ChatBox caseId={id} userId={user._id?.toString()} attemptId = {caseAttempt._id?.toString()} />
 
                 </main>
 

@@ -5,6 +5,8 @@ import openai from "@/lib/openai";
 
 import CaseAttempt from "@/models/CaseAttempt";
 import Case from "@/models/Case";
+import User from "@/models/User";
+import ai from "@/lib/gemini";
 
 export async function POST(req) {
     try {
@@ -22,8 +24,10 @@ export async function POST(req) {
             );
         }
 
+        const user = await User.findOne({ email: session?.user?.email });
+
         const { attemptId, message } = await req.json();
-        
+
         if (!attemptId || !message?.trim()) {
             return NextResponse.json(
                 {
@@ -45,8 +49,10 @@ export async function POST(req) {
                 { status: 404 }
             );
         }
+        console.log(attempt.user.toString());
+        console.log(user._id.toString())
 
-        if (attempt.userId.toString() !== session.user.id) {
+        if (attempt.user.toString() !== user._id.toString()) {
             return NextResponse.json(
                 {
                     success: false,
@@ -67,7 +73,7 @@ export async function POST(req) {
         }
 
         const clinicalCase = await Case.findById(attempt.case);
-
+        console.log(clinicalCase.aiScenario.patient);
         if (!clinicalCase) {
             return NextResponse.json(
                 {
@@ -86,54 +92,75 @@ export async function POST(req) {
             content: msg.content,
         }));
 
-        const response = await openai.responses.create({
+        const instructions = `
+            You are a simulated patient in a medical education platform called MedSimAI.
 
-            model: "gpt-5.6-luna",
+            Your job is to behave like the patient described below.
 
-            instructions: `
-You are a simulated patient in a medical education platform called MedSimAI.
+            PATIENT:
+            ${JSON.stringify(clinicalCase.aiScenario.patient)}
 
-Your job is to behave like the patient described below.
+            CLINICAL INFORMATION:
+            ${JSON.stringify(clinicalCase.aiScenario.clinicalData)}
 
-PATIENT:
-${JSON.stringify(clinicalCase.aiScenario.patient)}
+            BEHAVIOR:
+            ${JSON.stringify(clinicalCase.aiScenario.behavior)}
 
-CLINICAL INFORMATION:
-${JSON.stringify(clinicalCase.aiScenario.clinicalData)}
+            EXAMINATION:
+            ${JSON.stringify(clinicalCase.aiScenario.examination)}
 
-BEHAVIOR:
-${JSON.stringify(clinicalCase.aiScenario.behavior)}
+            INVESTIGATIONS:
+            ${JSON.stringify(clinicalCase.aiScenario.investigations)}
 
-EXAMINATION:
-${JSON.stringify(clinicalCase.aiScenario.examination)}
+            IMPORTANT RULES:
 
-INVESTIGATIONS:
-${JSON.stringify(clinicalCase.aiScenario.investigations)}
+            - Stay in character as the patient.
+            - Do not act as a doctor.
+            - Do not diagnose yourself.
+            - Do not reveal the diagnosis unless the scenario explicitly allows it.
+            - Do not reveal information that the student has not asked about when revealInformationOnlyWhenAsked is enabled.
+            - Use natural patient language rather than medical terminology.
+            - Do not invent information that is not present in the case.
+            - Answer the student's question directly.
+            - Keep responses reasonably concise and conversational.
+            `;
 
-IMPORTANT RULES:
-
-- Stay in character as the patient.
-- Do not act as a doctor.
-- Do not diagnose yourself.
-- Do not reveal the diagnosis unless the scenario explicitly allows it.
-- Do not reveal information that the student has not asked about when revealInformationOnlyWhenAsked is enabled.
-- Use natural patient language rather than medical terminology.
-- Do not invent information that is not present in the case.
-- Answer the student's question directly.
-- Keep responses reasonably concise and conversational.
-`,
-
-            input: [
-                ...history,
-
+        const conversation = history.map((msg) => ({
+            role: msg.role === "student" ? "user" : "model",
+            parts: [
                 {
-                    role: "user",
-                    content: message.trim(),
+                    text: msg.content,
+                },
+            ],
+        }));
+
+        conversation.push({
+            role: "user",
+            parts: [
+                {
+                    text: message.trim(),
                 },
             ],
         });
 
-        const aiMessage = response.output_text;
+        const response = await ai.models.generateContent({
+            model: "gemini-3.7-flash",
+
+            config: {
+                systemInstruction: instructions,
+            },
+
+            contents: conversation,
+        });
+
+        const aiMessage = response.text;
+
+
+        // const response = await ai.interactions.create({
+        //     model: "gemini-3.7-flash",
+        //     input: "Hello Gemini!",
+        // });
+
 
         attempt.messages.push({
             role: "student",

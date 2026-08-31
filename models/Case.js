@@ -28,7 +28,7 @@ const CasesSchema = new mongoose.Schema({
         },
 
         clinicalData: {
-            chiefComplaint: String,
+            // chiefComplaint: String,
 
             historyOfPresentIllness: String,
 
@@ -59,16 +59,16 @@ const CasesSchema = new mongoose.Schema({
                 default: [],
             },
 
-            familyHistory: {
-                type: [String],
-                default: [],
-            },
+            // familyHistory: {
+            //     type: [String],
+            //     default: [],
+            // },
 
-            socialHistory: {
-                smoking: String,
-                alcohol: String,
-                occupation: String,
-            },
+            // socialHistory: {
+            //     smoking: String,
+            //     alcohol: String,
+            //     occupation: String,
+            // },
         },
 
         behavior: {
@@ -108,17 +108,17 @@ const CasesSchema = new mongoose.Schema({
             },
         },
 
-        investigations: {
-            available: {
-                type: [
-                    {
-                        name: String,
-                        result: String,
-                    },
-                ],
-                default: [],
-            },
-        },
+        // investigations: {
+        //     available: {
+        //         type: [
+        //             {
+        //                 name: String,
+        //                 result: String,
+        //             },
+        //         ],
+        //         default: [],
+        //     },
+        // },
 
         diagnosis: {
             primary: String,
@@ -140,10 +140,10 @@ const CasesSchema = new mongoose.Schema({
                 default: [],
             },
 
-            scoringCriteria: {
-                type: [String],
-                default: [],
-            },
+            // scoringCriteria: {
+            //     type: [String],
+            //     default: [],
+            // },
         },
     },
     isPublished: {

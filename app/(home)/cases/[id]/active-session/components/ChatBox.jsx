@@ -18,7 +18,7 @@ export default function ChatBox({caseId,userId,attemptId}) {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (!message.trim()) return
+        if (!message.trim()) return;
 
         const userMessage = message.trim()
 
@@ -31,14 +31,14 @@ export default function ChatBox({caseId,userId,attemptId}) {
         ])
 
         setMessage('')
-
+        
         const response = await fetch("/api/ai/consultation", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                attemptId,
+                attemptId: attemptId,
                 message: userMessage,
             }),
         });

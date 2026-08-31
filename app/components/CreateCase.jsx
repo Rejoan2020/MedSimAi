@@ -2,24 +2,99 @@
 
 import { slugify } from '@/utils/slugify'
 import React, { useState } from 'react'
+import ClinicalInformation from '../admin-dashboard/components/ClinicalInformation';
+import AiBehavior from '../admin-dashboard/components/AiBehavior';
+import Examination from '../admin-dashboard/components/Examination';
+import Evaluation from '../admin-dashboard/components/Evaluation';
+import Patient from '../admin-dashboard/components/Patient';
 
 export default function CreateCase() {
     const [formData, setFormData] = useState({
         title: '',
-        slug:'',
         image: '',
         specialty: '',
         difficulty: 'Beginner',
         duration: 10,
+
         patient: {
             age: '',
             gender: 'Male',
         },
+
         chiefComplaint: '',
         description: '',
         tags: '',
         status: 'Not Started',
-    })
+
+        aiScenario: {
+            patient: {
+                name: '',
+                age: '',
+                gender: 'Male',
+                occupation: '',
+                personality: '',
+            },
+
+            clinicalData: {
+                chiefComplaint: '',
+                historyOfPresentIllness: '',
+
+                symptoms: {
+                    present: '',
+                    absent: '',
+                },
+
+                pastMedicalHistory: '',
+                medications: '',
+                allergies: '',
+                familyHistory: '',
+
+                socialHistory: {
+                    smoking: '',
+                    alcohol: '',
+                    occupation: '',
+                },
+            },
+
+            behavior: {
+                communicationStyle: '',
+                emotionalState: '',
+
+                revealInformationOnlyWhenAsked: true,
+                revealDiagnosis: false,
+                useMedicalTerminology: false,
+            },
+
+            examination: {
+                generalAppearance: '',
+
+                vitals: {
+                    temperature: '',
+                    heartRate: '',
+                    respiratoryRate: '',
+                    bloodPressure: '',
+                    oxygenSaturation: '',
+                },
+
+                findings: '',
+            },
+
+            investigations: {
+                available: [],
+            },
+
+            diagnosis: {
+                primary: '',
+                differentials: '',
+            },
+
+            evaluation: {
+                expectedQuestions: '',
+                criticalFindings: '',
+                scoringCriteria: '',
+            },
+        },
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -45,10 +120,98 @@ export default function CreateCase() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        const aiScenario = {
+            ...formData.aiScenario,
+
+            patient: {
+                ...formData.aiScenario.patient,
+                age: Number(formData.aiScenario.patient.age),
+            },
+
+            clinicalData: {
+                ...formData.aiScenario.clinicalData,
+
+                symptoms: {
+                    present: formData.aiScenario.clinicalData.symptoms.present
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+
+                    absent: formData.aiScenario.clinicalData.symptoms.absent
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+                },
+
+                pastMedicalHistory:
+                    formData.aiScenario.clinicalData.pastMedicalHistory
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+
+                medications:
+                    formData.aiScenario.clinicalData.medications
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+
+                allergies:
+                    formData.aiScenario.clinicalData.allergies
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+
+                familyHistory:
+                    formData.aiScenario.clinicalData.familyHistory
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+            },
+
+            examination: {
+                ...formData.aiScenario.examination,
+
+                findings: formData.aiScenario.examination.findings
+                    .split(",")
+                    .map((x) => x.trim())
+                    .filter(Boolean),
+            },
+
+            diagnosis: {
+                primary: formData.aiScenario.diagnosis.primary,
+
+                differentials:
+                    formData.aiScenario.diagnosis.differentials
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+            },
+
+            evaluation: {
+                expectedQuestions:
+                    formData.aiScenario.evaluation.expectedQuestions
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+
+                criticalFindings:
+                    formData.aiScenario.evaluation.criticalFindings
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+
+                scoringCriteria:
+                    formData.aiScenario.evaluation.scoringCriteria
+                        .split(",")
+                        .map((x) => x.trim())
+                        .filter(Boolean),
+            },
+        };
+
         const caseData = {
             ...formData,
             slug: slugify(formData.title),
-            duration: formData.duration+" minutes",
+            duration: formData.duration + " minutes",
             patient: {
                 age: Number(formData.patient.age),
                 gender: formData.patient.gender,
@@ -57,8 +220,8 @@ export default function CreateCase() {
                 .split(',')
                 .map((tag) => tag.trim())
                 .filter(Boolean),
+            aiScenario: aiScenario
         }
-
         const response = await fetch("/api/cases", {
             method: "POST",
             headers: {
@@ -66,7 +229,7 @@ export default function CreateCase() {
             },
             body: JSON.stringify(caseData)
         });
-        
+
         const data = await response.json();
         if (data?.success) {
             setFormData({
@@ -75,14 +238,85 @@ export default function CreateCase() {
                 specialty: '',
                 difficulty: 'Beginner',
                 duration: 10,
+
                 patient: {
                     age: '',
                     gender: 'Male',
                 },
+
                 chiefComplaint: '',
                 description: '',
                 tags: '',
                 status: 'Not Started',
+
+                aiScenario: {
+                    patient: {
+                        name: '',
+                        age: '',
+                        gender: 'Male',
+                        occupation: '',
+                        personality: '',
+                    },
+
+                    clinicalData: {
+                        chiefComplaint: '',
+                        historyOfPresentIllness: '',
+
+                        symptoms: {
+                            present: '',
+                            absent: '',
+                        },
+
+                        pastMedicalHistory: '',
+                        medications: '',
+                        allergies: '',
+                        familyHistory: '',
+
+                        socialHistory: {
+                            smoking: '',
+                            alcohol: '',
+                            occupation: '',
+                        },
+                    },
+
+                    behavior: {
+                        communicationStyle: '',
+                        emotionalState: '',
+
+                        revealInformationOnlyWhenAsked: true,
+                        revealDiagnosis: false,
+                        useMedicalTerminology: false,
+                    },
+
+                    examination: {
+                        generalAppearance: '',
+
+                        vitals: {
+                            temperature: '',
+                            heartRate: '',
+                            respiratoryRate: '',
+                            bloodPressure: '',
+                            oxygenSaturation: '',
+                        },
+
+                        findings: '',
+                    },
+
+                    investigations: {
+                        available: [],
+                    },
+
+                    diagnosis: {
+                        primary: '',
+                        differentials: '',
+                    },
+
+                    evaluation: {
+                        expectedQuestions: '',
+                        criticalFindings: '',
+                        scoringCriteria: '',
+                    },
+                },
             })
         }
 
@@ -107,7 +341,7 @@ export default function CreateCase() {
                         Basic Information
                     </h2>
 
-                    <div className="grid gap-5 md:grid-cols-2"> 
+                    <div className="grid gap-5 md:grid-cols-2">
                         <div className="md:col-span-2">
                             <label className="mb-2 block text-sm font-medium">
                                 Case title
@@ -121,7 +355,7 @@ export default function CreateCase() {
                                 className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-light-blue focus:ring-2 focus:ring-light-blue/20"
                                 required
                             />
-                        </div>  
+                        </div>
                         <div>
                             <label className="mb-2 block text-sm font-medium">
                                 Specialty
@@ -308,8 +542,11 @@ export default function CreateCase() {
                         <option value="Archived">Archived</option>
                     </select>
                 </section>
-
-
+                <Patient formData={formData} setFormData={setFormData} />
+                <ClinicalInformation formData={formData} setFormData={setFormData} />
+                <AiBehavior formData={formData} setFormData={setFormData} />
+                <Examination formData={formData} setFormData={setFormData} />
+                <Evaluation formData={formData} setFormData={setFormData} />
                 <div className="flex justify-end gap-3 border-t border-gray-200 pt-6">
 
                     <button
@@ -336,13 +573,12 @@ export default function CreateCase() {
 
                     <button
                         type="submit"
-                        className="rounded-lg bg-light-blue px-6 py-3 text-sm font-medium text-white hover:bg-blue-500" 
+                        className="rounded-lg bg-light-blue px-6 py-3 text-sm font-medium text-white hover:bg-blue-500"
                     >
                         Create Case
                     </button>
 
                 </div>
-
             </form>
         </div>
     )

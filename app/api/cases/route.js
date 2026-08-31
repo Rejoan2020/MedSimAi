@@ -24,20 +24,17 @@ export async function POST(request) {
     try {
         await dbconnect();
         const body = await request.json();
-        
+
         const newCase = await Case.create({
-            title: body.title,
-            description: body.description,
-            slug: body.slug,
-            difficulty: body.difficulty,
-            image: body.image,
+            ...body,
+
             features: body.tags,
-            pdfUrl: '/cases/cardio-report.pdf',
-            duration: body.duration,
-            specialty: body.specialty,
-            completedBy: 10,
+
+            completedBy: 0,
+
             isPublished: false,
-        })
+        });
+
         return NextResponse.json({
             success: true,
             data: newCase,
