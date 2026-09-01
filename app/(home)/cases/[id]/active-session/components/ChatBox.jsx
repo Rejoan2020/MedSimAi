@@ -3,16 +3,12 @@
 import { useState } from 'react'
 import { Send, Mic } from 'lucide-react'
 
-export default function ChatBox({caseId,userId,attemptId}) {
+export default function ChatBox({ caseId, userId, attemptId }) {
 
     const [message, setMessage] = useState('')
 
     const [messages, setMessages] = useState([
-        {
-            role: 'patient',
-            content:
-                "Hello doctor. I've been feeling short of breath for the past three days.",
-        },
+        
     ])
 
     const handleSubmit = async (e) => {
@@ -31,21 +27,44 @@ export default function ChatBox({caseId,userId,attemptId}) {
         ])
 
         setMessage('')
-        
-        const response = await fetch("/api/ai/consultation", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                attemptId: attemptId,
-                message: userMessage,
-            }),
-        });
 
-        const data = await response.json();
+        try {
+            const response = await fetch("/api/ai/consultation", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    attemptId,
+                    message: userMessage,
+                }),
+            })
 
-        console.log(data)
+            const data = await response.json()
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || "Failed to get AI response")
+            }
+            
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: 'patient',
+                    content: data.message,
+                },
+            ])
+
+        } catch (error) {
+            console.error("AI consultation error:", error)
+
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: 'patient',
+                    content: "I'm sorry, I'm having trouble responding right now.",
+                },
+            ])
+        }
     }
 
     return (

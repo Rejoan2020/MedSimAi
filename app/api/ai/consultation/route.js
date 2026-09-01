@@ -143,23 +143,18 @@ export async function POST(req) {
             ],
         });
 
-        const response = await ai.models.generateContent({
-            model: "gemini-3.7-flash",
-
-            config: {
-                systemInstruction: instructions,
-            },
-
-            contents: conversation,
-        });
-
-        const aiMessage = response.text;
-
-
-        // const response = await ai.interactions.create({
+        // const response = await ai.models.generateContent({
         //     model: "gemini-3.7-flash",
-        //     input: "Hello Gemini!",
+
+        //     config: {
+        //         systemInstruction: instructions,
+        //     },
+
+        //     contents: conversation,
         // });
+
+        let aiMessage = 'response.text';
+            aiMessage ='Ai patient replied'; 
 
 
         attempt.messages.push({
