@@ -47,7 +47,7 @@ export default async function Page({ params }) {
     return (
         <div className="flex h-full min-h-0 w-full flex-col p-4 sm:p-6 lg:p-8">
 
-            <Header id={id} />
+            <Header id={id} attemptId = {caseAttempt._id?.toString()}/>
 
             <div className="mt-4 flex min-h-0 flex-1 w-full max-w-350 mx-auto gap-4">
 

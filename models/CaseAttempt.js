@@ -19,7 +19,7 @@ const caseAttemptSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        enum: ['started', 'completed'],
+        enum: ['started', 'completed','abandoned'],
         default: 'started',
     },
     messages: [
@@ -41,6 +41,23 @@ const caseAttemptSchema = new mongoose.Schema({
             },
         },
     ],
+    feedback: {
+        score: Number,
+
+        strengths: [String],
+
+        weaknesses: [String],
+
+        missedQuestions: [String],
+
+        clinicalReasoning: String,
+
+        communication: String,
+
+        recommendations: [String],
+
+        summary: String,
+    },
     score: Number,
 
     feedback: {

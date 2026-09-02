@@ -48,9 +48,7 @@ export async function POST(req) {
                 },
                 { status: 404 }
             );
-        }
-        console.log(attempt.user.toString());
-        console.log(user._id.toString())
+        } 
 
         if (attempt.user.toString() !== user._id.toString()) {
             return NextResponse.json(
@@ -73,7 +71,7 @@ export async function POST(req) {
         }
 
         const clinicalCase = await Case.findById(attempt.case);
-        console.log(clinicalCase.aiScenario.patient);
+        
         if (!clinicalCase) {
             return NextResponse.json(
                 {
