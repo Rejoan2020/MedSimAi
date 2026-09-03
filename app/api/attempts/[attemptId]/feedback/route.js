@@ -51,8 +51,7 @@ export async function POST(req, { params }) {
                 { status: 400 }
             );
         }
-
-        const clinicalCase = await Case.findById(attempt.caseId);
+        const clinicalCase = await Case.findById(attempt.case);
 
         if (!clinicalCase) {
             return NextResponse.json(
@@ -134,23 +133,56 @@ export async function POST(req, { params }) {
             - recommendations should provide practical ways to improve.
             - summary should give a concise overall assessment.
             `;
- 
-        const response = await ai.models.generateContent({
-            model: "gemini-3.7-flash",
-            contents: prompt,
-            config: {
-                responseMimeType: "application/json",
-            },
-        });
- 
-        const text = response.text;
+
+        // const response = await ai.models.generateContent({
+        //     model: "gemini-3.7-flash",
+        //     contents: prompt,
+        //     config: {
+        //         responseMimeType: "application/json",
+        //     },
+        // });
+
+        const text = 'response.text';
 
         console.log("Gemini evaluation:", text);
- 
+
         let feedback;
 
         try {
-            feedback = JSON.parse(text);
+            feedback = {
+                score: 82,
+
+                strengths: [
+                    "Asked about the onset and duration of symptoms.",
+                    "Explored the character and location of the chest pain.",
+                    "Asked about associated symptoms.",
+                ],
+
+                weaknesses: [
+                    "Did not ask about previous cardiac history.",
+                    "Did not explore family history in sufficient detail.",
+                ],
+
+                missedQuestions: [
+                    "Have you experienced similar chest pain before?",
+                    "Does anyone in your family have a history of heart disease?",
+                ],
+
+                clinicalReasoning:
+                    "The student identified several important features of the patient's presentation but could have explored cardiovascular risk factors more systematically.",
+
+                communication:
+                    "The student communicated clearly and used simple, understandable questions.",
+
+                recommendations: [
+                    "Use a systematic approach when taking a chest pain history.",
+                    "Always ask about cardiovascular risk factors.",
+                    "Explore relevant past and family history.",
+                ],
+
+                summary:
+                    "Overall, the student performed well but missed several important cardiovascular risk factors.",
+            };
         } catch (error) {
             console.error("Failed to parse Gemini response:", error);
 
@@ -162,11 +194,11 @@ export async function POST(req, { params }) {
                 { status: 500 }
             );
         }
- 
-        attempt.feedback = feedback;
 
+        attempt.feedback = feedback;
+        console.log("saving...")
         await attempt.save();
- 
+
         return NextResponse.json(
             {
                 success: true,

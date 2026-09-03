@@ -59,11 +59,6 @@ const caseAttemptSchema = new mongoose.Schema({
         summary: String,
     },
     score: Number,
-
-    feedback: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Feedback',
-    },
 }, {
     timestamps: true,
 })

@@ -1,9 +1,11 @@
 'use client'
 import { ArrowLeft, Clock, StopCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
-export default function Header({ id, attemptId }) {
+export default function Header({ id, attemptId, caseId }) {
     const [seconds, setSeconds] = useState(0);
+    const router = useRouter();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -19,7 +21,7 @@ export default function Header({ id, attemptId }) {
 
     async function handleSession() {
         try {
-            const response = await fetch(`/api/attempts/${attemptId}`, {
+            const completeResponse = await fetch(`/api/attempts/${attemptId}`, {
                 method: 'PATCH',
                 headers: {
                     "Content-Type": "application/json",
@@ -27,6 +29,8 @@ export default function Header({ id, attemptId }) {
                 body: JSON.stringify({ status: 'completed' })
             });
             const completeData = await completeResponse.json();
+
+            console.log("completeData : ",completeData);
 
             if (!completeResponse.ok || !completeData.success) {
                 throw new Error(
@@ -47,12 +51,9 @@ export default function Header({ id, attemptId }) {
                 throw new Error(
                     feedbackData.message || "Failed to generate feedback"
                 );
-            }
+            } 
 
-            console.log("Feedback:", feedbackData.data);
-
-
-            if (data.success) {
+            if (feedbackData.success) {
                 router.push(`/cases/${caseId}/feedback/${attemptId}`);
             }
         } catch (error) {

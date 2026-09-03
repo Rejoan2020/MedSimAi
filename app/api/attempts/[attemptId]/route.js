@@ -1,5 +1,7 @@
 import { auth } from "@/auth";
 import { dbconnect } from "@/lib/mongo";
+import CaseAttempt from "@/models/CaseAttempt";
+import User from "@/models/User";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req, { params }) {
@@ -15,10 +17,11 @@ export async function PATCH(req, { params }) {
                 { status: 401 }
             );
         }
+        const userId = await User.findOne({ email: session.user.email });
 
         const { attemptId } = await params;
         const body = req.json();
-        const { status } = body;
+        const { status } = await body;
 
         if (!["completed", "abandoned"].includes(status)) {
             return NextResponse.json(
@@ -29,10 +32,10 @@ export async function PATCH(req, { params }) {
                 { status: 400 }
             );
         }
-
+        console.log(attemptId, session.user)
         const attempt = await CaseAttempt.findOne({
             _id: attemptId,
-            user: session.user.id,
+            user: userId,
         });
 
         if (!attempt) {
