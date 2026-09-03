@@ -19,7 +19,7 @@ const caseAttemptSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        enum: ['started', 'completed','abandoned'],
+        enum: ['started', 'completed', 'abandoned'],
         default: 'started',
     },
     messages: [
@@ -42,20 +42,80 @@ const caseAttemptSchema = new mongoose.Schema({
         },
     ],
     feedback: {
-        score: Number,
+        overallScore: {
+            type: Number,
+            min: 0,
+            max: 100,
+        },
 
-        strengths: [String],
+        consultation: {
+            score: {
+                type: Number,
+                min: 0,
+                max: 100,
+            },
+            description: String,
+            performance: [
+                {
+                    section: String,
+                    score: Number,
+                    maxScore: Number,
+                    details: String,
+                }
+            ],
 
-        weaknesses: [String],
+            strengths: [String],
 
-        missedQuestions: [String],
+            improvements: [String],
 
-        clinicalReasoning: String,
+            recommendations: [String],
+        },
 
-        communication: String,
+        medicalKnowledge: {
+            score: {
+                type: Number,
+                min: 0,
+                max: 100,
+            },
+            description: String,
+            performance: [
+                {
+                    section: String,
+                    score: Number,
+                    maxScore: Number,
+                    details: String,
+                }
+            ],
 
-        recommendations: [String],
+            strengths: [String],
 
+            improvements: [String],
+
+            recommendations: [String],
+        },
+
+        communication: {
+            score: {
+                type: Number,
+                min: 0,
+                max: 100,
+            },
+            description: String,
+            performance: [
+                {
+                    section: String,
+                    score: Number,
+                    maxScore: Number,
+                    details: String,
+                }
+            ],
+
+            strengths: [String],
+
+            improvements: [String],
+
+            recommendations: [String],
+        },
         summary: String,
     },
     score: Number,
