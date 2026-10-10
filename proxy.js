@@ -14,7 +14,7 @@ export const config = {
         "/dashboard/:path*",
         "/cases/:path*",
         "/announcements/:path*",
-        "/help/:path*",
+        "/help&faq/:path*",
         "/admin-dashboard/:path*",
     ],
 }

@@ -1,12 +1,12 @@
 import React from 'react'
+import { redirect } from 'next/navigation';
 import Sidebar from '../components/Sidebar'
 import { auth } from '@/auth';
-import { dbconnect } from '@/lib/mongo';
 import Navbar from '../components/Navbar';
 
 export default async function layout({ children }) {
-    await dbconnect();
     const session = await auth();
+    if (!session?.user) redirect('/signin');
 
     return (
         <div className="flex flex-col overflow-hidden">

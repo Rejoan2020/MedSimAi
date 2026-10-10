@@ -1,15 +1,15 @@
-import { auth } from "@/auth";
+import { isValidObjectId } from "mongoose";
+import { getCurrentUser } from "@/lib/currentUser";
 import { dbconnect } from "@/lib/mongo";
 import CaseAttempt from "@/models/CaseAttempt";
-import User from "@/models/User";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req, { params }) {
     try {
         await dbconnect();
 
-        const session = await auth();
-        if (!session.user) {
+        const user = await getCurrentUser();
+        if (!user) {
             return NextResponse.json({
                 success: false,
                 message: "Unauthorized",
@@ -17,11 +17,9 @@ export async function PATCH(req, { params }) {
                 { status: 401 }
             );
         }
-        const userId = await User.findOne({ email: session.user.email });
 
         const { attemptId } = await params;
-        const body = req.json();
-        const { status } = await body;
+        const { status } = await req.json().catch(() => ({}));
 
         if (!["completed", "abandoned"].includes(status)) {
             return NextResponse.json(
@@ -32,11 +30,12 @@ export async function PATCH(req, { params }) {
                 { status: 400 }
             );
         }
-        console.log(attemptId, session.user)
-        const attempt = await CaseAttempt.findOne({
-            _id: attemptId,
-            user: userId,
-        });
+        const attempt = isValidObjectId(attemptId)
+            ? await CaseAttempt.findOne({
+                _id: attemptId,
+                user: user._id,
+            })
+            : null;
 
         if (!attempt) {
             return NextResponse.json(

@@ -17,6 +17,8 @@ const caseAttemptSchema = new mongoose.Schema({
 
     completedAt: Date,
 
+    abandonedAt: Date,
+
     status: {
         type: String,
         enum: ['started', 'completed', 'abandoned'],
