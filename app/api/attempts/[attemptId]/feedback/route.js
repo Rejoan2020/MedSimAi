@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { isValidObjectId } from "mongoose";
+import { getCurrentUser } from "@/lib/currentUser";
 import { dbconnect } from "@/lib/mongo";
 import CaseAttempt from "@/models/CaseAttempt";
 import Case from "@/models/Case";
@@ -13,9 +14,9 @@ export async function POST(req, { params }) {
     try {
         await dbconnect();
 
-        const session = await auth();
+        const user = await getCurrentUser();
 
-        if (!session?.user) {
+        if (!user) {
             return NextResponse.json(
                 {
                     success: false,
@@ -27,10 +28,13 @@ export async function POST(req, { params }) {
 
         const { attemptId } = await params;
 
-        const attempt = await CaseAttempt.findOne({
-            _id: attemptId,
-            userId: session.user.id,
-        });
+        // Only look up attempts owned by the signed-in user
+        const attempt = isValidObjectId(attemptId)
+            ? await CaseAttempt.findOne({
+                _id: attemptId,
+                user: user._id,
+            })
+            : null;
 
         if (!attempt) {
             return NextResponse.json(
