@@ -104,7 +104,7 @@ export async function POST(req, { params }) {
                 EVALUATION CATEGORIES  
                 Evaluate the student independently in the following three categories.
  
-                1. CONSULTATION  
+                1. CONSULTATION ("consultation")
                 Evaluate how effectively the student conducted the patient consultation.
 
                 Consider:
@@ -127,7 +127,7 @@ export async function POST(req, { params }) {
                 The consultation score represents how closely the student's consultation
                 matches an ideal consultation for this specific case.
  
-                2. MEDICAL ENTRY / CLINICAL REASONING 
+                2. MEDICAL KNOWLEDGE / CLINICAL REASONING ("medicalKnowledge")
 
                 Evaluate the student's medical understanding and clinical reasoning.
 
@@ -146,7 +146,7 @@ export async function POST(req, { params }) {
                 The score should represent how well the student demonstrated appropriate
                 medical reasoning for this specific case.
  
-                3. BODY LANGUAGE / COMMUNICATION 
+                3. COMMUNICATION ("communication")
 
                 The current MedSimAI consultation is text-based.
 
@@ -292,7 +292,9 @@ export async function POST(req, { params }) {
 
                 Only include questions that are relevant to the provided case.
 
-                If the student did not miss any important questions, return an empty array.
+                Add up to 3 of the most important ones to consultation.improvements, after the
+                3 areas for improvement, each phrased as "Missed question: <the question>".
+                If none were missed, do not add any.
  
                 RECOMMENDATIONS 
 
@@ -323,7 +325,7 @@ export async function POST(req, { params }) {
 
                     "consultation": {
                         "score": 0,
-                        "description":'',
+                        "description": "",
                         "performance": [
                             {
                                 "section": "",
@@ -337,9 +339,9 @@ export async function POST(req, { params }) {
                         "recommendations": []
                     },
 
-                    "medicalEntry": {
+                    "medicalKnowledge": {
                         "score": 0,
-                        "description":'',
+                        "description": "",
                         "performance": [
                             {
                                 "section": "",
@@ -353,9 +355,9 @@ export async function POST(req, { params }) {
                         "recommendations": []
                     },
 
-                    "bodyLanguage": {
+                    "communication": {
                         "score": 0,
-                        "description":'',
+                        "description": "",
                         "performance": [
                             {
                                 "section": "",
