@@ -28,22 +28,40 @@ import React from 'react'
 import Header from './components/Header'
 import Note from './components/Note'
 import ChatBox from './components/ChatBox'
+import { notFound, redirect } from 'next/navigation'
+import { isValidObjectId } from 'mongoose'
 import { dbconnect } from '@/lib/mongo'
-import { auth } from '@/auth'
-import User from '@/models/User'
+import { getCurrentUser } from '@/lib/currentUser'
 import CaseAttempt from '@/models/CaseAttempt'
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
+    const { id } = await params;
+    const { attempt: attemptId } = await searchParams;
+
+    const user = await getCurrentUser();
+    if (!user) redirect('/signin');
+
+    if (!isValidObjectId(id)) notFound();
+
     await dbconnect()
 
-    const { id } = await params;
+    // Load the attempt from the URL; without one, fall back to the newest in-progress attempt
+    let caseAttempt = null;
+    if (isValidObjectId(attemptId)) {
+        caseAttempt = await CaseAttempt.findOne({ _id: attemptId, user: user._id, case: id });
+    } else {
+        caseAttempt = await CaseAttempt.findOne({ user: user._id, case: id, status: 'started' })
+            .sort({ createdAt: -1 });
+    }
 
-    const session = await auth();
-    const user = await User.findOne({ email: session.user.email });
-
-    const caseAttempt = await CaseAttempt.findOne({user:user._id, case:id});
+    if (!caseAttempt) notFound();
 
     const caseId = caseAttempt.case.toString();
+
+    if (caseAttempt.status === 'completed') {
+        redirect(`/cases/${caseId}/feedback/${caseAttempt._id}`);
+    }
+    if (caseAttempt.status !== 'started') notFound();
  
 
     return (

@@ -20,7 +20,7 @@ export async function startSession(formData) {
         throw new Error('Case not found');
     }
 
-    await CaseAttempt.create({
+    const attempt = await CaseAttempt.create({
         user: user._id,
         case: caseId,
         startedAt: new Date(),
@@ -28,5 +28,5 @@ export async function startSession(formData) {
         status: 'started',
     })
 
-    redirect(`/cases/${caseId}/active-session`);
+    redirect(`/cases/${caseId}/active-session?attempt=${attempt._id}`);
 }
