@@ -4,19 +4,12 @@ import PDFReader from './components/PDFReader'
 import { Check, ChevronDown, Clock, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
 import Options from '@/components/Options';
-import { auth } from '@/auth';
 import { startSession } from '@/app/actions/session';
-import User from '@/models/User';
-import { dbconnect } from '@/lib/mongo';
 import { getPublicCaseBySlug } from '@/lib/cases';
 import { notFound } from 'next/navigation';
 
 export default async function Page({ params }) {
-  await dbconnect();
   const { id } = await params;
-  const session = await auth();
-  const user = await User.findOne({ email: session?.user.email });
-  const userId = user._id.toString();
 
   const patient = await getPublicCaseBySlug(id);
   if (!patient) notFound();
@@ -32,7 +25,6 @@ export default async function Page({ params }) {
             />
             <form action={startSession} className='sm:hidden'>
               <input type="hidden" name="caseId" value={caseId} />
-              <input type="hidden" name="userId" value={userId} />
 
               <button
                 type="submit"
@@ -60,7 +52,6 @@ export default async function Page({ params }) {
 
         <form action={startSession} className='max-sm:hidden'>
           <input type="hidden" name="caseId" value={caseId} />
-          <input type="hidden" name="userId" value={userId} />
 
           <button
             type="submit"
