@@ -4,42 +4,23 @@ import bcrypt from 'bcryptjs'
 import { isValidObjectId } from 'mongoose'
 import { dbconnect } from '@/lib/mongo'
 import { getAdminUser } from '@/lib/currentUser'
+import { createAccount, passwordError, ROLES } from '@/lib/accounts'
 import User from '@/models/User'
 import CaseAttempt from '@/models/CaseAttempt'
 import CasePrep from '@/models/CasePrep'
 
 const NOT_ALLOWED = { success: false, message: 'Only admins can do this.' };
-const ROLES = ['student', 'admin'];
-const MIN_PASSWORD_LENGTH = 8;
-
-function normalizeEmail(email) {
-    return typeof email === 'string' ? email.trim().toLowerCase() : '';
-}
-
-function passwordError(password) {
-    if (typeof password !== 'string' || password.length < MIN_PASSWORD_LENGTH) {
-        return `Passwords must be at least ${MIN_PASSWORD_LENGTH} characters.`;
-    }
-    return null;
-}
 
 export async function createUser(values) {
     if (!(await getAdminUser())) return NOT_ALLOWED;
 
-    const name = typeof values?.name === 'string' ? values.name.trim() : '';
-    const email = normalizeEmail(values?.email);
-    const role = ROLES.includes(values?.role) ? values.role : 'student';
-
-    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        return { success: false, message: 'Please enter a name and a valid email.' };
-    }
-    const invalidPassword = passwordError(values?.password);
-    if (invalidPassword) return { success: false, message: invalidPassword };
-
-    await dbconnect();
-    if (await User.exists({ email })) return { success: false, message: 'A user with this email already exists.' };
-
-    await User.create({ name, email, role, password: await bcrypt.hash(values.password, 12) });
+    const { error } = await createAccount({
+        name: values?.name,
+        email: values?.email,
+        password: values?.password,
+        role: ROLES.includes(values?.role) ? values.role : 'student',
+    });
+    if (error) return { success: false, message: error };
     return { success: true };
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '@/app/components/Sidebar'
 import { requireAdminPage } from '@/lib/currentUser'
 
 export default async function layout({ children }) {

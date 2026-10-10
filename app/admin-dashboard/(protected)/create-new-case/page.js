@@ -1,4 +1,4 @@
-import CaseForm from '../components/CaseForm'
+import CaseForm from '@/app/admin-dashboard/components/CaseForm'
 import React from 'react'
 import { requireAdminPage } from '@/lib/currentUser'
 

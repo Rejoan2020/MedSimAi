@@ -1,7 +1,7 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
 import { isValidObjectId } from 'mongoose'
-import CaseForm from '../../../components/CaseForm'
+import CaseForm from '@/app/admin-dashboard/components/CaseForm'
 import { requireAdminPage } from '@/lib/currentUser'
 import { dbconnect } from '@/lib/mongo'
 import Case from '@/models/Case'

@@ -3,7 +3,7 @@ import { LogOut, MoonIcon, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { logout } from '../actions/auth'
+import { adminLogout, logout } from '../actions/auth'
 import { usePathname } from 'next/navigation'
 
 const adminMenu = [
@@ -115,7 +115,7 @@ export default function Sidebar({ name, email, variant = 'student', isAdmin = fa
                     </div>
                     <Settings className='w-6 h-6 cursor-pointer' />
                 </div>
-                <form action={logout}>
+                <form action={variant === 'admin' ? adminLogout : logout}>
                     <button
                         type="submit"
                         className="flex gap-2 mt-2 text-Secondary-Text hover:text-white cursor-pointer"

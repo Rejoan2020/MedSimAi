@@ -1,5 +1,5 @@
 import React from 'react'
-import UserManager from '../components/UserManager'
+import UserManager from '@/app/admin-dashboard/components/UserManager'
 import { getUsersWithStats } from '@/lib/content'
 import { requireAdminPage } from '@/lib/currentUser'
 
@@ -11,7 +11,7 @@ export default async function page() {
     <div className='p-10 w-full flex flex-col gap-6'>
       <div>
         <div className='text-[28px] font-medium'>Users</div>
-        <div className='text-[#717680]'>Students can&apos;t sign up themselves, so create their accounts here.</div>
+        <div className='text-[#717680]'>Students can also sign up themselves at /signup. Create accounts for other admins here.</div>
       </div>
       <UserManager users={users} currentUserId={admin._id.toString()} />
     </div>

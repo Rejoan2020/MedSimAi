@@ -1,5 +1,5 @@
 import React from 'react'
-import FaqManager from '../components/FaqManager'
+import FaqManager from '@/app/admin-dashboard/components/FaqManager'
 import { getFaqs } from '@/lib/content'
 import { requireAdminPage } from '@/lib/currentUser'
 

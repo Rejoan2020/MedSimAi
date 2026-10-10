@@ -1,5 +1,5 @@
 import React from 'react'
-import AnnouncementManager from '../components/AnnouncementManager'
+import AnnouncementManager from '@/app/admin-dashboard/components/AnnouncementManager'
 import { getAnnouncements } from '@/lib/content'
 import { requireAdminPage } from '@/lib/currentUser'
 

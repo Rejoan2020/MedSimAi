@@ -1,5 +1,5 @@
 import React from 'react'
-import Dashboard from '../components/AdminDashboard'
+import Dashboard from '@/app/components/AdminDashboard'
 import { getAdminOverview } from '@/lib/stats'
 import { requireAdminPage } from '@/lib/currentUser'
 

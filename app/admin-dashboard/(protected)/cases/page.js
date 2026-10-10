@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import CaseTable from '../components/CaseTable'
+import CaseTable from '@/app/admin-dashboard/components/CaseTable'
 import { getAdminOverview } from '@/lib/stats'
 import { requireAdminPage } from '@/lib/currentUser'
 
