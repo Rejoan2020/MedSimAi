@@ -106,6 +106,21 @@ export async function POST(req) {
             parts: [{ text: msg.content }],
         }));
 
+        // Turn the case's behavior flags into explicit rules for the patient
+        const { behavior = {}, diagnosis } = clinicalCase.aiScenario;
+
+        const disclosureRule = behavior.revealInformationOnlyWhenAsked
+            ? "Only share information the student specifically asks about. Do not volunteer other symptoms or history."
+            : "You may volunteer relevant information about your symptoms and history.";
+
+        const diagnosisRule = behavior.revealDiagnosis && diagnosis?.primary
+            ? `You have previously been told you have ${diagnosis.primary}. You may say so if asked, but do not explain it like a doctor.`
+            : "You do not know your diagnosis. Do not guess, name or hint at a diagnosis.";
+
+        const languageRule = behavior.useMedicalTerminology
+            ? "You may use medical terms, as a patient familiar with their condition would."
+            : "Use everyday language, not medical terminology.";
+
         // System instructions for the simulated patient
         const instructions = `
 You are a simulated patient in a medical education platform called MedSimAI.
@@ -118,23 +133,22 @@ ${JSON.stringify(clinicalCase.aiScenario.patient)}
 CLINICAL INFORMATION:
 ${JSON.stringify(clinicalCase.aiScenario.clinicalData)}
 
-BEHAVIOR:
-${JSON.stringify(clinicalCase.aiScenario.behavior)}
+COMMUNICATION STYLE:
+${behavior.communicationStyle || "Speak naturally like a real patient."}
+
+EMOTIONAL STATE:
+${behavior.emotionalState || "Calm."}
 
 EXAMINATION:
 ${JSON.stringify(clinicalCase.aiScenario.examination)}
-
-INVESTIGATIONS:
-${JSON.stringify(clinicalCase.aiScenario.investigations)}
 
 IMPORTANT RULES:
 
 - Stay in character as the patient.
 - Do not act as a doctor.
-- Do not diagnose yourself.
-- Do not reveal the diagnosis unless the scenario explicitly allows it.
-- Do not reveal information that the student has not asked about when revealInformationOnlyWhenAsked is enabled.
-- Use natural patient language rather than medical terminology.
+- ${diagnosisRule}
+- ${disclosureRule}
+- ${languageRule}
 - Do not invent information that is not present in the case.
 - Answer the student's question directly.
 - Keep responses reasonably concise and conversational.
