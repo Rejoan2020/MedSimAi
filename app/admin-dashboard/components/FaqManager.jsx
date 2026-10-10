@@ -45,7 +45,7 @@ export default function FaqManager({ faqs }) {
         <div className='flex flex-col gap-6'>
             <form
                 onSubmit={(e) => { e.preventDefault(); run(() => saveFaq(editingId, form), reset) }}
-                className='flex flex-col gap-4 rounded-xl border border-[#F0F4FE] p-4'
+                className='flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'
             >
                 <div className='font-medium text-[#2536A8]'>{editingId ? 'Edit question' : 'New question'}</div>
                 <input value={form.question} onChange={(e) => setForm({ ...form, question: e.target.value })} placeholder='Question' required className={inputClass} />
@@ -65,7 +65,7 @@ export default function FaqManager({ faqs }) {
                 ? <div className='text-Secondary-Text'>No questions yet.</div>
                 : <div className='flex flex-col gap-3'>
                     {faqs.map((faq, index) =>
-                        <div key={faq._id} className='flex items-start gap-4 rounded-xl border border-[#F0F4FE] p-4'>
+                        <div key={faq._id} className='flex items-start gap-3 rounded-xl border border-gray-200 bg-white p-4'>
                             <div className='flex flex-col gap-1'>
                                 <button
                                     onClick={() => run(() => moveFaq(faq._id, -1))}

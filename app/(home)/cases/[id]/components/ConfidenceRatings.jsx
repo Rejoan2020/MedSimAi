@@ -29,13 +29,13 @@ export default function ConfidenceRatings({ caseId, initialRatings = {} }) {
     }
 
     return (
-        <div className=' border rounded-lg border-gray-200 bg-white p-6'>
-            <div className='text-blue-800 border-b border-gray-200 pb-4 mb-4'>
+        <div className='rounded-xl border border-gray-200 bg-white p-4 sm:p-6'>
+            <div className='mb-2 border-b border-gray-200 pb-3 font-semibold text-deep-blue'>
                 How confident are you?
             </div>
             {CONFIDENCE_SKILLS.map((skill) =>
                 <div key={skill} className='text-deep-blue text-sm'>
-                    <div className='py-4'>{skill}</div>
+                    <div className='pb-2 pt-4'>{skill}</div>
                     <div className='flex gap-2'>
                         {[1, 2, 3, 4, 5].map((number) =>
                             <Options
@@ -46,7 +46,7 @@ export default function ConfidenceRatings({ caseId, initialRatings = {} }) {
                                 onClick={() => rate(skill, number)}
                             />)}
                     </div>
-                    <div className='flex justify-between text-gray-400 max-w-105'>
+                    <div className='mt-1 flex justify-between text-xs text-gray-400'>
                         <div>Not confident</div>
                         <div>Very confident</div>
                     </div>

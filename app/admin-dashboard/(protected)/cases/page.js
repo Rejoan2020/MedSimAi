@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import { Plus } from 'lucide-react'
 import CaseTable from '@/app/admin-dashboard/components/CaseTable'
+import PageHeader, { PageContainer } from '@/app/components/PageHeader'
 import { getAdminOverview } from '@/lib/stats'
 import { requireAdminPage } from '@/lib/currentUser'
 
@@ -9,19 +11,19 @@ export default async function page() {
   const { cases } = await getAdminOverview();
 
   return (
-    <div className='p-10 w-full flex flex-col gap-6'>
-      <div className='flex flex-wrap items-center justify-between gap-4'>
-        <div>
-          <div className='text-[28px] font-medium'>Cases</div>
-          <div className='text-[#717680]'>Only published cases are visible to students.</div>
-        </div>
-        <Link href='/admin-dashboard/create-new-case' className='border p-2 bg-green-500 text-white rounded-lg'>
-          Create a new case
-        </Link>
-      </div>
-      <div className='border-1 border-[#F0F4FE] rounded-xl p-4 overflow-x-auto'>
+    <PageContainer>
+      <PageHeader
+        title='Cases'
+        description='Only published cases are visible to students.'
+        actions={
+          <Link href='/admin-dashboard/create-new-case' className='inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-500'>
+            <Plus className='h-4 w-4' /> New case
+          </Link>
+        }
+      />
+      <div className='rounded-xl border border-gray-200 bg-white'>
         <CaseTable cases={cases} />
       </div>
-    </div>
+    </PageContainer>
   )
 }

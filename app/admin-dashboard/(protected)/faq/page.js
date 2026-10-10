@@ -1,5 +1,6 @@
 import React from 'react'
 import FaqManager from '@/app/admin-dashboard/components/FaqManager'
+import PageHeader, { PageContainer } from '@/app/components/PageHeader'
 import { getFaqs } from '@/lib/content'
 import { requireAdminPage } from '@/lib/currentUser'
 
@@ -8,12 +9,9 @@ export default async function page() {
   const faqs = await getFaqs();
 
   return (
-    <div className='p-10 w-full flex flex-col gap-6'>
-      <div>
-        <div className='text-[28px] font-medium'>Help &amp; FAQ</div>
-        <div className='text-[#717680]'>Shown to students on the Help &amp; FAQ page, in this order.</div>
-      </div>
+    <PageContainer>
+      <PageHeader title='Help & FAQ' description='Shown to students on the Help & FAQ page, in this order.' />
       <FaqManager faqs={faqs} />
-    </div>
+    </PageContainer>
   )
 }

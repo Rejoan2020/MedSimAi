@@ -2,6 +2,7 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import { isValidObjectId } from 'mongoose'
 import CaseForm from '@/app/admin-dashboard/components/CaseForm'
+import { PageContainer } from '@/app/components/PageHeader'
 import { requireAdminPage } from '@/lib/currentUser'
 import { dbconnect } from '@/lib/mongo'
 import Case from '@/models/Case'
@@ -17,8 +18,8 @@ export default async function page({ params }) {
   if (!clinicalCase) notFound();
 
   return (
-    <div className='max-w-300 min-w-150'>
+    <PageContainer>
       <CaseForm initialCase={JSON.parse(JSON.stringify(clinicalCase))} />
-    </div>
+    </PageContainer>
   )
 }

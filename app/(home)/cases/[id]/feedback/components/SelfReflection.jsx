@@ -3,13 +3,11 @@ import React from 'react'
 export default function SelfReflection({ question, answer }) {
 
     return (
-        <div className='flex flex-col w-full max-w-350 bg-white  p-4'>
-            <div className='flex w-full font-bold text-deep-blue'>
-                Question: {question}
-            </div>
+        <div className='flex flex-col gap-1 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'>
+            <div className='font-semibold text-deep-blue'>{question}</div>
             {answer
-                ? <div className='flex w-full text-green-900'>Answer: {answer}</div>
-                : <div className='flex w-full text-Secondary-Text'>Not answered yet.</div>}
+                ? <div className='text-green-900'>{answer}</div>
+                : <div className='text-sm text-Secondary-Text'>Not answered yet.</div>}
         </div>
     )
 }

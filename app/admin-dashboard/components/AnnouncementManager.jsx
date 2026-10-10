@@ -49,7 +49,7 @@ export default function AnnouncementManager({ announcements }) {
         <div className='flex flex-col gap-6'>
             <form
                 onSubmit={(e) => { e.preventDefault(); run(() => saveAnnouncement(editingId, form), reset) }}
-                className='flex flex-col gap-4 rounded-xl border border-[#F0F4FE] p-4'
+                className='flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'
             >
                 <div className='font-medium text-[#2536A8]'>{editingId ? 'Edit announcement' : 'New announcement'}</div>
                 <div className='grid gap-4 md:grid-cols-3'>
@@ -76,7 +76,7 @@ export default function AnnouncementManager({ announcements }) {
                 ? <div className='text-Secondary-Text'>No announcements yet.</div>
                 : <div className='flex flex-col gap-3'>
                     {announcements.map((a) =>
-                        <div key={a._id} className='flex flex-wrap items-start justify-between gap-4 rounded-xl border border-[#F0F4FE] p-4'>
+                        <div key={a._id} className='flex flex-wrap items-start justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4'>
                             <div className='flex-1'>
                                 <div className='flex items-center gap-2'>
                                     <span className='rounded-full bg-light-blue/10 px-3 py-1 text-xs text-light-blue'>{a.type}</span>

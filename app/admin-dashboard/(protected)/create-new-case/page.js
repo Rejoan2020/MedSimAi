@@ -1,12 +1,13 @@
-import CaseForm from '@/app/admin-dashboard/components/CaseForm'
 import React from 'react'
+import CaseForm from '@/app/admin-dashboard/components/CaseForm'
+import { PageContainer } from '@/app/components/PageHeader'
 import { requireAdminPage } from '@/lib/currentUser'
 
 export default async function page() {
   await requireAdminPage();
   return (
-    <div className='max-w-300 min-w-150'>
+    <PageContainer>
       <CaseForm />
-    </div>
+    </PageContainer>
   )
 }

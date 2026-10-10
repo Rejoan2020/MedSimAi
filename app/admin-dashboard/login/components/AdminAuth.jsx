@@ -48,7 +48,7 @@ export default function AdminAuth({ allowSignup, signedInAs }) {
     return (
         <div className='flex min-h-full w-full items-center justify-center p-8'>
             <div className='flex w-full max-w-92 flex-col gap-8'>
-                <Image height={32} width={162} alt='logo' src={'/logo/medsimailogo.png'} className='h-8 w-40' />
+                <Image height={32} width={182} alt='MedSimAI' src={'/logo/medsimailogo.png'} className='h-8 w-[182px]' />
                 <div>
                     <div className='text-[32px]'>MedSimAI Admin</div>
                     <div className='text-Secondary-Text'>Manage cases, announcements, FAQ and users.</div>

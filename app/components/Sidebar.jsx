@@ -1,130 +1,89 @@
 'use client'
-import { LogOut, MoonIcon, Settings } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { adminLogout, logout } from '../actions/auth'
 import { usePathname } from 'next/navigation'
+import { getMenu, isActive } from './navigation'
 
-const adminMenu = [
-    {
-        'icon': '/icons/medal.svg',
-        'title': 'Overview',
-        'link': '/admin-dashboard',
-        'exact': true,
-    },
-    {
-        'icon': '/sidebar/learningpaths.png',
-        'title': 'Cases',
-        'link': '/admin-dashboard/cases',
-    },
-    {
-        'icon': '/sidebar/notification.png',
-        'title': 'Announcements',
-        'link': '/admin-dashboard/announcements',
-    },
-    {
-        'icon': '/sidebar/questions.png',
-        'title': 'Help & FAQ',
-        'link': '/admin-dashboard/faq',
-    },
-    {
-        'icon': '/icons/students.svg',
-        'title': 'Users',
-        'link': '/admin-dashboard/users',
-    },
-    {
-        'icon': '/icons/openeye.svg',
-        'title': 'Student view',
-        'link': '/dashboard',
-    },
-]
-
-export default function Sidebar({ name, email, variant = 'student', isAdmin = false }) {
+// Menu links, user details and sign out; used by the desktop sidebar and the mobile menu
+export function NavContent({ name, email, variant = 'student', isAdmin = false, onNavigate }) {
     const pathname = usePathname()
-    const studentMenu = [
-        {
-            'icon': '/icons/students.svg',
-            'title': 'Dashboard',
-            'link': '/dashboard'
-        },
-        {
-            'icon': '/sidebar/learningpaths.png',
-            'title': 'Cases',
-            'link': '/cases'
-        },
-        {
-            'icon': '/sidebar/notification.png',
-            'title': 'Announcements',
-            'link': '/announcements'
-        },
-        {
-            'icon': '/sidebar/questions.png',
-            'title': 'Help & FAQ',
-            'link': '/help&faq'
-        },
-        ...(isAdmin ? [{
-            'icon': '/icons/edit.svg',
-            'title': 'Admin',
-            'link': '/admin-dashboard'
-        }] : []),
-    ]
-    const menu = variant === 'admin' ? adminMenu : studentMenu
-
-    const isActive = (m) => m.exact
-        ? pathname === m.link
-        : pathname === m.link || pathname.startsWith(`${m.link}/`)
+    const menu = getMenu(variant, isAdmin)
+    const roleLabel = variant === 'admin' || isAdmin ? 'Admin' : 'Student'
 
     return (
-        <div className='flex flex-col max-sm:hidden w-70 shrink-0 bg-deep-blue text-white/70'>
-            <Link href={'/dashboard'}>
-                <Image
-                    width={162}
-                    height={32}
-                    alt='medsimai logo'
-                    src={'/logo/medsimailogo.png'}
-                    className='m-10 w-[162px] h-[32px]'
-                />
-            </Link>
+        <div className='flex h-full flex-col'>
+            <nav className='flex flex-col gap-1 px-3' aria-label='Main'>
+                <div className='px-3 pb-2 text-xs font-medium uppercase tracking-wide text-white/50'>
+                    {variant === 'admin' ? 'Admin' : 'Platform'}
+                </div>
+                {menu.map((m) => {
+                    const active = isActive(pathname, m)
+                    const Icon = m.icon
+                    return (
+                        <Link
+                            key={m.link}
+                            href={m.link}
+                            onClick={onNavigate}
+                            aria-current={active ? 'page' : undefined}
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${active ? 'bg-white/15 text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'}`}
+                        >
+                            <Icon className='h-5 w-5 shrink-0' />
+                            <span>{m.title}</span>
+                        </Link>
+                    )
+                })}
+            </nav>
 
-            <div className='pl-10 pb-4 text-[#D5D7DA]'>Platform</div>
-            {
-                menu.map((m, idx) =>
-                    <Link
-                        key={idx}
-                        className={`flex gap-2 p-4 pl-10 hover:bg-white/10 hover:text-white ${isActive(m) ? "bg-white/10 text-white" : ""} cursor-pointer`}
-                        href={m.link}
-                    >
-                        <Image width={24} height={24} alt={m.title} src={m.icon} className='w-6 h-6' />
-                        <div>{m.title}</div>
-                    </Link>)
-            } 
-            <div className='mt-auto p-4 pl-10 flex flex-col gap-4'>
-                <div className='flex justify-between'>
-                    <div className='text-Secondary-Text'>THEME</div>
-                    <div className='flex gap-2'>
-                        <Image width={24} height={24} alt='notification' src={'/sidebar/notification.png'} className='w-6 h-6' />
-                        <MoonIcon className='w-6 h-6' />
+            <div className='mt-auto border-t border-white/10 p-4'>
+                <div className='flex items-center gap-3'>
+                    <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-light-blue font-semibold text-white'>
+                        {name?.charAt(0)?.toUpperCase() ?? '?'}
+                    </div>
+                    <div className='min-w-0'>
+                        <div className='truncate text-sm text-white'>{name ?? 'No user'}</div>
+                        <div className='truncate text-xs text-white/50'>{email ?? roleLabel}</div>
                     </div>
                 </div>
-                <div className='flex items-center justify-between'>
-                    <div className='border-0 hover:border-1 flex items-center justify-center rounded-full bg-light-blue p-2 h-10 w-10 cursor-pointer'>{name?.charAt(0)}</div>
-                    <div>
-                        <div>{name ? name : "No user"}</div>
-                        <div className='text-Secondary-Text'>{variant === 'admin' || isAdmin ? 'Admin' : 'Student'}</div>
-                    </div>
-                    <Settings className='w-6 h-6 cursor-pointer' />
-                </div>
-                <form action={variant === 'admin' ? adminLogout : logout}>
+                <form action={variant === 'admin' ? adminLogout : logout} className='mt-3'>
                     <button
                         type="submit"
-                        className="flex gap-2 mt-2 text-Secondary-Text hover:text-white cursor-pointer"
+                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white cursor-pointer"
                     >
-                        <LogOut />
-                        <div>Sign out</div>
+                        <LogOut className='h-4 w-4' />
+                        Sign out
                     </button>
                 </form>
             </div>
         </div>
+    )
+}
+
+export function Logo({ href }) {
+    return (
+        <Link href={href} className='inline-flex'>
+            <Image
+                width={182}
+                height={32}
+                alt='MedSimAI'
+                src={'/logo/medsimailogo.png'}
+                className='h-8 w-[182px]'
+                priority
+            />
+        </Link>
+    )
+}
+
+// Desktop sidebar, shown from the lg breakpoint; MobileNav takes over below it
+export default function Sidebar(props) {
+    return (
+        <aside className='hidden w-64 shrink-0 flex-col bg-deep-blue lg:flex'>
+            <div className='px-6 py-6'>
+                <Logo href={props.variant === 'admin' ? '/admin-dashboard' : '/dashboard'} />
+            </div>
+            <NavContent {...props} />
+        </aside>
     )
 }

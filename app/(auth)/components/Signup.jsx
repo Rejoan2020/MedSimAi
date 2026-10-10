@@ -10,11 +10,11 @@ export default function Signup() {
     const [state, formAction, pending] = useActionState(signup, null);
     return (
         <div className='grid xl:grid-cols-2 items-center w-full h-full'>
-            <div className='flex flex-col w-full items-center gap-12 py-8'>
-                <Image height={32} width={162} alt='logo' src={'/logo/medsimailogo.png'}
-                    className='h-8 w-40' />
-                <div>
-                    <div className='text-[36px]'>Create your account</div>
+            <div className='flex w-full flex-col items-center gap-10 px-4 py-10 sm:gap-12'>
+                <Image height={32} width={182} alt='MedSimAI' src={'/logo/medsimailogo.png'}
+                    className='h-8 w-[182px]' />
+                <div className='w-full max-w-92'>
+                    <div className='text-3xl font-semibold sm:text-4xl'>Create your account</div>
                     <div className='text-Secondary-Text'>Sign up to start practising clinical cases.</div>
                 </div>
                 <form action={formAction} className='max-w-92 w-full flex flex-col gap-4'>

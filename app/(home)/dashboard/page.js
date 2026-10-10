@@ -10,8 +10,6 @@ export default async function page() {
 
   const data = await getStudentDashboard(user._id);
   return (
-    <div className='flex justify-center'>
-      <Dashboard name={user.name} data={data} />
-    </div>
+    <Dashboard name={user.name} data={data} />
   )
 }

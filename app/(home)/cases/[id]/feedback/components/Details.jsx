@@ -4,59 +4,57 @@ import { Check, CircleAlert } from 'lucide-react'
 
 export default function Details({ performance, strengths, improvements, recommendations, }) {
     return (
-        <div className='w-full flex flex-col items-center'>
-            <div className='flex flex-col w-full max-w-350 bg-white min-h-64 border border-gray-100 rounded-lg p-8'>
-                <div className='pb-6 font-semibold'>
-                    Performance by section
-                </div>
-
-                <div className='grid 2xl:grid-cols-2 gap-2'>
-                    {performance.map((item, idx) => <div key={idx} className='border p-2 rounded-lg border-gray-200'>
-                        <div className='text-Secondary-Text pb-2 flex justify-between'>
-                            <div>{item.section}({item.score}/{item.maxScore})</div>
-                            <div className='text-blue-400'>See Details</div>
-                        </div>
-                        <PerformanceIndicator score={item.score} />
-                    </div>)}
-                </div>
-
-            </div>
-
-            <div className='flex flex-col w-full max-w-350 bg-white min-h-64 border border-gray-100 rounded-lg p-8'>
-
-                <div className='grid grid-cols-1 sm:grid-cols-2'>
-                    <div>
-                        <div className='font-semibold pb-4'>
-                            Key Strength
-                        </div>
-                        {strengths.map((item, idx) => <div key={idx} className='flex gap-2'>
-                            <Check color='green' className='w-6 h-6' />
-                            <div className='text-Secondary-Text'>{item}</div>
-                        </div>)}
-                    </div>
-                    <div>
-                        <div className='font-semibold pb-4'>
-                            Areas to improve
-                        </div>
-                        {improvements.map((item, idx) =>
-                            <div key={idx} className='flex gap-2'>
-                                <CircleAlert color='red' className='w-6 h-6' />
-                                <div className='text-Secondary-Text'>{item} </div>
+        <div className='flex flex-col gap-6'>
+            {performance.length > 0 &&
+                <div>
+                    <h3 className='pb-3 font-semibold'>Performance by section</h3>
+                    <div className='grid gap-3 md:grid-cols-2'>
+                        {performance.map((item, idx) =>
+                            <div key={idx} className='rounded-lg border border-gray-200 p-3'>
+                                <div className='flex justify-between gap-2 pb-2 text-sm'>
+                                    <span className='font-medium'>{item.section}</span>
+                                    <span className='shrink-0 text-Secondary-Text'>{item.score}/{item.maxScore}</span>
+                                </div>
+                                <PerformanceIndicator score={item.score} />
+                                {item.details && <p className='pt-2 text-sm text-Secondary-Text'>{item.details}</p>}
                             </div>)}
                     </div>
+                </div>}
+
+            <div className='grid gap-6 md:grid-cols-2'>
+                <div>
+                    <h3 className='pb-3 font-semibold'>Key strengths</h3>
+                    <ul className='flex flex-col gap-2'>
+                        {strengths.map((item, idx) =>
+                            <li key={idx} className='flex gap-2 text-sm'>
+                                <Check className='h-5 w-5 shrink-0 text-green-600' />
+                                <span className='text-Secondary-Text'>{item}</span>
+                            </li>)}
+                    </ul>
+                </div>
+                <div>
+                    <h3 className='pb-3 font-semibold'>Areas to improve</h3>
+                    <ul className='flex flex-col gap-2'>
+                        {improvements.map((item, idx) =>
+                            <li key={idx} className='flex gap-2 text-sm'>
+                                <CircleAlert className='h-5 w-5 shrink-0 text-red-500' />
+                                <span className='text-Secondary-Text'>{item}</span>
+                            </li>)}
+                    </ul>
                 </div>
             </div>
 
-            <div className='flex flex-col w-full max-w-350 bg-white min-h-64 border border-gray-100 rounded-lg p-8'>
-                <div className='font-bold pb-4'>Recommendations</div>
-                <div className='flex flex-col gap-4'>
-                    {recommendations.map((val, idx) =>
-                        <div key={idx} className='border flex p-2 gap-2 border-gray-200 rounded-lg'>
-                            <div className='border-0 w-6 h-6 flex justify-center bg-blue-500/50 items-center rounded-full'> {idx + 1}</div>
-                            <div className='text-Secondary-Text '>{val}</div>
-                        </div>)}
-                </div>
-            </div>
+            {recommendations.length > 0 &&
+                <div>
+                    <h3 className='pb-3 font-semibold'>Recommendations</h3>
+                    <ol className='flex flex-col gap-2'>
+                        {recommendations.map((val, idx) =>
+                            <li key={idx} className='flex gap-3 rounded-lg border border-gray-200 p-3 text-sm'>
+                                <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-light-blue/15 text-xs font-semibold text-deep-blue'>{idx + 1}</span>
+                                <span className='text-Secondary-Text'>{val}</span>
+                            </li>)}
+                    </ol>
+                </div>}
         </div>
     )
 }

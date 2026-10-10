@@ -1,11 +1,18 @@
 import React from 'react'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
 export default function Welcome({ name }) {
   return (
-    <div className='bg-[linear-gradient(to_right,#FFFDFC,#F8FDFF,#F7FAFF)] p-8 border-1 border-[#F0F4FE] rounded-xl w-full max-w-350'>
-      <div className='text-deep-blue font-medium'>Student Dashboard</div>
-      <div className='text-light-blue text-[32px] font-bold'>Welcome back{name ? `, ${name}` : ''}</div>
-      <div className='text-Secondary-Text'>Continue mastering clinical reasoning</div>
+    <div className='flex flex-wrap items-center justify-between gap-4 rounded-xl border border-brand-secondary bg-[linear-gradient(to_right,#FFFDFC,#F8FDFF,#F0F4FE)] p-6 sm:p-8'>
+      <div className='min-w-0'>
+        <div className='text-sm font-medium text-deep-blue'>Student Dashboard</div>
+        <h1 className='mt-1 text-2xl font-bold text-light-blue sm:text-3xl'>Welcome back{name ? `, ${name}` : ''}</h1>
+        <p className='mt-1 text-Secondary-Text'>Continue mastering clinical reasoning</p>
+      </div>
+      <Link href='/cases' className='inline-flex items-center gap-2 rounded-lg bg-deep-blue px-4 py-2.5 text-sm font-medium text-white hover:bg-deep-blue/90'>
+        Browse cases <ArrowRight className='h-4 w-4' />
+      </Link>
     </div>
   )
 }

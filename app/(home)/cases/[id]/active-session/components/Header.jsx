@@ -1,10 +1,10 @@
 'use client'
-import { ArrowLeft, Clock, StopCircle } from 'lucide-react'
+import { ArrowLeft, Clock, NotebookPen, StopCircle } from 'lucide-react'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 
-export default function Header({ slug, title, attemptId }) {
+export default function Header({ slug, title, attemptId, onToggleNotes }) {
     const [seconds, setSeconds] = useState(0);
     const [isStopping, setIsStopping] = useState(false);
     const [error, setError] = useState('');
@@ -72,34 +72,36 @@ export default function Header({ slug, title, attemptId }) {
         }
     }
     return (
-        <div className='flex justify-between max-w-350 w-full gap-4'>
-            <Link href={`/cases/${slug}`} className='flex gap-2 min-w-54 p-2'>
-                <ArrowLeft className='w-6 h-6' />
-                <div>{title}</div>
-            </Link>
+        <div className='mx-auto flex w-full max-w-6xl flex-col gap-2'>
+            <div className='flex flex-wrap items-center justify-between gap-3'>
+                <Link href={`/cases/${slug}`} className='flex min-w-0 items-center gap-2 font-medium hover:text-deep-blue'>
+                    <ArrowLeft className='h-5 w-5 shrink-0' />
+                    <span className='truncate'>{title}</span>
+                </Link>
 
-            <div className='sm:flex sm:min-w-64 gap-4'>
-                <div className='flex flex-col gap-1'>
+                <div className='flex items-center gap-2'>
+                    <div className='flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-sm tabular-nums text-Secondary-Text ring-1 ring-gray-200' aria-label='Session time'>
+                        <Clock className='h-4 w-4' />
+                        {String(minutes).padStart(2, '0')}:{String(remainingSeconds).padStart(2, '0')}
+                    </div>
                     <button
-                        className='min-w-36 flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2 disabled:cursor-not-allowed disabled:opacity-60'
+                        type='button'
+                        onClick={onToggleNotes}
+                        className='flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-sm ring-1 ring-gray-200 hover:bg-gray-50 cursor-pointer lg:hidden'
+                    >
+                        <NotebookPen className='h-4 w-4' /> Notes
+                    </button>
+                    <button
+                        className='flex items-center gap-1.5 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-500 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60'
                         onClick={handleSession}
                         disabled={isStopping}
                     >
-                        <StopCircle />
-                        <div>{isStopping ? 'Ending...' : 'Stop Session'}</div>
+                        <StopCircle className='h-4 w-4' />
+                        {isStopping ? 'Ending...' : 'Stop session'}
                     </button>
-                    {error && <p className='text-sm text-red-600'>{error}</p>}
-                </div>
-
-                <div className='flex sm:justify-between gap-2 p-2'>
-                    <Clock />
-                    <div>
-                        {String(minutes).padStart(2, '0')}:
-                        {String(remainingSeconds).padStart(2, '0')}
-                    </div>
                 </div>
             </div>
-
+            {error && <p className='text-right text-sm text-red-600'>{error}</p>}
         </div>
     )
 }

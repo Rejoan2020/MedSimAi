@@ -27,15 +27,16 @@ export default function ConsultationPlan({ caseId, initialPlan = '' }) {
     }
 
     return (
-        <div className="sm:w-100 m-6 border border-gray-200 p-4 rounded-lg flex flex-col gap-4">
-            <div className='text-blue-800 border-b border-gray-200 pb-4'>
+        <div className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+            <div className='border-b border-gray-200 pb-3 font-semibold text-deep-blue'>
                 Consultation Plan
             </div>
             <textarea
                 value={plan}
                 onChange={(e) => { setPlan(e.target.value); setStatus('') }}
                 maxLength={10000}
-                className='border sm:w-80 sm:h-80 max-sm:w-60 max-sm:h-60 border-gray-200 rounded-lg p-4 outline-none'
+                rows={8}
+                className='w-full rounded-lg border border-gray-200 p-4 outline-none focus:border-light-blue focus:ring-2 focus:ring-light-blue/20'
                 placeholder='Add your consultation plan here...'
             />
             {status && <p className={`text-sm ${status === 'Saved' ? 'text-green-600' : 'text-red-600'}`}>{status}</p>}

@@ -45,14 +45,37 @@ export default function UserManager({ users, currentUserId }) {
 
     const set = (field) => (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }))
 
+    const average = (user) => user.averageScore === null ? '–' : `${user.averageScore}%`
+
+    const roleSelect = (user, isSelf) => (
+        <select
+            value={user.role}
+            disabled={isSelf || isBusy}
+            aria-label={`Role for ${user.email}`}
+            onChange={(e) => run(() => setUserRole(user._id, e.target.value), `${user.email} is now ${e.target.value === 'admin' ? 'an admin' : 'a student'}.`)}
+            className='rounded border border-gray-300 px-2 py-1 disabled:opacity-60'
+        >
+            <option value='student'>Student</option>
+            <option value='admin'>Admin</option>
+        </select>
+    )
+
+    const userActions = (user, isSelf) => (
+        <div className='flex gap-4'>
+            <button onClick={() => handleResetPassword(user)} disabled={isBusy} className='text-light-blue hover:underline cursor-pointer disabled:opacity-50'>Reset password</button>
+            {!isSelf &&
+                <button onClick={() => handleDelete(user)} disabled={isBusy} className='text-red-600 hover:underline cursor-pointer disabled:opacity-50'>Delete</button>}
+        </div>
+    )
+
     return (
         <div className='flex flex-col gap-6'>
             <form
                 onSubmit={(e) => { e.preventDefault(); run(() => createUser(form), `Account created for ${form.email.trim().toLowerCase()}.`, () => setForm(emptyForm)) }}
-                className='flex flex-col gap-4 rounded-xl border border-[#F0F4FE] p-4'
+                className='flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'
             >
                 <div className='font-medium text-[#2536A8]'>New account</div>
-                <div className='grid gap-4 md:grid-cols-4'>
+                <div className='grid gap-4 sm:grid-cols-2 xl:grid-cols-4'>
                     <input value={form.name} onChange={set('name')} placeholder='Full name' required className={inputClass} />
                     <input value={form.email} onChange={set('email')} type='email' placeholder='Email' required className={inputClass} />
                     <input value={form.password} onChange={set('password')} type='password' placeholder='Password (8+ characters)' minLength={8} required autoComplete='new-password' className={inputClass} />
@@ -69,45 +92,51 @@ export default function UserManager({ users, currentUserId }) {
                 </div>
             </form>
 
-            <div className='overflow-x-auto rounded-xl border border-[#F0F4FE] p-4'>
-                <table className='w-full text-left text-sm'>
-                    <thead className='text-[#717680] border-b border-[#F0F4FE]'>
+
+            <div className='rounded-xl border border-gray-200 bg-white'>
+                {/* Cards on small screens */}
+                <ul className='divide-y divide-gray-100 md:hidden'>
+                    {users.map((user) => {
+                        const isSelf = user._id === currentUserId
+                        return (
+                            <li key={user._id} className='flex flex-col gap-3 p-4'>
+                                <div className='min-w-0'>
+                                    <div className='font-medium'>{user.name}{isSelf && <span className='font-normal text-gray-500'> (you)</span>}</div>
+                                    <div className='truncate text-sm text-Secondary-Text'>{user.email}</div>
+                                    <div className='text-sm text-Secondary-Text'>{user.attempts} {user.attempts === 1 ? "attempt" : "attempts"} · Avg {average(user)}</div>
+                                </div>
+                                <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-sm'>
+                                    {roleSelect(user, isSelf)}
+                                    {userActions(user, isSelf)}
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+
+                {/* Table from md up */}
+                <table className='hidden w-full text-left text-sm md:table'>
+                    <thead className='border-b border-gray-100 text-[#717680]'>
                         <tr>
-                            <th className='py-2 pr-4 font-normal'>Name</th>
-                            <th className='py-2 pr-4 font-normal'>Email</th>
-                            <th className='py-2 pr-4 font-normal'>Role</th>
-                            <th className='py-2 pr-4 font-normal'>Attempts</th>
-                            <th className='py-2 pr-4 font-normal'>Avg score</th>
-                            <th className='py-2 font-normal'>Actions</th>
+                            <th className='px-6 py-3 font-normal'>Name</th>
+                            <th className='px-3 py-3 font-normal'>Email</th>
+                            <th className='px-3 py-3 font-normal'>Role</th>
+                            <th className='px-3 py-3 font-normal'>Attempts</th>
+                            <th className='px-3 py-3 font-normal'>Avg score</th>
+                            <th className='px-6 py-3 font-normal'>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map((user) => {
                             const isSelf = user._id === currentUserId
                             return (
-                                <tr key={user._id} className='border-b border-[#F0F4FE]'>
-                                    <td className='py-2 pr-4'>{user.name}{isSelf && <span className='text-gray-500'> (you)</span>}</td>
-                                    <td className='py-2 pr-4'>{user.email}</td>
-                                    <td className='py-2 pr-4'>
-                                        <select
-                                            value={user.role}
-                                            disabled={isSelf || isBusy}
-                                            onChange={(e) => run(() => setUserRole(user._id, e.target.value), `${user.email} is now ${e.target.value === 'admin' ? 'an admin' : 'a student'}.`)}
-                                            className='rounded border border-gray-300 px-2 py-1 disabled:opacity-60'
-                                        >
-                                            <option value='student'>Student</option>
-                                            <option value='admin'>Admin</option>
-                                        </select>
-                                    </td>
-                                    <td className='py-2 pr-4'>{user.attempts}</td>
-                                    <td className='py-2 pr-4'>{user.averageScore === null ? '–' : `${user.averageScore}%`}</td>
-                                    <td className='py-2'>
-                                        <div className='flex gap-3'>
-                                            <button onClick={() => handleResetPassword(user)} disabled={isBusy} className='text-light-blue hover:underline cursor-pointer disabled:opacity-50'>Reset password</button>
-                                            {!isSelf &&
-                                                <button onClick={() => handleDelete(user)} disabled={isBusy} className='text-red-600 hover:underline cursor-pointer disabled:opacity-50'>Delete</button>}
-                                        </div>
-                                    </td>
+                                <tr key={user._id} className='border-b border-gray-100 last:border-0'>
+                                    <td className='px-6 py-3'>{user.name}{isSelf && <span className='text-gray-500'> (you)</span>}</td>
+                                    <td className='px-3 py-3'>{user.email}</td>
+                                    <td className='px-3 py-3'>{roleSelect(user, isSelf)}</td>
+                                    <td className='px-3 py-3'>{user.attempts}</td>
+                                    <td className='px-3 py-3'>{average(user)}</td>
+                                    <td className='px-6 py-3'>{userActions(user, isSelf)}</td>
                                 </tr>
                             )
                         })}

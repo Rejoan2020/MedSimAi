@@ -1,94 +1,69 @@
-import { ArrowRight, Clock, File, PersonStanding } from 'lucide-react'
+import { ArrowRight, Clock, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import Stars from './Stars'
 import Link from 'next/link'
 
 export default function CaseCard({ title, slug, image, tags, specialty, difficulty, duration, patient, description, completedBy, bestScore }) {
-    const cardSide = [
-        {
-            'title': 'Specialty',
-            'value': specialty,
-        },
-        {
-            'title': 'Difficulty',
-            'value': <Stars difficulty={difficulty} />,
-        },
-        {
-            'title': 'Completed by',
-            'value': `${completedBy} ${completedBy === 1 ? 'learner' : 'learners'}`,
-        },
-        {
-            'title': 'Your best score',
-            'value': bestScore === null ? 'Not completed yet' : `${bestScore}%`,
-        }
-    ]
+    const patientType = patient?.age == null ? null : patient.age >= 18 ? 'Adult' : 'Pediatric'
 
     return (
-        <div className='border border-brand-secondary rounded-lg p-4 sm:min-w-155'>
-            <div className='sm:flex'>
-                <div className='w-full sm:min-w-110'>
-                    <div className='flex max-sm:flex-col pb-2 w-full'>
-                        <div className='sm:h-50 sm:w-100 border border-brand-secondary rounded-lg m-2 max-sm:flex max-sm:justify-center'>
-                            <Image
-                                height={200} width={200} alt='Lungs' src={image}
-                                className='p-4 h-40 w-40'
-                            />
-                        </div>
-
-                        <div className='flex flex-col gap-4 w-full'>
-                            <div className='text-[24px] font-bold'>{title}</div>
-                            <div className='text-Secondary-Text'>{description}</div>
-                            <div className='flex flex-col gap-2 w-full'>
-                                <div className='grid grid-cols-2 gap-1 w-full'>
-                                    <div className='flex justify-center items-center border rounded-lg p-1'>{difficulty}</div>
-                                    <div className='flex justify-center items-center border rounded-lg p-1'>
-                                        <Clock className='w-4 h-4' />
-                                        <div>{duration}</div>
-                                    </div>
-                                </div>
-                                <div className='border rounded-lg flex p-1 items-center justify-center w-full'>
-                                    <PersonStanding className='w-4 h-4' />
-                                    <div>{patient?.age == null ? "Patient" : patient.age >= 18 ? "Adult" : "Pediatric patient"}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className=' border-b border-brand-secondary'></div>
-                    <div>
-                        <div className='font-bold'>Case Features</div>
-                        <div className='flex gap-2'>
-                            {tags.map((t, index) =>
-                                <div key={index} className='flex justify-center '>
-                                    <div>
-                                        <File className='w-4 h-4 text-light-blue mt-1' />
-                                    </div>
-                                    <div className='text-deep-blue'>{t}</div>
-                                </div>)}
-                        </div>
-                    </div>
+        <article className='flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:border-light-blue/40 hover:shadow-sm'>
+            <div className='flex flex-col gap-4 p-4 sm:flex-row sm:p-5'>
+                <div className='flex h-36 shrink-0 items-center justify-center rounded-lg bg-white ring-1 ring-gray-100 sm:h-32 sm:w-32'>
+                    <Image
+                        height={112} width={112} alt='' src={image || '/cases/person.png'}
+                        className='h-28 w-28 object-contain sm:h-24 sm:w-24'
+                    />
                 </div>
 
-                <div className='sm:border-l sm:ml-4 sm:pl-4 max-sm:pt-4 border-brand-secondary sm:flex sm:flex-col max-sm:grid max-sm:grid-cols-2 gap-4 sm:max-w-40 w-full'>
-                    {cardSide.map((card, index) =>
-                        <div key={index}>
-                            <div className='font-bold text-Secondary-Text'>{card.title}</div>
-                            <div className={`text-lg ${card.title === 'Your best score' ?
-                                "text-[28px] text-green-600 font-bold" : ""}`}>{card.value}</div>
-                        </div>
-                    )}
-
+                <div className='flex min-w-0 flex-col gap-2'>
+                    <div className='text-xs font-medium uppercase tracking-wide text-light-blue'>{specialty}</div>
+                    <h2 className='text-lg font-semibold text-gray-900'>{title}</h2>
+                    <p className='line-clamp-3 text-sm text-Secondary-Text'>{description}</p>
+                    <div className='flex flex-wrap gap-2 pt-1 text-xs'>
+                        <span className='rounded-full bg-brand-primary px-2.5 py-1 text-deep-blue'>{difficulty}</span>
+                        {duration &&
+                            <span className='inline-flex items-center gap-1 rounded-full bg-brand-primary px-2.5 py-1 text-deep-blue'>
+                                <Clock className='h-3.5 w-3.5' /> {duration}
+                            </span>}
+                        {patientType &&
+                            <span className='inline-flex items-center gap-1 rounded-full bg-brand-primary px-2.5 py-1 text-deep-blue'>
+                                <PersonStanding className='h-3.5 w-3.5' /> {patientType}
+                            </span>}
+                    </div>
+                    {tags.length > 0 &&
+                        <div className='flex flex-wrap gap-x-3 gap-y-1 text-xs text-Secondary-Text'>
+                            {tags.map((t) => <span key={t}>#{t}</span>)}
+                        </div>}
                 </div>
             </div>
-            <div className='border-t border-brand-secondary mt-4 pt-4 flex justify-end'>
+
+            <div className='mt-auto grid grid-cols-3 gap-2 border-t border-gray-100 bg-gray-50/60 px-4 py-3 text-xs sm:px-5'>
+                <div>
+                    <div className='text-Secondary-Text'>Difficulty</div>
+                    <Stars difficulty={difficulty} />
+                </div>
+                <div>
+                    <div className='text-Secondary-Text'>Completed by</div>
+                    <div className='text-sm font-medium'>{completedBy} {completedBy === 1 ? 'learner' : 'learners'}</div>
+                </div>
+                <div>
+                    <div className='text-Secondary-Text'>Your best</div>
+                    <div className={`text-sm font-semibold ${bestScore === null ? 'text-Secondary-Text' : 'text-green-600'}`}>
+                        {bestScore === null ? 'Not yet' : `${bestScore}%`}
+                    </div>
+                </div>
+            </div>
+
+            <div className='border-t border-gray-100 p-4 sm:px-5'>
                 <Link
-                    className='text-white border rounded-lg p-2 flex justify-evenly px-4 bg-deep-blue cursor-pointer'
+                    className='flex w-full items-center justify-center gap-2 rounded-lg bg-deep-blue px-4 py-2.5 text-sm font-medium text-white hover:bg-deep-blue/90 sm:ml-auto sm:w-auto'
                     href={`/cases/${slug}`}
                 >
-                    <div>Start Case</div>
-                    <ArrowRight />
+                    View case <ArrowRight className='h-4 w-4' />
                 </Link>
             </div>
-        </div>
+        </article>
     )
 }

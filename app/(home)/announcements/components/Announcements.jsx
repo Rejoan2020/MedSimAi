@@ -1,78 +1,48 @@
 import React from 'react'
-import { Bell, CalendarDays, ChevronRight } from 'lucide-react'
-
-
+import { Bell, CalendarDays } from 'lucide-react'
+import PageHeader, { PageContainer } from '@/app/components/PageHeader'
 
 export default function Announcements({ announcements }) {
     return (
-        <div className="w-full px-8 py-8 text-black">
+        <PageContainer>
+            <PageHeader
+                title='Announcements'
+                description='Stay updated with the latest news and updates from MedSimAI.'
+                icon={Bell}
+            />
 
-            {/* Header */}
-            <div className="mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-light-blue/10">
-                        <Bell className="h-5 w-5 text-light-blue" />
-                    </div>
-
-                    <div>
-                        <h1 className="text-2xl font-semibold">
-                            Announcements
-                        </h1>
-
-                        <p className="mt-1 text-sm text-Secondary-Text">
-                            Stay updated with the latest news and updates from MedSimAI.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-
-            {/* Announcement list */}
             <div className="flex max-w-4xl flex-col gap-4">
-
                 {announcements.length === 0 && (
-                    <p className="text-sm text-Secondary-Text">No announcements right now.</p>
+                    <div className="rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center text-sm text-Secondary-Text">
+                        No announcements right now.
+                    </div>
                 )}
 
                 {announcements.map((announcement) => (
-                    <div
+                    <article
                         key={announcement._id}
-                        className="group rounded-xl border border-gray-200 bg-white p-6 transition hover:border-light-blue/40 hover:shadow-sm"
+                        className="rounded-xl border border-gray-200 bg-white p-4 transition hover:border-light-blue/40 hover:shadow-sm sm:p-6"
                     >
-
-                        <div className="flex items-start justify-between gap-6">
-
-                            <div className="flex-1"> 
-                                <div className="mb-3">
-                                    <span className="rounded-full bg-light-blue/10 px-3 py-1 text-xs font-medium text-light-blue">
-                                        {announcement.type}
-                                    </span>
-                                </div>
- 
-                                <h2 className="text-lg font-semibold text-gray-900">
-                                    {announcement.title}
-                                </h2>
-
-                                {/* Description */}
-                                <p className="mt-2 text-sm leading-6 text-gray-600">
-                                    {announcement.description}
-                                </p>
-
-                                {/* Date */}
-                                <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
-                                    <CalendarDays className="h-4 w-4" />
-                                    {new Date(announcement.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                                </div>
-
-                            </div> 
-
+                        <div className="flex flex-wrap items-center gap-3">
+                            <span className="rounded-full bg-light-blue/10 px-3 py-1 text-xs font-medium text-light-blue">
+                                {announcement.type}
+                            </span>
+                            <span className="flex items-center gap-1.5 text-xs text-gray-500">
+                                <CalendarDays className="h-4 w-4" />
+                                {new Date(announcement.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            </span>
                         </div>
 
-                    </div>
+                        <h2 className="mt-3 text-lg font-semibold text-gray-900">
+                            {announcement.title}
+                        </h2>
+
+                        <p className="mt-2 text-sm leading-6 text-gray-600">
+                            {announcement.description}
+                        </p>
+                    </article>
                 ))}
-
             </div>
-
-        </div>
+        </PageContainer>
     )
 }

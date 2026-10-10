@@ -7,7 +7,7 @@ export default function Options({ number, selected = false, onClick, disabled = 
       onClick={onClick}
       disabled={disabled}
       aria-pressed={selected}
-      className={`border-0 flex justify-center items-center h-12 w-19 rounded-sm cursor-pointer disabled:cursor-not-allowed ${selected ? 'bg-light-blue text-white' : 'bg-gray-100 text-[#243284] hover:bg-gray-200'}`}
+      className={`flex h-10 flex-1 items-center justify-center rounded-md text-sm font-medium cursor-pointer disabled:cursor-not-allowed ${selected ? 'bg-light-blue text-white' : 'bg-gray-100 text-[#243284] hover:bg-gray-200'}`}
     >
       {number}
     </button>

@@ -38,10 +38,11 @@ export default function FAQ({ questions }) {
                         <button
                             type="button"
                             onClick={() => toggleQuestion(item._id)}
-                            className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
+                            aria-expanded={isOpen}
+                            className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left cursor-pointer sm:px-6 sm:py-5"
                         >
 
-                            <span className="text-sm font-medium text-gray-900">
+                            <span className="font-medium text-gray-900">
                                 {item.question}
                             </span>
 
@@ -56,7 +57,7 @@ export default function FAQ({ questions }) {
 
                         {/* Answer */}
                         {isOpen && (
-                            <div className="border-t border-gray-100 px-6 py-5">
+                            <div className="border-t border-gray-100 px-4 py-4 sm:px-6 sm:py-5">
                                 <p className="text-sm leading-6 text-gray-600">
                                     {item.answer}
                                 </p>

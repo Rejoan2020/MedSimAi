@@ -86,7 +86,7 @@ export default function CaseForm({ initialCase }) {
     }
 
     return (
-        <div className='m-10 rounded-xl border border-gray-200 bg-white p-8'>
+        <div className='rounded-xl border border-gray-200 bg-white p-4 sm:p-8'>
             <div className='mb-8 flex flex-wrap items-start justify-between gap-4'>
                 <div>
                     <h1 className='text-2xl font-semibold text-gray-900'>
@@ -173,7 +173,7 @@ export default function CaseForm({ initialCase }) {
                     </div>
                 </Section>
 
-                <div className='flex flex-wrap items-center justify-end gap-3 border-t border-gray-200 pt-6'>
+                <div className='sticky bottom-0 -mx-4 -mb-4 flex flex-wrap items-center justify-end gap-3 border-t border-gray-200 bg-white/95 px-4 py-4 backdrop-blur sm:-mx-8 sm:-mb-8 sm:px-8'>
                     {message && <p className={`mr-auto text-sm ${message.ok ? 'text-green-600' : 'text-red-600'}`}>{message.text}</p>}
                     <Link href='/admin-dashboard/cases' className='rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium hover:bg-gray-50'>
                         {isEdit ? 'Back to cases' : 'Cancel'}

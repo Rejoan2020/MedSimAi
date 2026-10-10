@@ -1,14 +1,16 @@
 
 import React from 'react'
-import PDFReader from './components/PDFReader'
+import CaseDocument from './components/CaseDocument'
 import ConfidenceRatings from './components/ConfidenceRatings'
 import ConsultationPlan from './components/ConsultationPlan'
-import { Clock, PersonStanding } from 'lucide-react'
+import { ArrowLeft, Clock, PersonStanding, Play } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { startSession } from '@/app/actions/session';
 import { getPublicCaseBySlug } from '@/lib/cases';
 import { getCurrentUser, isAdmin } from '@/lib/currentUser';
 import CasePrep from '@/models/CasePrep';
+import { PageContainer } from '@/app/components/PageHeader';
 import { notFound, redirect } from 'next/navigation';
 
 export default async function Page({ params }) {
@@ -26,87 +28,59 @@ export default async function Page({ params }) {
   const initialRatings = prep?.confidence ? Object.fromEntries(Object.entries(prep.confidence)) : {};
 
   const age = patient.aiScenario?.patient?.age;
+  const badges = [
+    patient.specialty,
+    patient.difficulty,
+    patient.duration && <><Clock className='h-3.5 w-3.5' /> {patient.duration}</>,
+    age != null && <><PersonStanding className='h-3.5 w-3.5' /> {age >= 18 ? 'Adult' : 'Pediatric'}</>,
+  ].filter(Boolean);
 
   return (
-    <div className="min-h-screen text-black flex flex-col justify-center items-center p-8 gap-6 sm:min-w-200 w-full">
+    <PageContainer>
+      <Link href='/cases' className='inline-flex w-fit items-center gap-1 text-sm text-Secondary-Text hover:text-deep-blue'>
+        <ArrowLeft className='h-4 w-4' /> All cases
+      </Link>
+
       {!patient.isPublished &&
-        <div className='w-full max-w-350 rounded-lg border border-yellow-300 bg-yellow-50 p-3 text-sm text-yellow-800'>
+        <div className='rounded-lg border border-yellow-300 bg-yellow-50 p-3 text-sm text-yellow-800'>
           Draft: only admins can see this case. Publish it from the admin dashboard to make it available to students.
         </div>}
-      <div className='flex justify-between max-w-350 w-full'>
-        <div className='sm:flex'>
-          <div className='flex justify-between'>
-            <Image height={100} width={200} alt={patient.title} src={patient.image || '/cases/person.png'}
-              className='h-30 w-36 object-cover rounded-lg'
-            />
-            <form action={startSession} className='sm:hidden'>
-              <input type="hidden" name="caseId" value={caseId} />
 
-              <button
-                type="submit"
-                className="border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500"
-              >
-                Start Session
-              </button>
-            </form>
-          </div>
-          <div className="px-4 p-2 flex flex-col gap-2 max-w-350 sm:min-w-100">
-            <h1 className="text-xl font-semibold">
-              {patient.title}
-            </h1>
-            <div className='text-Secondary-Text'>{patient.description}</div>
-            <div className='flex gap-1 text-blue-800'>
-              <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'>{patient.difficulty}</div>
-              <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'><Clock className='w-4 h-4' /> <div>{patient.duration}</div></div>
-              {age != null &&
-                <div className='border rounded-lg flex p-1 items-center justify-center bg-blue-100/30'>
-                  <PersonStanding />
-                  <div>{age >= 18 ? 'Adult' : 'Pediatric patient'}</div>
-                </div>}
-            </div>
+      <section className='flex flex-col gap-5 rounded-xl border border-gray-200 bg-white p-4 sm:flex-row sm:items-center sm:p-6'>
+        <div className='flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-white ring-1 ring-gray-100'>
+          <Image height={80} width={80} alt='' src={patient.image || '/cases/person.png'} className='h-20 w-20 object-contain' />
+        </div>
+        <div className='flex min-w-0 flex-1 flex-col gap-2'>
+          <h1 className="text-2xl font-semibold">{patient.title}</h1>
+          <p className='text-Secondary-Text'>{patient.description}</p>
+          <div className='flex flex-wrap gap-2 text-xs'>
+            {badges.map((badge, i) =>
+              <span key={i} className='inline-flex items-center gap-1 rounded-full bg-brand-primary px-2.5 py-1 text-deep-blue'>{badge}</span>)}
           </div>
         </div>
-
-        <form action={startSession} className='max-sm:hidden'>
+        <form action={startSession} className='sm:shrink-0'>
           <input type="hidden" name="caseId" value={caseId} />
-
           <button
             type="submit"
-            className="border bg-light-blue h-12 w-36 p-2 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-500"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-light-blue px-5 py-3 font-medium text-white hover:bg-blue-500 cursor-pointer sm:w-auto"
           >
-            Start Session
+            <Play className='h-4 w-4' /> Start Session
           </button>
         </form>
+      </section>
 
-      </div>
-
-      <div className='flex flex-col gap-4 justify-between border border-gray-200 rounded-lg m-2 p-8 w-full max-w-350'>
-        <h1 className="text-xl font-semibold text-blue-800">
-          Clinical Scenario
-        </h1>
-        <div>
-          {patient.description}
-        </div>
-      </div>
-
-      <div className="grid h-[calc(100vh-10rem)] sm:grid-cols-2 gap-6 p-6 w-full max-w-350">
-
-        <div className="min-h-0 overflow-hidden w-full">
+      <div className="grid gap-6 lg:grid-cols-5">
+        <div className="h-[70vh] min-h-96 lg:col-span-3">
           {patient.pdfUrl
-            ? <PDFReader file={patient.pdfUrl} />
-            : <div className='flex h-full items-center justify-center rounded-xl border border-gray-200 text-Secondary-Text'>No case document for this case.</div>}
+            ? <CaseDocument file={patient.pdfUrl} />
+            : <div className='flex h-full items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white text-Secondary-Text'>No case document for this case.</div>}
         </div>
 
-        <div className="min-h-0 overflow-y-auto rounded-xl border border-gray-200 bg-gray-100/20 p-6 max-w-150">
+        <div className="flex flex-col gap-6 lg:col-span-2">
           <ConfidenceRatings caseId={caseId} initialRatings={initialRatings} />
+          <ConsultationPlan caseId={caseId} initialPlan={prep?.plan ?? ''} />
         </div>
-
       </div>
-
-      <div className='w-full max-w-350'>
-        <ConsultationPlan caseId={caseId} initialPlan={prep?.plan ?? ''} />
-      </div>
-
-    </div>
+    </PageContainer>
   )
 }

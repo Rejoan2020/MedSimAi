@@ -44,8 +44,11 @@ export default function PDFReader({ file }) {
           Case Document
         </div>
 
-        <div className="text-sm text-gray-500">
-          {numPages ? `${numPages} pages` : 'Loading...'}
+        <div className="flex items-center gap-3 text-sm text-gray-500">
+          {numPages ? `${numPages} ${numPages === 1 ? 'page' : 'pages'}` : 'Loading...'}
+          <a href={file} target="_blank" rel="noopener noreferrer" className="text-light-blue hover:underline">
+            Open
+          </a>
         </div>
 
       </div>

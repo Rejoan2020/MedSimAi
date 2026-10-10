@@ -79,7 +79,7 @@ export default function ChatBox({ attemptId, initialMessages = [] }) {
     return (
         <div className="flex min-h-0 flex-1 flex-col">
 
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
 
                 <div className="mx-auto flex max-w-3xl flex-col gap-5">
 
@@ -91,7 +91,7 @@ export default function ChatBox({ attemptId, initialMessages = [] }) {
                         >
 
                             <div
-                                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-6 ${message.role === 'student'
+                                className={`max-w-[85%] rounded-2xl px-4 py-3 sm:max-w-[75%] text-sm leading-6 ${message.role === 'student'
                                     ? 'rounded-br-sm bg-light-blue text-white'
                                     : 'rounded-bl-sm bg-gray-100 text-gray-800'
                                     }`}
@@ -117,7 +117,7 @@ export default function ChatBox({ attemptId, initialMessages = [] }) {
 
             </div>
 
-            <div className="shrink-0 border-t border-gray-200 p-4">
+            <div className="shrink-0 border-t border-gray-200 p-3 sm:p-4">
 
                 {error && (
                     <p className="mx-auto mb-2 max-w-3xl text-sm text-red-600">
