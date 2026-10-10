@@ -80,6 +80,7 @@ export default function Cases({ data }) {
                             <CaseCard
                                 key={item._id}
                                 title={item.title}
+                                slug={item.slug}
                                 image={item.image}
                                 specialty={item.specialty}
                                 difficulty={item.difficulty}

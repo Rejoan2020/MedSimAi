@@ -67,7 +67,8 @@ export async function POST(req, { params }) {
             );
         }
 
-        if (attempt.feedback?.score !== undefined) {
+        // Feedback is generated once per attempt; return the saved copy on repeat calls
+        if (attempt.feedback?.overallScore != null) {
             return NextResponse.json({
                 success: true,
                 message: "Feedback already exists",

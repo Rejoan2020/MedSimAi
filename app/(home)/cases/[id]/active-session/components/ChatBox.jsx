@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Send, Mic } from 'lucide-react'
 
-export default function ChatBox({ caseId, userId, attemptId }) {
+export default function ChatBox({ attemptId }) {
 
     const [message, setMessage] = useState('')
 

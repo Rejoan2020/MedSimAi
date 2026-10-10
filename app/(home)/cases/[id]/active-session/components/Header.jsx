@@ -3,7 +3,7 @@ import { ArrowLeft, Clock, StopCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
-export default function Header({ id, attemptId, caseId }) {
+export default function Header({ slug, attemptId }) {
     const [seconds, setSeconds] = useState(0);
     const router = useRouter();
 
@@ -54,7 +54,7 @@ export default function Header({ id, attemptId, caseId }) {
             } 
 
             if (feedbackData.success) {
-                router.push(`/cases/${caseId}/feedback/${attemptId}`);
+                router.push(`/cases/${slug}/feedback/${attemptId}`);
             }
         } catch (error) {
             console.error(error);
@@ -70,7 +70,6 @@ export default function Header({ id, attemptId, caseId }) {
             <div className='sm:flex sm:min-w-64 gap-4'>
                 <button
                     className='min-w-36 flex justify-between hover:bg-red-500 cursor-pointer bg-red-600 text-white gap-2 border rounded-lg p-2'
-                    // href={`/cases/${id}/feedback`}
                     onClick={handleSession}
                 >
                     <StopCircle />

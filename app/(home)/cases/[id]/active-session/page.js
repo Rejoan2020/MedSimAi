@@ -32,42 +32,42 @@ import { notFound, redirect } from 'next/navigation'
 import { isValidObjectId } from 'mongoose'
 import { dbconnect } from '@/lib/mongo'
 import { getCurrentUser } from '@/lib/currentUser'
+import Case from '@/models/Case'
 import CaseAttempt from '@/models/CaseAttempt'
 
 export default async function Page({ params, searchParams }) {
-    const { id } = await params;
+    const { id: slug } = await params;
     const { attempt: attemptId } = await searchParams;
 
     const user = await getCurrentUser();
     if (!user) redirect('/signin');
 
-    if (!isValidObjectId(id)) notFound();
-
     await dbconnect()
+
+    const clinicalCase = await Case.findOne({ slug }).select('_id').lean();
+    if (!clinicalCase) notFound();
 
     // Load the attempt from the URL; without one, fall back to the newest in-progress attempt
     let caseAttempt = null;
     if (isValidObjectId(attemptId)) {
-        caseAttempt = await CaseAttempt.findOne({ _id: attemptId, user: user._id, case: id });
+        caseAttempt = await CaseAttempt.findOne({ _id: attemptId, user: user._id, case: clinicalCase._id });
     } else {
-        caseAttempt = await CaseAttempt.findOne({ user: user._id, case: id, status: 'started' })
+        caseAttempt = await CaseAttempt.findOne({ user: user._id, case: clinicalCase._id, status: 'started' })
             .sort({ createdAt: -1 });
     }
 
     if (!caseAttempt) notFound();
 
-    const caseId = caseAttempt.case.toString();
-
     if (caseAttempt.status === 'completed') {
-        redirect(`/cases/${caseId}/feedback/${caseAttempt._id}`);
+        redirect(`/cases/${slug}/feedback/${caseAttempt._id}`);
     }
     if (caseAttempt.status !== 'started') notFound();
- 
+
 
     return (
         <div className="flex h-full min-h-0 w-full flex-col p-4 sm:p-6 lg:p-8">
 
-            <Header id={id} attemptId = {caseAttempt._id?.toString()} caseId={caseId}/>
+            <Header slug={slug} attemptId={caseAttempt._id.toString()} />
 
             <div className="mt-4 flex min-h-0 flex-1 w-full max-w-350 mx-auto gap-4">
 
@@ -92,7 +92,7 @@ export default async function Page({ params, searchParams }) {
 
                     </div>
 
-                    <ChatBox caseId={id} userId={user._id?.toString()} attemptId = {caseAttempt._id?.toString()} />
+                    <ChatBox attemptId={caseAttempt._id.toString()} />
 
                 </main>
 

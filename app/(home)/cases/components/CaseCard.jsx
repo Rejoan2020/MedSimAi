@@ -3,9 +3,8 @@ import Image from 'next/image'
 import React from 'react'
 import Stars from './Stars'
 import Link from 'next/link'
-import { slugify } from '@/utils/slugify'
 
-export default function CaseCard({ title, image, tags, specialty, difficulty, duration, patient, description, }) {
+export default function CaseCard({ title, slug, image, tags, specialty, difficulty, duration, patient, description, }) {
     const cardSide = [
         {
             'title': 'Specialty',
@@ -24,7 +23,6 @@ export default function CaseCard({ title, image, tags, specialty, difficulty, du
             'value': '78%',
         }
     ]
-    const slug = slugify(title);
 
     return (
         <div className='border border-brand-secondary rounded-lg p-4 sm:min-w-155'>

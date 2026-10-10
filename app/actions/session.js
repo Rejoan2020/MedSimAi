@@ -16,7 +16,10 @@ export async function startSession(formData) {
 
     await dbconnect()
 
-    if (!isValidObjectId(caseId) || !(await Case.exists({ _id: caseId }))) {
+    const clinicalCase = isValidObjectId(caseId)
+        ? await Case.findById(caseId).select('slug').lean()
+        : null;
+    if (!clinicalCase) {
         throw new Error('Case not found');
     }
 
@@ -28,5 +31,5 @@ export async function startSession(formData) {
         status: 'started',
     })
 
-    redirect(`/cases/${caseId}/active-session?attempt=${attempt._id}`);
+    redirect(`/cases/${clinicalCase.slug}/active-session?attempt=${attempt._id}`);
 }
