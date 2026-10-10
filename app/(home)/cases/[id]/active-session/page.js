@@ -44,7 +44,7 @@ export default async function Page({ params, searchParams }) {
 
     await dbconnect()
 
-    const clinicalCase = await Case.findOne({ slug }).select('_id').lean();
+    const clinicalCase = await Case.findOne({ slug }).select('_id title').lean();
     if (!clinicalCase) notFound();
 
     // Load the attempt from the URL; without one, fall back to the newest in-progress attempt
@@ -67,7 +67,7 @@ export default async function Page({ params, searchParams }) {
     return (
         <div className="flex h-full min-h-0 w-full flex-col p-4 sm:p-6 lg:p-8">
 
-            <Header slug={slug} attemptId={caseAttempt._id.toString()} />
+            <Header slug={slug} title={clinicalCase.title} attemptId={caseAttempt._id.toString()} />
 
             <div className="mt-4 flex min-h-0 flex-1 w-full max-w-350 mx-auto gap-4">
 
@@ -92,7 +92,10 @@ export default async function Page({ params, searchParams }) {
 
                     </div>
 
-                    <ChatBox attemptId={caseAttempt._id.toString()} />
+                    <ChatBox
+                        attemptId={caseAttempt._id.toString()}
+                        initialMessages={caseAttempt.messages.map(({ role, content }) => ({ role, content }))}
+                    />
 
                 </main>
 

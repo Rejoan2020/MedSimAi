@@ -53,7 +53,7 @@ export default function Signin() {
                         Sign in (Demo)
                     </button>
 
-                    <div className='text-Secondary-Text'>Don't have an account? contact institution</div>
+                    <div className='text-Secondary-Text'>Don&apos;t have an account? contact institution</div>
                 </form>
 
 

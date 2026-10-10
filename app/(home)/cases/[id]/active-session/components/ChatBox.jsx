@@ -1,20 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Send, Mic } from 'lucide-react'
 
-export default function ChatBox({ attemptId }) {
+export default function ChatBox({ attemptId, initialMessages = [] }) {
 
     const [message, setMessage] = useState('')
 
-    const [messages, setMessages] = useState([
-        
-    ])
+    // Start from the saved conversation so a page refresh doesn't lose it
+    const [messages, setMessages] = useState(initialMessages)
+
+    const [isSending, setIsSending] = useState(false)
+    const [error, setError] = useState('')
+
+    const bottomRef = useRef(null)
+
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, [messages, isSending])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (!message.trim()) return;
+        if (!message.trim() || isSending) return;
 
         const userMessage = message.trim()
 
@@ -27,6 +35,8 @@ export default function ChatBox({ attemptId }) {
         ])
 
         setMessage('')
+        setError('')
+        setIsSending(true)
 
         try {
             const response = await fetch("/api/ai/consultation", {
@@ -45,7 +55,7 @@ export default function ChatBox({ attemptId }) {
             if (!response.ok || !data.success) {
                 throw new Error(data.message || "Failed to get AI response")
             }
-            
+
             setMessages((prev) => [
                 ...prev,
                 {
@@ -57,13 +67,12 @@ export default function ChatBox({ attemptId }) {
         } catch (error) {
             console.error("AI consultation error:", error)
 
-            setMessages((prev) => [
-                ...prev,
-                {
-                    role: 'patient',
-                    content: "I'm sorry, I'm having trouble responding right now.",
-                },
-            ])
+            // The message wasn't saved, so take it back out and let the student resend it
+            setMessages((prev) => prev.slice(0, -1))
+            setMessage(userMessage)
+            setError("The patient couldn't respond. Please try sending your message again.")
+        } finally {
+            setIsSending(false)
         }
     }
 
@@ -94,11 +103,27 @@ export default function ChatBox({ attemptId }) {
 
                     ))}
 
+                    {isSending && (
+                        <div className="flex justify-start">
+                            <div className="rounded-2xl rounded-bl-sm bg-gray-100 px-4 py-3 text-sm italic text-gray-500">
+                                Patient is typing...
+                            </div>
+                        </div>
+                    )}
+
+                    <div ref={bottomRef} />
+
                 </div>
 
             </div>
 
             <div className="shrink-0 border-t border-gray-200 p-4">
+
+                {error && (
+                    <p className="mx-auto mb-2 max-w-3xl text-sm text-red-600">
+                        {error}
+                    </p>
+                )}
 
                 <form
                     onSubmit={handleSubmit}
@@ -125,7 +150,7 @@ export default function ChatBox({ attemptId }) {
 
                     <button
                         type="submit"
-                        disabled={!message.trim()}
+                        disabled={!message.trim() || isSending}
                         className="flex h-12 w-12 items-center justify-center rounded-xl bg-light-blue text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <Send size={18} />

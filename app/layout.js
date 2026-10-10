@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { dbconnect } from "@/lib/mongo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,8 +16,7 @@ export const metadata = {
   description: "AI-powered clinical simulation platform for medical students to practice patient consultations, clinical reasoning, and diagnosis.",
 };
 
-export default async function RootLayout({ children }) {
-  await dbconnect();
+export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
