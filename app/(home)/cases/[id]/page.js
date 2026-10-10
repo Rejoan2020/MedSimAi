@@ -1,27 +1,43 @@
 
 import React from 'react'
 import PDFReader from './components/PDFReader'
-import { ChevronDown, Clock, PersonStanding } from 'lucide-react'
+import ConfidenceRatings from './components/ConfidenceRatings'
+import ConsultationPlan from './components/ConsultationPlan'
+import { Clock, PersonStanding } from 'lucide-react'
 import Image from 'next/image'
-import Options from '@/components/Options';
 import { startSession } from '@/app/actions/session';
 import { getPublicCaseBySlug } from '@/lib/cases';
-import { notFound } from 'next/navigation';
+import { getCurrentUser, isAdmin } from '@/lib/currentUser';
+import CasePrep from '@/models/CasePrep';
+import { notFound, redirect } from 'next/navigation';
 
 export default async function Page({ params }) {
   const { id } = await params;
 
-  const patient = await getPublicCaseBySlug(id);
+  const user = await getCurrentUser();
+  if (!user) redirect('/signin');
+
+  const patient = await getPublicCaseBySlug(id, { includeDrafts: isAdmin(user) });
   if (!patient) notFound();
   const caseId = patient._id;
 
+  // The student's saved confidence ratings and consultation plan for this case
+  const prep = await CasePrep.findOne({ user: user._id, case: caseId }).lean();
+  const initialRatings = prep?.confidence ? Object.fromEntries(Object.entries(prep.confidence)) : {};
+
+  const age = patient.aiScenario?.patient?.age;
+
   return (
     <div className="min-h-screen text-black flex flex-col justify-center items-center p-8 gap-6 sm:min-w-200 w-full">
+      {!patient.isPublished &&
+        <div className='w-full max-w-350 rounded-lg border border-yellow-300 bg-yellow-50 p-3 text-sm text-yellow-800'>
+          Draft: only admins can see this case. Publish it from the admin dashboard to make it available to students.
+        </div>}
       <div className='flex justify-between max-w-350 w-full'>
         <div className='sm:flex'>
           <div className='flex justify-between'>
-            <Image height={100} width={200} alt='person' src={'/cases/person.png'}
-              className='h-30 w-36'
+            <Image height={100} width={200} alt={patient.title} src={patient.image || '/cases/person.png'}
+              className='h-30 w-36 object-cover rounded-lg'
             />
             <form action={startSession} className='sm:hidden'>
               <input type="hidden" name="caseId" value={caseId} />
@@ -42,10 +58,11 @@ export default async function Page({ params }) {
             <div className='flex gap-1 text-blue-800'>
               <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'>{patient.difficulty}</div>
               <div className='flex justify-center items-center border rounded-lg p-1 bg-blue-100/30'><Clock className='w-4 h-4' /> <div>{patient.duration}</div></div>
-              <div className='border rounded-lg flex p-1 items-center justify-center bg-blue-100/30'>
-                <PersonStanding />
-                <div>Adult</div>
-              </div>
+              {age != null &&
+                <div className='border rounded-lg flex p-1 items-center justify-center bg-blue-100/30'>
+                  <PersonStanding />
+                  <div>{age >= 18 ? 'Adult' : 'Pediatric patient'}</div>
+                </div>}
             </div>
           </div>
         </div>
@@ -75,88 +92,19 @@ export default async function Page({ params }) {
       <div className="grid h-[calc(100vh-10rem)] sm:grid-cols-2 gap-6 p-6 w-full max-w-350">
 
         <div className="min-h-0 overflow-hidden w-full">
-          <PDFReader file={patient.pdfUrl} />
+          {patient.pdfUrl
+            ? <PDFReader file={patient.pdfUrl} />
+            : <div className='flex h-full items-center justify-center rounded-xl border border-gray-200 text-Secondary-Text'>No case document for this case.</div>}
         </div>
 
         <div className="min-h-0 overflow-y-auto rounded-xl border border-gray-200 bg-gray-100/20 p-6 max-w-150">
-
-          <div className=' border rounded-lg border-gray-200 bg-white p-6'>
-            <div className='flex justify-between text-blue-800 border-b border-gray-200 pb-4 mb-4'>
-              <div>How confident are you?</div>
-              <ChevronDown />
-            </div>
-            <div className='text-deep-blue text-sm'>
-              <div className='py-4'>Dietery Assessment</div>
-              <div className='flex gap-2'>
-                {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
-              </div>
-              <div className='flex justify-between text-gray-200 max-w-105'>
-                <div>Not confident</div>
-                <div>Very confident</div>
-              </div>
-            </div>
-
-            <div className='text-deep-blue text-sm'>
-              <div className='py-4'>Dietery Assessment</div>
-              <div className='flex gap-2'>
-                {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
-              </div>
-              <div className='flex justify-between text-gray-200 max-w-105'>
-                <div>Not confident</div>
-                <div>Very confident</div>
-              </div>
-            </div>
-
-            <div className='text-deep-blue text-sm'>
-              <div className='py-4'>History Taking</div>
-              <div className='flex gap-2'>
-                {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
-              </div>
-              <div className='flex justify-between text-gray-200 max-w-105'>
-                <div>Not confident</div>
-                <div>Very confident</div>
-              </div>
-            </div>
-
-            <div className='text-deep-blue text-sm'>
-              <div className='py-4'>Identifying and influences</div>
-              <div className='flex gap-2'>
-                {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
-              </div>
-              <div className='flex justify-between text-gray-200 max-w-105'>
-                <div>Not confident</div>
-                <div>Very confident</div>
-              </div>
-            </div>
-
-            <div className='text-deep-blue text-sm'>
-              <div className='py-4'>BDA diabetic model</div>
-              <div className='flex gap-2'>
-                {Array.from({ length: 5 }, (val, index) => (<Options key={index} number={index + 1} />))}
-              </div>
-              <div className='flex justify-between text-gray-200 max-w-105'>
-                <div>Not confident</div>
-                <div>Very confident</div>
-              </div>
-            </div>
-          </div>
+          <ConfidenceRatings caseId={caseId} initialRatings={initialRatings} />
         </div>
 
       </div>
 
       <div className='w-full max-w-350'>
-        <div className="sm:w-100 m-6 border border-gray-200 p-4 rounded-lg">
-          <div className='flex justify-between text-blue-800 border-b border-gray-200 pb-4 mb-4'>
-            <div>Consultation Plan</div>
-            <ChevronDown />
-          </div>
-          <textarea
-            className='border sm:w-80 sm:h-80 max-sm:w-60 max-sm:h-60 border-gray-200 rounded-lg p-4 outline-none'
-            placeholder='Add your consultation plan here...'
-          />
-          <button className='border border-gray-200 p-2 rounded-lg w-full bg-light-blue text-white'>Save</button>
-
-        </div>
+        <ConsultationPlan caseId={caseId} initialPlan={prep?.plan ?? ''} />
       </div>
 
     </div>

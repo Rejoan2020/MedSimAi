@@ -4,7 +4,7 @@ import React from 'react'
 import Stars from './Stars'
 import Link from 'next/link'
 
-export default function CaseCard({ title, slug, image, tags, specialty, difficulty, duration, patient, description, }) {
+export default function CaseCard({ title, slug, image, tags, specialty, difficulty, duration, patient, description, completedBy, bestScore }) {
     const cardSide = [
         {
             'title': 'Specialty',
@@ -12,15 +12,15 @@ export default function CaseCard({ title, slug, image, tags, specialty, difficul
         },
         {
             'title': 'Difficulty',
-            'value': <Stars />,
+            'value': <Stars difficulty={difficulty} />,
         },
         {
             'title': 'Completed by',
-            'value': '1042 learners',
+            'value': `${completedBy} ${completedBy === 1 ? 'learner' : 'learners'}`,
         },
         {
             'title': 'Your best score',
-            'value': '78%',
+            'value': bestScore === null ? 'Not completed yet' : `${bestScore}%`,
         }
     ]
 
@@ -49,7 +49,7 @@ export default function CaseCard({ title, slug, image, tags, specialty, difficul
                                 </div>
                                 <div className='border rounded-lg flex p-1 items-center justify-center w-full'>
                                     <PersonStanding className='w-4 h-4' />
-                                    <div>{patient.age >= 18 ? "Adult" : "Pediatric patient"}</div>
+                                    <div>{patient?.age == null ? "Patient" : patient.age >= 18 ? "Adult" : "Pediatric patient"}</div>
                                 </div>
                             </div>
                         </div>

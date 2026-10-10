@@ -1,12 +1,17 @@
 import React from 'react'
+import { redirect } from 'next/navigation';
 import Dashboard from './components/Dashboard'
-import { dbconnect } from '@/lib/mongo';
+import { getCurrentUser } from '@/lib/currentUser';
+import { getStudentDashboard } from '@/lib/stats';
 
 export default async function page() {
-  await dbconnect();
+  const user = await getCurrentUser();
+  if (!user) redirect('/signin');
+
+  const data = await getStudentDashboard(user._id);
   return (
     <div className='flex justify-center'>
-      <Dashboard />
+      <Dashboard name={user.name} data={data} />
     </div>
   )
 }

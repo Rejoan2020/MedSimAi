@@ -59,16 +59,16 @@ const CasesSchema = new mongoose.Schema({
                 default: [],
             },
 
-            // familyHistory: {
-            //     type: [String],
-            //     default: [],
-            // },
+            familyHistory: {
+                type: [String],
+                default: [],
+            },
 
-            // socialHistory: {
-            //     smoking: String,
-            //     alcohol: String,
-            //     occupation: String,
-            // },
+            socialHistory: {
+                smoking: String,
+                alcohol: String,
+                occupation: String,
+            },
         },
 
         behavior: {

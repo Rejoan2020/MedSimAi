@@ -24,16 +24,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     return null;
                 }
                 await dbconnect();
-                
+
+                // Emails are stored lowercase (see app/actions/adminUsers.js)
                 const user = await User.findOne({
-                    email: credentials.email,
+                    email: String(credentials.email).trim().toLowerCase(),
                 });
 
-                
-                console.log(credentials.email)
-
+                // Same response for unknown emails and wrong passwords, so sign-in
+                // can't be used to discover which emails have accounts
                 if (!user) {
-                    throw new Error("Invalid credentials.")
+                    return null;
                 }
 
                 const passwordValid = await bcrypt.compare(

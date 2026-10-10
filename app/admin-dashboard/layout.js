@@ -1,16 +1,13 @@
 import React from 'react'
-import { redirect } from 'next/navigation'
 import Sidebar from '../components/Sidebar'
-import { getCurrentUser, isAdmin } from '@/lib/currentUser'
+import { requireAdminPage } from '@/lib/currentUser'
 
 export default async function layout({ children }) {
-    const user = await getCurrentUser();
-    if (!user) redirect('/signin');
-    if (!isAdmin(user)) redirect('/dashboard');
+    const user = await requireAdminPage();
 
     return (
         <div className="h-screen flex overflow-hidden">
-            <Sidebar name={user.name} email={user.email} />
+            <Sidebar name={user.name} email={user.email} variant="admin" />
             <div className="flex-1 overflow-y-auto">
                 {children}
             </div>

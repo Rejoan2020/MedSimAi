@@ -1,9 +1,10 @@
 import { ChevronRight, Triangle } from 'lucide-react'
 import React from 'react'
+import Link from 'next/link'
 
-export default function CaseCard({ title, type, level, result }) {
+export default function CaseCard({ href, title, type, level, result }) {
     return (
-        <div className="group cursor-pointer rounded-xl border border-[#F0F4FE] bg-brand-primary p-4 transition-all duration-200 hover:border-light-blue/30 hover:bg-brand-secondary hover:shadow-sm">
+        <Link href={href} className="group block cursor-pointer rounded-xl border border-[#F0F4FE] bg-brand-primary p-4 transition-all duration-200 hover:border-light-blue/30 hover:bg-brand-secondary hover:shadow-sm">
 
             <div className="flex items-center justify-between gap-4"> 
                 <div className="min-w-0">
@@ -44,6 +45,6 @@ export default function CaseCard({ title, type, level, result }) {
 
             </div>
 
-        </div>
+        </Link>
     )
 }

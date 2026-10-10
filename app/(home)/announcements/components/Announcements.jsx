@@ -1,42 +1,9 @@
 import React from 'react'
 import { Bell, CalendarDays, ChevronRight } from 'lucide-react'
 
-const announcements = [
-    {
-        id: 1,
-        title: 'New Clinical Cases Available',
-        description:
-            'Three new clinical simulation cases have been added to the Respiratory and Cardiology modules.',
-        date: 'August 24, 2026',
-        type: 'New Cases',
-    },
-    {
-        id: 2,
-        title: 'System Maintenance',
-        description:
-            'MedSimAI will undergo scheduled maintenance on August 28 from 2:00 AM to 4:00 AM.',
-        date: 'August 22, 2026',
-        type: 'Maintenance',
-    },
-    {
-        id: 3,
-        title: 'Updated Simulation Feedback',
-        description:
-            'We have improved the AI feedback system to provide more detailed recommendations after each simulation.',
-        date: 'August 20, 2026',
-        type: 'Update',
-    },
-    {
-        id: 4,
-        title: 'New Learning Path Available',
-        description:
-            'A new Emergency Medicine learning path is now available for students.',
-        date: 'August 18, 2026',
-        type: 'Learning Path',
-    },
-]
 
-export default function Announcements() {
+
+export default function Announcements({ announcements }) {
     return (
         <div className="w-full px-8 py-8 text-black">
 
@@ -63,9 +30,13 @@ export default function Announcements() {
             {/* Announcement list */}
             <div className="flex max-w-4xl flex-col gap-4">
 
+                {announcements.length === 0 && (
+                    <p className="text-sm text-Secondary-Text">No announcements right now.</p>
+                )}
+
                 {announcements.map((announcement) => (
                     <div
-                        key={announcement.id}
+                        key={announcement._id}
                         className="group rounded-xl border border-gray-200 bg-white p-6 transition hover:border-light-blue/40 hover:shadow-sm"
                     >
 
@@ -90,7 +61,7 @@ export default function Announcements() {
                                 {/* Date */}
                                 <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
                                     <CalendarDays className="h-4 w-4" />
-                                    {announcement.date}
+                                    {new Date(announcement.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                                 </div>
 
                             </div> 

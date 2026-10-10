@@ -108,7 +108,7 @@ export default async function Page({ params, searchParams }) {
                     </div>
 
                     <div className="min-h-0 flex-1 overflow-y-auto">
-                        <Note />
+                        <Note attemptId={caseAttempt._id.toString()} initialNotes={caseAttempt.notes ?? ""} />
                     </div>
 
                 </aside>

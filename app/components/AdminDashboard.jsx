@@ -1,112 +1,84 @@
-'use client'
 import React from 'react'
-import Header from '../admin-dashboard/components/Header'
 import Card from '../admin-dashboard/components/Card'
-import Footer from '../admin-dashboard/components/Footer'
-import { slugify } from '@/utils/slugify'
 import Link from 'next/link'
 
-export default function Dashboard() {
+export default function Dashboard({ overview }) {
     const cards = [
         {
             'title': 'Total enrolled students',
-            'number': 214,
+            'number': overview.totalStudents,
             'icon': '/icons/students.svg',
         },
         {
-            'title': 'Total completed students',
-            'number': 32,
+            'title': 'Students who completed a case',
+            'number': overview.studentsCompleted,
             'icon': '/icons/completed.svg',
         },
         {
             'title': 'Average Score',
-            'number': 67,
+            'number': overview.averageScore === null ? '–' : `${overview.averageScore}%`,
             'icon': '/icons/medal.svg',
         },
         {
-            'title': 'Students at Risk',
-            'number': 214,
+            'title': `Students at Risk (avg < ${overview.atRiskThreshold}%)`,
+            'number': overview.studentsAtRisk,
             'icon': '/icons/risk.svg',
         },
-
     ]
-    const cases = [
-        {
-            id: 1,
-            title: "Shortness of Breath",
-            slug: slugify("Shortness of Breath"),
-            image: '/cases/lungs.png',
-            specialty: "Respiratory",
-            difficulty: "Beginner",
-            duration: "10 minutes",
-            patient: {
-                age: 45,
-                gender: "Male"
-            },
-            chiefComplaint: "Progressive shortness of breath for 3 days.",
-            description:
-                "A 45-year-old man presents with worsening shortness of breath accompanied by cough and fever.",
-            tags: ["History Taking", "Respiratory", "Diagnosis"],
-            status: "Not Started"
-        },
-        {
-            id: 2,
-            title: "Acute Chest Pain",
-            slug: slugify("Acute Chest Pain"),
-            image: '/cases/chestt.jpg',
-            specialty: "Cardiology",
-            difficulty: "Intermediate",
-            duration: "15 minutes",
-            patient: {
-                age: 58,
-                gender: "Male"
-            },
-            chiefComplaint: "Sudden onset of chest pain for 30 minutes.",
-            description:
-                "A 58-year-old man presents to the emergency department with severe central chest pain radiating to his left arm.",
-            tags: ["History Taking", "Emergency", "Cardiology"],
-            status: "Not Started"
-        },
-        {
-            id: 3,
-            title: "Severe Headache",
-            slug: slugify("Severe Headache"),
-            image: '/cases/headache.webp',
-            specialty: "Neurology",
-            difficulty: "Beginner",
-            duration: "20 minutes",
-            patient: {
-                age: 32,
-                gender: "Female"
-            },
-            chiefComplaint: "Sudden severe headache with nausea and vomiting.",
-            description:
-                "A 32-year-old woman presents with a sudden, severe headache that began earlier today.",
-            tags: ["History Taking", "Neurology", "Investigation"],
-            status: "Not Started"
-        }
-    ];
 
     return (
         <div className='p-10 w-full'>
-            <div className='mb-10'>
-                <a className='text-[#717680]'>Learning paths {'>'} </a>
-                E2E Test path</div>
             <div className='flex flex-col gap-4'>
-                <Header />
-                <div>
-                    <Link href={'/admin-dashboard/create-new-case'} className='text-black border p-2 bg-green-500 text-white rounded-lg'>
+                <div className='flex flex-wrap items-center justify-between gap-4'>
+                    <div>
+                        <div className='text-[28px] font-medium'>Case Library</div>
+                        <div className='text-[#717680]'>
+                            {overview.cases.length} {overview.cases.length === 1 ? 'case' : 'cases'}
+                        </div>
+                    </div>
+                    <Link href={'/admin-dashboard/create-new-case'} className='border p-2 bg-green-500 text-white rounded-lg'>
                         Create a new case
                     </Link>
-                </div>
-                <div className='h-14 w-80 border mt-4 flex justify-center items-center border border-[#F0F4FE] rounded-full bg-[#FFFFFF]'>
-                    <div className='border h-10 w-38 rounded-full flex justify-center items-center bg-[#6796F2] text-white'>Overview</div>
-                    <div className='border-0 h-10 w-38 rounded-full flex justify-center items-center'>Students</div>
                 </div>
                 <div className='grid md:grid-cols-2 xl:grid-cols-4 gap-2'>
                     {cards.map((card, index) => <Card key={index} title={card.title} number={card.number} icon={card.icon} />)}
                 </div>
-                <Footer />
+
+                <div className='border-1 border-[#F0F4FE] rounded-xl p-4 overflow-x-auto'>
+                    <div className='text-[#2536A8] font-medium text-[20px] py-4'>Cases</div>
+                    {overview.cases.length === 0
+                        ? <div className='text-Secondary-Text'>No cases yet. Create one to get started.</div>
+                        : <table className='w-full text-left text-sm'>
+                            <thead className='text-[#717680] border-b border-[#F0F4FE]'>
+                                <tr>
+                                    <th className='py-2 pr-4 font-normal'>Title</th>
+                                    <th className='py-2 pr-4 font-normal'>Specialty</th>
+                                    <th className='py-2 pr-4 font-normal'>Difficulty</th>
+                                    <th className='py-2 pr-4 font-normal'>Duration</th>
+                                    <th className='py-2 pr-4 font-normal'>Status</th>
+                                    <th className='py-2 pr-4 font-normal'>Attempts</th>
+                                    <th className='py-2 pr-4 font-normal'>Completed</th>
+                                    <th className='py-2 font-normal'>Avg score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {overview.cases.map((c) =>
+                                    <tr key={c._id} className='border-b border-[#F0F4FE]'>
+                                        <td className='py-2 pr-4'>
+                                            <Link href={`/admin-dashboard/cases/${c._id}/edit`} className='text-light-blue hover:underline'>{c.title}</Link>
+                                        </td>
+                                        <td className='py-2 pr-4'>{c.specialty || '–'}</td>
+                                        <td className='py-2 pr-4'>{c.difficulty || '–'}</td>
+                                        <td className='py-2 pr-4'>{c.duration || '–'}</td>
+                                        <td className='py-2 pr-4'>{c.isPublished ? 'Published' : 'Draft'}</td>
+                                        <td className='py-2 pr-4'>{c.attempts}</td>
+                                        <td className='py-2 pr-4'>{c.completions}</td>
+                                        <td className='py-2'>{c.averageScore === null ? '–' : `${c.averageScore}%`}</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>}
+                </div>
             </div>
         </div>
     )

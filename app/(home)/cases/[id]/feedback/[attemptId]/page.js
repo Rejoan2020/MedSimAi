@@ -54,6 +54,7 @@ export default async function page({ params }) {
         <Feedback
             feedback={feedback}
             messages={(caseAttempt.messages ?? []).map(({ role, content }) => ({ role, content }))}
+            notes={caseAttempt.notes ?? ""}
         />
     )
 }

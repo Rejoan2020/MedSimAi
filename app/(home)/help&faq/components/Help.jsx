@@ -2,7 +2,7 @@ import React from 'react'
 import { HelpCircle } from 'lucide-react'
 import FAQ from './FAQ'
 
-export default function Help() {
+export default function Help({ questions }) {
     return (
         <div className="w-full px-8 py-8 text-black h-screen"> 
             <div className="mb-8">
@@ -27,7 +27,7 @@ export default function Help() {
 
  
             <div className="max-w-4xl">
-                <FAQ />
+                <FAQ questions={questions} />
             </div>
 
         </div>

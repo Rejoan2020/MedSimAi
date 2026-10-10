@@ -7,7 +7,7 @@ import Levels from './Levels'
 import Modal from './Modal'
 import CaseCard from './CaseCard'
 
-export default function Cases({ data }) {
+export default function Cases({ data, stats = {} }) {
     const [keyword, setKeyword] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [difficulty, setDifficulty] = useState('All');
@@ -85,7 +85,9 @@ export default function Cases({ data }) {
                                 specialty={item.specialty}
                                 difficulty={item.difficulty}
                                 duration={item.duration}
-                                patient={23}
+                                patient={item.aiScenario?.patient}
+                                completedBy={stats[item._id]?.completedBy ?? 0}
+                                bestScore={stats[item._id]?.bestScore ?? null}
                                 description={item.description}
                                 tags={item.features}
                             />

@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation'
 import { isValidObjectId } from 'mongoose'
 import { dbconnect } from '@/lib/mongo'
-import { getCurrentUser } from '@/lib/currentUser'
+import { getCurrentUser, isAdmin } from '@/lib/currentUser'
 import Case from '@/models/Case'
 import CaseAttempt from '@/models/CaseAttempt'
 
@@ -17,9 +17,10 @@ export async function startSession(formData) {
     await dbconnect()
 
     const clinicalCase = isValidObjectId(caseId)
-        ? await Case.findById(caseId).select('slug').lean()
+        ? await Case.findById(caseId).select('slug isPublished').lean()
         : null;
-    if (!clinicalCase) {
+    // Students can only start published cases; admins can also try out drafts
+    if (!clinicalCase || (!clinicalCase.isPublished && !isAdmin(user))) {
         throw new Error('Case not found');
     }
 

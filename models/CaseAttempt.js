@@ -19,6 +19,12 @@ const caseAttemptSchema = new mongoose.Schema({
 
     abandonedAt: Date,
 
+    // The student's own notes taken during the session
+    notes: {
+        type: String,
+        default: '',
+    },
+
     status: {
         type: String,
         enum: ['started', 'completed', 'abandoned'],

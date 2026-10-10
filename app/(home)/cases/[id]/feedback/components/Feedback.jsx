@@ -12,7 +12,7 @@ const selfReflectionQuestions = [
     "What is the main thing you learned from this case?",
 ];
 
-export default function Feedback({ feedback, messages = [] }) {
+export default function Feedback({ feedback, messages = [], notes = "" }) {
     const [activeTab, setActiveTab] = useState('AI Feedback');
     const tabs = ['Tutor feedback', 'AI Feedback', 'Session Recording', 'Self Reflection'];
     const { overallScore, consultation, medicalKnowledge, communication, summary } = feedback;
@@ -56,6 +56,11 @@ export default function Feedback({ feedback, messages = [] }) {
                                 {msg.content}
                             </div>
                         )}
+                    {notes &&
+                        <div className='mt-4 border-t border-gray-200 pt-4'>
+                            <div className='font-semibold text-deep-blue'>Your notes</div>
+                            <div className='whitespace-pre-wrap'>{notes}</div>
+                        </div>}
                 </div>}
             {activeTab === 'Self Reflection' && selfReflectionQuestions.map((question, idx) => <SelfReflection key={idx} question={question} />)}
 
