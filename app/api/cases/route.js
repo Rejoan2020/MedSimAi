@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import { getPublicCases } from "@/lib/cases";
 import { dbconnect } from "@/lib/mongo";
 import Case from "@/models/Case";
 import { NextResponse } from "next/server";
@@ -5,12 +7,19 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        await dbconnect();
-        const data = await Case.find();
+        const session = await auth();
+        if (!session?.user) {
+            return NextResponse.json({
+                success: false,
+                message: "Unauthorized",
+            }, { status: 401 })
+        }
+
+        const data = await getPublicCases();
         return NextResponse.json({
             success: true,
             data,
-        }, { status: 201 })
+        }, { status: 200 })
     } catch (err) {
         return NextResponse.json({
             success: false,

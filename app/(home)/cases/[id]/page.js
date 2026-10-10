@@ -7,8 +7,9 @@ import Options from '@/components/Options';
 import { auth } from '@/auth';
 import { startSession } from '@/app/actions/session';
 import User from '@/models/User';
-import Case from '@/models/Case';
 import { dbconnect } from '@/lib/mongo';
+import { getPublicCaseBySlug } from '@/lib/cases';
+import { notFound } from 'next/navigation';
 
 export default async function Page({ params }) {
   await dbconnect();
@@ -17,12 +18,9 @@ export default async function Page({ params }) {
   const user = await User.findOne({ email: session?.user.email });
   const userId = user._id.toString();
 
-  const cs = await Case.findOne({ slug: id });
-  const caseId = cs._id.toString();
-
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cases/${id}`);
-  const data = await response.json();
-  const patient = data.data;
+  const patient = await getPublicCaseBySlug(id);
+  if (!patient) notFound();
+  const caseId = patient._id;
 
   return (
     <div className="min-h-screen text-black flex flex-col justify-center items-center p-8 gap-6 sm:min-w-200 w-full">

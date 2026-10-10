@@ -1,22 +1,35 @@
-import { dbconnect } from "@/lib/mongo";
-import Case from "@/models/Case";
+import { auth } from "@/auth";
+import { getPublicCaseBySlug } from "@/lib/cases";
 import { NextResponse } from "next/server";
 
 
 export async function GET(request, { params }) {
     try {
-        await dbconnect();
+        const session = await auth();
+        if (!session?.user) {
+            return NextResponse.json({
+                success: false,
+                message: "Unauthorized",
+            }, { status: 401 })
+        }
+
         const { id } = await params;
-        console.log("id from route: ", id);
-        const data = await Case.findOne({ slug: id });
+        const data = await getPublicCaseBySlug(id);
+        if (!data) {
+            return NextResponse.json({
+                success: false,
+                message: "Case not found.",
+            }, { status: 404 })
+        }
+
         return NextResponse.json({
             success: true,
             data,
-        }, { status: 201 })
+        }, { status: 200 })
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: "Failed to get cases."
+            message: "Failed to get case."
         }, { status: 500 })
     }
 }
