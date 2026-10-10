@@ -172,6 +172,8 @@ IMPORTANT RULES:
 
         const aiMessage = response.text?.trim();
 
+        console.log(aiMessage);
+
         if (!aiMessage) {
             console.error("Unexpected Gemini response:", response);
             throw new Error("Gemini returned an empty response.");

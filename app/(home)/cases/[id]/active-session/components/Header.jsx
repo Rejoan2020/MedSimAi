@@ -49,20 +49,14 @@ export default function Header({ slug, title, attemptId, onToggleNotes }) {
                 isCompletedRef.current = true;
             }
 
-            const feedbackResponse = await fetch(
-                `/api/attempts/${attemptId}/feedback`,
-                {
-                    method: "POST",
-                }
-            );
-
-            const feedbackData = await feedbackResponse.json();
-
-            if (!feedbackResponse.ok || !feedbackData.success) {
-                throw new Error(
-                    feedbackData.message || "Failed to generate feedback"
-                );
-            } 
+            // Generate feedback now if possible. If the AI is busy, the feedback page
+            // offers a "Generate feedback" button, so a failure here isn't a dead end.
+            try {
+                const feedbackResponse = await fetch(`/api/attempts/${attemptId}/feedback`, { method: "POST" });
+                if (!feedbackResponse.ok) console.error("Feedback generation failed:", await feedbackResponse.text());
+            } catch (feedbackError) {
+                console.error("Feedback generation failed:", feedbackError);
+            }
 
             router.push(`/cases/${slug}/feedback/${attemptId}`);
         } catch (error) {
@@ -97,7 +91,7 @@ export default function Header({ slug, title, attemptId, onToggleNotes }) {
                         disabled={isStopping}
                     >
                         <StopCircle className='h-4 w-4' />
-                        {isStopping ? 'Ending...' : 'Stop session'}
+                        {isStopping ? 'Ending and scoring...' : 'Stop session'}
                     </button>
                 </div>
             </div>

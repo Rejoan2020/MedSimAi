@@ -3,6 +3,7 @@ import { isValidObjectId } from 'mongoose';
 import CaseAttempt from '@/models/CaseAttempt';
 import Case from '@/models/Case';
 import Feedback from '../components/Feedback'
+import GenerateFeedback from '../components/GenerateFeedback'
 import { dbconnect } from '@/lib/mongo';
 import { getCurrentUser } from '@/lib/currentUser';
 
@@ -34,18 +35,24 @@ export default async function page({ params }) {
     const caseAttempt = await CaseAttempt.findOne({ _id: attemptId, user: user._id }).lean();
     if (!caseAttempt) notFound();
 
+    const clinicalCase = await Case.findById(caseAttempt.case).select('title slug').lean();
+
     const stored = caseAttempt.feedback;
     if (stored?.overallScore == null) {
         return (
-            <div className='mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8'>
-                <div className='rounded-xl border border-gray-200 bg-white p-6 text-Secondary-Text'>
-                    Feedback for this session is not available yet.
+            <div className='mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-6 sm:px-6 lg:px-8 lg:py-8'>
+                <div>
+                    <h1 className='text-2xl font-semibold'>Session feedback</h1>
+                    {clinicalCase && <p className='text-Secondary-Text'>{clinicalCase.title}</p>}
                 </div>
+                {caseAttempt.status === 'completed'
+                    ? <GenerateFeedback attemptId={attemptId} />
+                    : <div className='rounded-xl border border-gray-200 bg-white p-6 text-Secondary-Text'>
+                        Feedback is available once the session has been completed.
+                    </div>}
             </div>
         )
     }
-
-    const clinicalCase = await Case.findById(caseAttempt.case).select('title slug').lean();
 
     const feedback = {
         overallScore: stored.overallScore,
