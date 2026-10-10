@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { dbconnect } from "@/lib/mongo";
-import openai from "@/lib/openai";
-import anthropic from "@/lib/anthropic";
+import ai from "@/lib/gemini";
 
 import CaseAttempt from "@/models/CaseAttempt";
 import Case from "@/models/Case";
@@ -101,10 +100,10 @@ export async function POST(req) {
             );
         }
 
-        // Convert previous messages into OpenAI/OpenRouter format
+        // Convert previous messages into Gemini format
         const history = attempt.messages.map((msg) => ({
-            role: msg.role === "student" ? "user" : "assistant",
-            content: msg.content,
+            role: msg.role === "student" ? "user" : "model",
+            parts: [{ text: msg.content }],
         }));
 
         // System instructions for the simulated patient
@@ -142,41 +141,26 @@ IMPORTANT RULES:
 - Respond as the patient, not as an AI assistant.
 `;
 
-        // Build conversation
-        const messages = [
-            {
-                role: "system",
-                content: instructions,
-            },
-            ...history,
-            {
-                role: "user",
-                content: message.trim(),
-            },
-        ];
-
-        const completion = await anthropic.messages.create({
-            model: "claude-opus-4-8",
-            max_tokens: 500,
-            system: instructions,
-            messages: [
+        const response = await ai.models.generateContent({
+            model: "gemini-3.5-flash",
+            contents: [
                 ...history,
                 {
                     role: "user",
-                    content: message.trim(),
+                    parts: [{ text: message.trim() }],
                 },
             ],
+            config: {
+                systemInstruction: instructions,
+                maxOutputTokens: 1024,
+            },
         });
 
-        const aiMessage = completion.content
-            ?.filter((item) => item.type === "text")
-            ?.map((item) => item.text)
-            ?.join("")
-            ?.trim();
+        const aiMessage = response.text?.trim();
 
         if (!aiMessage) {
-            console.error("Unexpected AgentRouter response:", completion);
-            throw new Error("AgentRouter returned an empty response.");
+            console.error("Unexpected Gemini response:", response);
+            throw new Error("Gemini returned an empty response.");
         }
 
         // Save student's message
@@ -198,16 +182,6 @@ IMPORTANT RULES:
             message: aiMessage,
         });
     } catch (error) {
-        console.log("KEY EXISTS:", !!process.env.AGENTROUTER_API_KEY);
-        console.log(
-            "KEY PREFIX:",
-            process.env.AGENTROUTER_API_KEY?.slice(0, 8)
-        );
-        console.log(
-            "KEY LENGTH:",
-            process.env.AGENTROUTER_API_KEY?.length
-        );
-        console.log(error)
         console.error("AI consultation error:", error);
 
         return NextResponse.json(
