@@ -1,20 +1,15 @@
 import React from 'react'
 
 // Horizontal bar for a section score out of 10
-export default function PerformanceIndicator({ score }) {
+export default function PerformanceIndicator({ score, color = 'var(--color-light-blue)' }) {
   const percentage = Math.max(0, Math.min(100, score * 10));
   return (
     <div
-      className='h-2.5 w-full rounded-full'
+      className='h-2 w-full overflow-hidden rounded-full bg-brand-secondary/60'
       role='img'
       aria-label={`${score} out of 10`}
-      style={{
-        background: `linear-gradient(
-          to right,
-          var(--color-light-blue) 0 ${percentage}%,
-          var(--color-brand-secondary) ${percentage}% 100%
-        )`,
-      }}
-    />
+    >
+      <div className='h-full rounded-full' style={{ width: `${percentage}%`, backgroundColor: color }} />
+    </div>
   )
 }

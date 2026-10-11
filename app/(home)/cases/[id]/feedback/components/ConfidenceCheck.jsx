@@ -1,4 +1,6 @@
 import React from 'react'
+import { Gauge } from 'lucide-react'
+import { IconTile } from './ui'
 
 const VERDICTS = {
     calibrated: { label: 'Well calibrated', className: 'bg-green-100 text-green-700' },
@@ -12,8 +14,13 @@ export default function ConfidenceCheck({ rows }) {
 
     return (
         <section className='rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6'>
-            <div className='eyebrow'>Self-assessment</div>
-            <h2 className='mt-0.5 text-lg font-bold'>Confidence check</h2>
+            <div className='flex items-center gap-3'>
+                <IconTile icon={Gauge} />
+                <div>
+                    <div className='eyebrow'>Self-assessment</div>
+                    <h2 className='mt-0.5 text-lg font-bold leading-tight'>Confidence check</h2>
+                </div>
+            </div>
             <p className='mt-1 text-sm text-Secondary-Text'>
                 {overconfident.length > 0
                     ? `You rated yourself higher than you scored in ${overconfident.join(' and ')}. These are worth extra practice.`

@@ -1,6 +1,6 @@
-import { Bone, SkeletonCard, SkeletonPage, SkeletonText } from '@/app/components/Skeleton'
+import { Bone, SkeletonPage, SkeletonText } from '@/app/components/Skeleton'
 
-// Mirrors the feedback page: title, tabs, overall score, then category cards
+// Mirrors the feedback page: title, tabs, overall score hero, then category cards
 export default function Loading() {
     return (
         <SkeletonPage label='Loading feedback'>
@@ -10,25 +10,39 @@ export default function Loading() {
                 <Bone className='h-8 w-56' />
                 <Bone className='h-4 w-36' />
             </div>
-            <div className='grid grid-cols-2 gap-1 rounded-xl border border-brand-secondary bg-white p-1 sm:grid-cols-4'>
-                {[0, 1, 2, 3].map((i) => <Bone key={i} className='h-9' />)}
+            <div className='grid grid-cols-2 gap-1 rounded-2xl border border-brand-secondary bg-white p-1 sm:grid-cols-4'>
+                {[0, 1, 2, 3].map((i) => <Bone key={i} className='h-10 rounded-xl' />)}
             </div>
-            <SkeletonCard className='flex flex-col gap-3'>
-                <Bone className='h-4 w-24' />
-                <Bone className='h-9 w-24' />
-                <SkeletonText lines={2} />
-            </SkeletonCard>
+            <div className='hero-gradient flex flex-col gap-6 rounded-3xl p-5 sm:p-8 lg:flex-row lg:items-center lg:gap-10'>
+                <div className='flex flex-col items-center gap-5 sm:flex-row lg:flex-1'>
+                    <Bone className='h-36 w-36 shrink-0 rounded-full bg-white/15 sm:h-40 sm:w-40' />
+                    <div className='flex w-full flex-col gap-3'>
+                        <Bone className='h-3 w-24 bg-white/15' />
+                        <Bone className='h-7 w-32 bg-white/15' />
+                        <Bone className='h-4 w-full bg-white/15' />
+                        <Bone className='h-4 w-4/5 bg-white/15' />
+                    </div>
+                </div>
+                <div className='grid gap-2 sm:grid-cols-3 lg:w-80 lg:grid-cols-1'>
+                    {[0, 1, 2].map((i) => <Bone key={i} className='h-14 rounded-xl bg-white/15' />)}
+                </div>
+            </div>
             {[0, 1, 2].map((i) =>
                 <div key={i} className='overflow-hidden rounded-2xl border border-brand-secondary bg-white'>
-                    <div className='flex items-center justify-between border-b border-brand-secondary bg-brand-primary/50 px-4 py-3 sm:px-6'>
-                        <Bone className='h-5 w-36 bg-white' />
-                        <Bone className='h-8 w-28 rounded-full bg-white' />
+                    <div className='flex items-center gap-3 border-b border-brand-secondary px-4 py-4 sm:px-6'>
+                        <Bone className='h-11 w-11 rounded-xl' />
+                        <div className='flex flex-col gap-2'>
+                            <Bone className='h-5 w-36' />
+                            <Bone className='h-3 w-48' />
+                        </div>
                     </div>
-                    <div className='flex flex-col items-center gap-5 p-4 sm:flex-row sm:p-6'>
-                        <Bone className='h-28 w-28 shrink-0 rounded-full sm:h-32 sm:w-32' />
-                        <div className='flex w-full flex-col gap-3'>
-                            <Bone className='h-5 w-28' />
-                            <SkeletonText lines={2} />
+                    <div className='flex flex-col gap-6 p-4 sm:p-6 lg:flex-row lg:gap-8'>
+                        <div className='flex flex-col items-center gap-4 sm:flex-row lg:w-2/5 lg:flex-col lg:items-start'>
+                            <Bone className='h-28 w-28 shrink-0 rounded-full sm:h-32 sm:w-32' />
+                            <div className='w-full'><SkeletonText lines={3} /></div>
+                        </div>
+                        <div className='flex flex-1 flex-col gap-3'>
+                            {[0, 1, 2].map((j) => <Bone key={j} className='h-16 rounded-xl' />)}
                         </div>
                     </div>
                 </div>)}

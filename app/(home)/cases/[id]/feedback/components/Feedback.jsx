@@ -1,12 +1,13 @@
 'use client'
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, BrainCircuit, GraduationCap, MessageCircleHeart, NotebookPen, ScrollText, Sparkles, Stethoscope } from 'lucide-react';
 import CategoryCard from './CategoryCard';
 import PlanReview from './PlanReview';
 import ConfidenceCheck from './ConfidenceCheck';
 import SelfReflection from './SelfReflection';
-import { PageContainer } from '@/app/components/PageHeader';
+import { HeroBanner, PageContainer } from '@/app/components/PageHeader';
+import { ScoreRing, scoreBand } from './ui';
 
 const selfReflectionQuestions = [
     "What do you think you did well during this consultation?",
@@ -15,12 +16,27 @@ const selfReflectionQuestions = [
     "What is the main thing you learned from this case?",
 ];
 
-const TABS = ['AI Feedback', 'Session Recording', 'Self Reflection', 'Tutor feedback'];
+const TABS = [
+    { name: 'AI Feedback', short: 'AI Feedback', icon: Sparkles },
+    { name: 'Session Recording', short: 'Recording', icon: ScrollText },
+    { name: 'Self Reflection', short: 'Reflection', icon: NotebookPen },
+    { name: 'Tutor feedback', short: 'Tutor', icon: GraduationCap },
+];
+
+// The three scored categories, in the order they're shown
+const CATEGORIES = [
+    { id: 'consultation', key: 'consultation', title: 'Consultation', subtitle: 'History taking, structure and coverage', icon: Stethoscope },
+    { id: 'clinical-reasoning', key: 'medicalKnowledge', title: 'Clinical Reasoning', subtitle: 'Differentials, red flags and next steps', icon: BrainCircuit },
+    { id: 'communication', key: 'communication', title: 'Communication', subtitle: 'Rapport, empathy and clear language', icon: MessageCircleHeart },
+];
 const panelClass = 'rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6';
 
 export default function Feedback({ feedback, messages = [], notes = "", caseTitle, caseSlug, plan = "", planReview = null, confidenceRows = [] }) {
     const [activeTab, setActiveTab] = useState('AI Feedback');
-    const { overallScore, consultation, medicalKnowledge, communication, summary } = feedback;
+    // Category cards start collapsed; each opens independently
+    const [openSections, setOpenSections] = useState({});
+    const toggleSection = (id) => setOpenSections((prev) => ({ ...prev, [id]: !prev[id] }));
+    const { overallScore, summary } = feedback;
 
     return (
         <PageContainer>
@@ -35,28 +51,49 @@ export default function Feedback({ feedback, messages = [], notes = "", caseTitl
             </div>
 
             <div role='tablist' className='grid grid-cols-2 gap-1 rounded-2xl border border-brand-secondary bg-white p-1 sm:grid-cols-4'>
-                {TABS.map((tab) =>
+                {TABS.map(({ name, short, icon: Icon }) =>
                     <button
-                        key={tab}
+                        key={name}
                         role='tab'
-                        aria-selected={activeTab === tab}
-                        className={`rounded-lg px-3 py-2 text-sm font-medium cursor-pointer ${activeTab === tab ? 'bg-light-blue text-white' : 'text-gray-700 hover:bg-gray-100'}`}
-                        onClick={() => setActiveTab(tab)}
+                        aria-selected={activeTab === name}
+                        className={`flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium cursor-pointer ${activeTab === name ? 'bg-light-blue text-white shadow-sm' : 'text-gray-700 hover:bg-brand-primary'}`}
+                        onClick={() => setActiveTab(name)}
                     >
-                        {tab}
+                        <Icon className='h-4 w-4 shrink-0' aria-hidden />
+                        <span className='sm:hidden'>{short}</span>
+                        <span className='hidden sm:inline'>{name}</span>
                     </button>
                 )}
             </div>
 
             {activeTab === 'AI Feedback' && <>
-                <div className={`${panelClass} flex flex-col gap-2`}>
-                    <div className='text-sm text-Secondary-Text'>Overall score</div>
-                    <div className='text-3xl font-semibold text-green-600'>{overallScore}<span className='text-lg text-Secondary-Text'>/100</span></div>
-                    {summary && <p className='text-gray-700'>{summary}</p>}
-                </div>
-                <CategoryCard title='Consultation' category={consultation} />
-                <CategoryCard title='Clinical Reasoning' category={medicalKnowledge} />
-                <CategoryCard title='Communication' category={communication} />
+                <HeroBanner className='p-5 sm:p-8'>
+                    <div className='flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10'>
+                        <div className='flex flex-col items-center gap-5 text-center sm:flex-row sm:text-left lg:flex-1'>
+                            <ScoreRing score={overallScore} size='lg' dark />
+                            <div className='min-w-0'>
+                                <div className='text-xs font-semibold uppercase tracking-[0.12em] text-white/70'>Overall score</div>
+                                <div className='mt-1 text-2xl font-bold text-white'>{scoreBand(overallScore).label}</div>
+                                {summary && <p className='mt-2 leading-relaxed text-white/85'>{summary}</p>}
+                            </div>
+                        </div>
+
+                        <nav aria-label='Score breakdown' className='grid gap-2 sm:grid-cols-3 lg:w-80 lg:grid-cols-1'>
+                            {CATEGORIES.map(({ id, key, title, icon: Icon }) =>
+                                <a key={id} href={`#${id}`} onClick={() => setOpenSections((prev) => ({ ...prev, [id]: true }))} className='glass flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/20'>
+                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15'>
+                                        <Icon className='h-4 w-4 text-white' aria-hidden />
+                                    </span>
+                                    <span className='min-w-0 flex-1 truncate text-sm font-medium text-white'>{title}</span>
+                                    <span className='text-lg font-bold text-white'>{feedback[key].score}</span>
+                                </a>)}
+                        </nav>
+                    </div>
+                </HeroBanner>
+
+                {CATEGORIES.map(({ id, key, title, subtitle, icon }) =>
+                    <CategoryCard key={id} id={id} title={title} subtitle={subtitle} icon={icon} category={feedback[key]}
+                        open={!!openSections[id]} onToggle={() => toggleSection(id)} />)}
                 {plan && <PlanReview plan={plan} review={planReview} />}
                 {confidenceRows.length > 0 && <ConfidenceCheck rows={confidenceRows} />}
             </>}

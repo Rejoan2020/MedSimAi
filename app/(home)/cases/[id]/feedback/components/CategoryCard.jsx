@@ -1,55 +1,73 @@
 'use client'
 
-import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
-import ResponsiveCircle from '@/components/ResponsiveCircle'
+import PerformanceIndicator from '@/components/PerformanceIndicator'
 import Details from './Details'
+import { IconTile, ScoreRing, scoreBand } from './ui'
 
-// Same bands the AI evaluator is told to use (see the feedback route's prompt)
-function scoreLabel(score) {
-    if (score >= 90) return { text: 'Excellent', className: 'text-green-700' }
-    if (score >= 80) return { text: 'Very good', className: 'text-green-600' }
-    if (score >= 70) return { text: 'Good', className: 'text-light-blue' }
-    if (score >= 60) return { text: 'Needs significant improvement', className: 'text-amber-600' }
-    return { text: 'Poor', className: 'text-red-600' }
-}
-
-// One feedback category (consultation, clinical reasoning or communication)
-export default function CategoryCard({ title, category }) {
-    const [showMore, setShowMore] = useState(false)
-    const label = scoreLabel(category.score)
+// One feedback category (consultation, clinical reasoning or communication); starts collapsed
+export default function CategoryCard({ id, title, subtitle, icon, category, open, onToggle }) {
+    const band = scoreBand(category.score)
 
     return (
-        <section className='overflow-hidden rounded-2xl border border-brand-secondary bg-white'>
-            <div className='flex items-center justify-between gap-4 border-b border-gray-100 bg-brand-primary px-4 py-3 sm:px-6'>
-                <h2 className='font-semibold text-deep-blue'>{title}</h2>
+        <section id={id} aria-labelledby={`${id}-title`} className='scroll-mt-6 overflow-hidden rounded-2xl border border-brand-secondary bg-white'>
+            <h2 id={`${id}-title`}>
                 <button
-                    type="button"
-                    onClick={() => setShowMore((prev) => !prev)}
-                    aria-expanded={showMore}
-                    className="flex items-center gap-1 rounded-lg bg-white px-3 py-1.5 text-sm ring-1 ring-gray-200 hover:bg-gray-50 cursor-pointer"
+                    type='button'
+                    onClick={onToggle}
+                    aria-expanded={open}
+                    aria-controls={`${id}-body`}
+                    className='flex w-full items-center gap-3 px-4 py-4 text-left hover:bg-brand-primary/40 cursor-pointer sm:px-6'
                 >
-                    {showMore ? 'Hide details' : 'Show details'}
-                    <ChevronDown className={`h-4 w-4 transition-transform ${showMore ? 'rotate-180' : ''}`} />
+                    <IconTile icon={icon} />
+                    <span className='min-w-0 flex-1'>
+                        <span className='block text-lg font-bold leading-tight'>{title}</span>
+                        <span className='block text-sm font-normal text-Secondary-Text'>{subtitle}</span>
+                    </span>
+                    <span className={`hidden shrink-0 rounded-full px-3 py-1 text-xs font-semibold sm:inline ${band.pill}`}>{band.label}</span>
+                    <span className='shrink-0 text-xl font-bold' style={{ color: band.color }}>{category.score}</span>
+                    <ChevronDown className={`h-5 w-5 shrink-0 text-Secondary-Text transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden />
                 </button>
-            </div>
+            </h2>
 
-            <div className='flex flex-col items-center gap-4 p-4 text-center sm:flex-row sm:items-center sm:gap-6 sm:p-6 sm:text-left'>
-                <ResponsiveCircle percentage={category.score} />
-                <div className='min-w-0'>
-                    <div className={`text-lg font-semibold ${label.className}`}>{label.text}</div>
-                    <p className='mt-1 text-Secondary-Text'>{category.description}</p>
-                </div>
-            </div>
+            {open &&
+                <div id={`${id}-body`} className='border-t border-brand-secondary'>
+                    <div className='flex flex-col gap-6 p-4 sm:p-6 lg:flex-row lg:items-start lg:gap-8'>
+                        <div className='flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left lg:w-2/5 lg:flex-col lg:items-start'>
+                            <ScoreRing score={category.score} />
+                            <div className='min-w-0'>
+                                <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold sm:hidden ${band.pill}`}>{band.label}</span>
+                                <p className='mt-2 leading-relaxed text-gray-700 sm:mt-0'>{category.description}</p>
+                            </div>
+                        </div>
 
-            {showMore &&
-                <div className='border-t border-gray-100 p-4 sm:p-6'>
-                    <Details
-                        performance={category.performance}
-                        strengths={category.strengths}
-                        improvements={category.improvements}
-                        recommendations={category.recommendations}
-                    />
+                        {category.performance.length > 0 &&
+                            <div className='flex-1'>
+                                <h3 className='pb-3 text-sm font-semibold'>Performance by section</h3>
+                                <ul className='flex flex-col gap-3'>
+                                    {category.performance.map((item, idx) =>
+                                        <li key={idx} className='rounded-xl bg-gray-50 p-3'>
+                                            <div className='flex justify-between gap-2 pb-2 text-sm'>
+                                                <span className='font-medium'>{item.section}</span>
+                                                <span className='shrink-0 font-semibold' style={{ color: scoreBand(item.score * 10).color }}>
+                                                    {item.score}<span className='font-normal text-Secondary-Text'>/{item.maxScore}</span>
+                                                </span>
+                                            </div>
+                                            <PerformanceIndicator score={item.score} color={scoreBand(item.score * 10).color} />
+                                            {item.details && <p className='pt-2 text-sm text-Secondary-Text'>{item.details}</p>}
+                                        </li>)}
+                                </ul>
+                            </div>}
+                    </div>
+
+                    {category.strengths.length + category.improvements.length + category.recommendations.length > 0 &&
+                        <div className='border-t border-brand-secondary p-4 sm:p-6'>
+                            <Details
+                                strengths={category.strengths}
+                                improvements={category.improvements}
+                                recommendations={category.recommendations}
+                            />
+                        </div>}
                 </div>}
         </section>
     )

@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, CircleAlert, CircleCheck, CircleX } from 'lucide-react'
+import { ChevronDown, CircleAlert, CircleCheck, CircleX, ClipboardList } from 'lucide-react'
+import { IconTile } from './ui'
 
 function PointList({ icon: Icon, iconClass, title, points, empty }) {
     return (
@@ -27,9 +28,12 @@ export default function PlanReview({ plan, review }) {
     return (
         <section className='rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6'>
             <div className='flex flex-wrap items-end justify-between gap-3'>
-                <div>
-                    <div className='eyebrow'>Consultation plan</div>
-                    <h2 className='mt-0.5 text-lg font-bold'>Your plan vs. what you did</h2>
+                <div className='flex items-center gap-3'>
+                    <IconTile icon={ClipboardList} />
+                    <div>
+                        <div className='eyebrow'>Consultation plan</div>
+                        <h2 className='mt-0.5 text-lg font-bold leading-tight'>Your plan vs. what you did</h2>
+                    </div>
                 </div>
                 <button
                     type='button'

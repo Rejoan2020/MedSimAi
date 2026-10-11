@@ -5,7 +5,9 @@ import React from 'react'
 
 // A single placeholder shape
 export function Bone({ className = '' }) {
-    return <div aria-hidden className={`animate-pulse rounded-lg bg-brand-primary motion-reduce:animate-none ${className}`} />
+    // A background passed in className replaces the default tint
+    const background = /(^|\s)bg-/.test(className) ? '' : 'bg-brand-primary'
+    return <div aria-hidden className={`animate-pulse rounded-lg ${background} motion-reduce:animate-none ${className}`} />
 }
 
 // Wraps a loading screen: announced once to screen readers, with the page's usual spacing
