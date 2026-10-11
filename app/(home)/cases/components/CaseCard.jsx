@@ -4,16 +4,18 @@ import React from 'react'
 import Stars from './Stars'
 import Link from 'next/link'
 
-export default function CaseCard({ title, slug, image, tags, specialty, difficulty, duration, patient, description, completedBy, bestScore }) {
+export default function CaseCard({ title, slug, image, tags, specialty, difficulty, duration, patient, description, completedBy, bestScore, priority = false }) {
     const patientType = patient?.age == null ? null : patient.age >= 18 ? 'Adult' : 'Pediatric'
 
     return (
         <article className='flex flex-col overflow-hidden rounded-2xl border border-brand-secondary bg-white transition hover:border-light-blue hover:shadow-[0_8px_30px_rgb(48_123_196_/_0.12)]'>
             <div className='flex flex-col gap-4 p-4 sm:flex-row sm:p-5'>
-                <div className='flex h-36 shrink-0 items-center justify-center rounded-xl bg-white ring-1 ring-brand-secondary sm:h-32 sm:w-32'>
+                {/* Case image fills its tile; cropped towards the top so faces and chests stay in view */}
+                <div className='relative h-44 shrink-0 overflow-hidden rounded-xl bg-brand-primary ring-1 ring-brand-secondary sm:h-32 sm:w-32'>
                     <Image
-                        height={112} width={112} alt='' src={image || '/cases/person.png'}
-                        className='h-28 w-28 object-contain sm:h-24 sm:w-24'
+                        fill alt='' src={image || '/cases/person.png'} priority={priority}
+                        sizes='(min-width: 640px) 128px, 100vw'
+                        className='object-cover object-[center_25%]'
                     />
                 </div>
 

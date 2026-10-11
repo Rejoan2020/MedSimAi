@@ -46,8 +46,8 @@ export default async function Page({ params }) {
         </div>}
 
       <section className='flex flex-col gap-5 rounded-2xl border border-brand-secondary bg-white p-4 sm:flex-row sm:items-center sm:p-6'>
-        <div className='flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-white ring-1 ring-gray-100'>
-          <Image height={80} width={80} alt='' src={patient.image || '/cases/person.png'} className='h-20 w-20 object-contain' />
+        <div className='relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl bg-brand-primary ring-1 ring-brand-secondary'>
+          <Image fill alt='' src={patient.image || '/cases/person.png'} sizes='112px' className='object-cover object-[center_25%]' />
         </div>
         <div className='flex min-w-0 flex-1 flex-col gap-2'>
           {patient.specialty && <div className='eyebrow'>{patient.specialty}</div>}

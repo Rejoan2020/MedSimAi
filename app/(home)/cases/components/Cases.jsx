@@ -101,7 +101,7 @@ export default function Cases({ data, stats = {} }) {
                     No cases match your search.
                 </div>
                 : <div className='grid gap-6 lg:grid-cols-2'>
-                    {filtered.map((item) => (
+                    {filtered.map((item, index) => (
                         <CaseCard
                             key={item._id}
                             title={item.title}
@@ -115,6 +115,7 @@ export default function Cases({ data, stats = {} }) {
                             bestScore={stats[item._id]?.bestScore ?? null}
                             description={item.description}
                             tags={item.features ?? []}
+                            priority={index === 0}
                         />
                     ))}
                 </div>}
