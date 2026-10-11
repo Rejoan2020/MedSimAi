@@ -3,8 +3,9 @@ import React from 'react'
 import Link from 'next/link'
 import SpecialtyIcon from '@/app/components/SpecialtyIcon'
 
-// Compact case row; fills with the primary blue on hover, like a selected department card
-export default function CaseCard({ href, title, type, level, result }) {
+// Compact case row; fills with the primary blue on hover, like a selected department card.
+// meta replaces the default "specialty · level" line; result is shown in a pill on the right.
+export default function CaseCard({ href, title, type, level, meta, result }) {
     return (
         <Link
             href={href}
@@ -17,15 +18,15 @@ export default function CaseCard({ href, title, type, level, result }) {
                 />
                 <div className="min-w-0">
                     <h3 className="truncate font-semibold text-deep-blue group-hover:text-white">{title}</h3>
-                    <div className="mt-0.5 text-sm text-Secondary-Text group-hover:text-white/85">
-                        {[type, level].filter(Boolean).join(' · ')}
+                    <div className="mt-0.5 truncate text-sm text-Secondary-Text group-hover:text-white/85">
+                        {meta ?? [type, level].filter(Boolean).join(' · ')}
                     </div>
                 </div>
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
                 {result !== undefined && result !== null && (
-                    <div className="rounded-full bg-brand-primary px-3 py-1 text-sm font-semibold text-light-blue group-hover:bg-white group-hover:text-light-blue">
+                    <div className="whitespace-nowrap rounded-full bg-brand-primary px-3 py-1 text-sm font-semibold text-light-blue group-hover:bg-white group-hover:text-light-blue">
                         {result}
                     </div>
                 )}

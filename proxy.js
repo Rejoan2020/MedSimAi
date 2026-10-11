@@ -27,6 +27,7 @@ export const config = {
         "/cases/:path*",
         "/announcements/:path*",
         "/help&faq/:path*",
+        "/attempts/:path*",
         "/admin-dashboard/:path*",
     ],
 }

@@ -42,6 +42,7 @@ export default async function Page({ params, searchParams }) {
             attemptId={caseAttempt._id.toString()}
             initialMessages={caseAttempt.messages.map(({ role, content }) => ({ role, content }))}
             initialNotes={caseAttempt.notes ?? ''}
+            startedAt={(caseAttempt.startedAt ?? caseAttempt.createdAt)?.toISOString()}
         />
     )
 }

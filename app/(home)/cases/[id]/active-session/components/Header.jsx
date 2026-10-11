@@ -4,24 +4,29 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 
-export default function Header({ slug, title, attemptId, onToggleNotes }) {
-    const [seconds, setSeconds] = useState(0);
+// "04:05", or "1:02:03" once past an hour
+function formatElapsed(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const pad = (n) => String(n).padStart(2, '0');
+    return hours > 0 ? `${hours}:${pad(minutes)}:${pad(seconds)}` : `${pad(minutes)}:${pad(seconds)}`;
+}
+
+export default function Header({ slug, title, attemptId, startedAt, onToggleNotes }) {
+    // The timer counts from when the session started, so resuming or refreshing continues it
+    const [now, setNow] = useState(() => Date.now());
     const [isStopping, setIsStopping] = useState(false);
     const [error, setError] = useState('');
     const isCompletedRef = useRef(false);
     const router = useRouter();
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setSeconds((prev) => {
-                return prev + 1;
-            })
-        }, 1000);
+        const interval = setInterval(() => setNow(Date.now()), 1000);
         return () => clearInterval(interval)
     }, [])
 
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
+    const elapsed = Math.max(0, Math.floor((now - new Date(startedAt ?? now).getTime()) / 1000));
 
     async function handleSession() {
         if (isStopping) return;
@@ -76,7 +81,8 @@ export default function Header({ slug, title, attemptId, onToggleNotes }) {
                 <div className='flex items-center gap-2'>
                     <div className='flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-sm tabular-nums text-Secondary-Text ring-1 ring-gray-200' aria-label='Session time'>
                         <Clock className='h-4 w-4' />
-                        {String(minutes).padStart(2, '0')}:{String(remainingSeconds).padStart(2, '0')}
+                        {/* Server and browser clocks differ by a moment; the next tick corrects it */}
+                        <span suppressHydrationWarning>{formatElapsed(elapsed)}</span>
                     </div>
                     <button
                         type='button'

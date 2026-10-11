@@ -8,15 +8,15 @@ import Note from './Note'
 
 // Chat plus notes. Notes are a side panel on large screens and a slide-up panel below,
 // using a single Note instance so unsaved text survives opening and closing it.
-export default function SessionWorkspace({ slug, title, attemptId, initialMessages, initialNotes }) {
+export default function SessionWorkspace({ slug, title, attemptId, startedAt, initialMessages, initialNotes }) {
     const [notesOpen, setNotesOpen] = useState(false)
 
     return (
         <div className="flex h-full min-h-0 w-full flex-col gap-3 p-3 sm:p-4 lg:p-6">
-            <Header slug={slug} title={title} attemptId={attemptId} onToggleNotes={() => setNotesOpen((v) => !v)} />
+            <Header slug={slug} title={title} attemptId={attemptId} startedAt={startedAt} onToggleNotes={() => setNotesOpen((v) => !v)} />
 
             <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-1 gap-4">
-                <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-brand-secondary bg-white">
+                <section aria-label="Consultation" className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-brand-secondary bg-white">
                     <div className="flex shrink-0 items-center gap-3 border-b border-gray-200 px-4 py-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-light-blue font-semibold text-white">
                             AI
@@ -31,7 +31,7 @@ export default function SessionWorkspace({ slug, title, attemptId, initialMessag
                     </div>
 
                     <ChatBox attemptId={attemptId} initialMessages={initialMessages} />
-                </main>
+                </section>
 
                 {notesOpen && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setNotesOpen(false)} />}
 

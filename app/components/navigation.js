@@ -4,6 +4,7 @@ import {
     CircleHelp,
     Eye,
     FileText,
+    History,
     LayoutDashboard,
     Megaphone,
     ShieldCheck,
@@ -26,6 +27,7 @@ export function getMenu(variant, isAdmin) {
     return [
         { icon: LayoutDashboard, title: 'Dashboard', link: '/dashboard' },
         { icon: Stethoscope, title: 'Cases', link: '/cases' },
+        { icon: History, title: 'My attempts', link: '/attempts' },
         { icon: Bell, title: 'Announcements', link: '/announcements' },
         { icon: CircleHelp, title: 'Help & FAQ', link: '/help&faq' },
         ...(isAdmin ? [{ icon: ShieldCheck, title: 'Admin', link: '/admin-dashboard' }] : []),

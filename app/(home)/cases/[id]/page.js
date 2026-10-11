@@ -10,6 +10,8 @@ import { startSession } from '@/app/actions/session';
 import { getPublicCaseBySlug } from '@/lib/cases';
 import { getCurrentUser, isAdmin } from '@/lib/currentUser';
 import CasePrep from '@/models/CasePrep';
+import { getStudentAttempts } from '@/lib/stats';
+import AttemptList from '../../components/AttemptList';
 import { PageContainer } from '@/app/components/PageHeader';
 import { notFound, redirect } from 'next/navigation';
 
@@ -24,7 +26,12 @@ export default async function Page({ params }) {
   const caseId = patient._id;
 
   // The student's saved confidence ratings and consultation plan for this case
-  const prep = await CasePrep.findOne({ user: user._id, case: caseId }).lean();
+  const [prep, attempts] = await Promise.all([
+    CasePrep.findOne({ user: user._id, case: caseId }).lean(),
+    getStudentAttempts(user._id, { caseId }),
+  ]);
+  // The newest unfinished attempt at this case, if any (attempts are newest first)
+  const inProgress = attempts.find((a) => a.status === 'started') ?? null;
   const initialRatings = prep?.confidence ? Object.fromEntries(Object.entries(prep.confidence)) : {};
 
   const age = patient.aiScenario?.patient?.age;
@@ -58,15 +65,31 @@ export default async function Page({ params }) {
               <span key={i} className='inline-flex items-center gap-1 rounded-full bg-brand-primary px-2.5 py-1 text-deep-blue'>{badge}</span>)}
           </div>
         </div>
-        <form action={startSession} className='sm:shrink-0'>
-          <input type="hidden" name="caseId" value={caseId} />
-          <button
-            type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-light-blue px-5 py-3 font-medium text-white hover:bg-blue-500 cursor-pointer sm:w-auto"
-          >
-            <Play className='h-4 w-4' /> Start Session
-          </button>
-        </form>
+        {/* With an unfinished attempt, resuming it is the main action; starting over is secondary */}
+        {inProgress
+          ? <div className='flex flex-col items-stretch gap-2 sm:shrink-0 sm:items-end'>
+            <Link
+              href={`/cases/${patient.slug}/active-session?attempt=${inProgress.attemptId}`}
+              className="flex items-center justify-center gap-2 rounded-full bg-light-blue px-5 py-3 font-medium text-white hover:bg-primary-dark"
+            >
+              <Play className='h-4 w-4' /> Resume session
+            </Link>
+            <form action={startSession}>
+              <input type="hidden" name="caseId" value={caseId} />
+              <button type="submit" className="w-full text-sm font-medium text-light-blue hover:text-primary-dark cursor-pointer sm:w-auto">
+                Start new attempt
+              </button>
+            </form>
+          </div>
+          : <form action={startSession} className='sm:shrink-0'>
+            <input type="hidden" name="caseId" value={caseId} />
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-light-blue px-5 py-3 font-medium text-white hover:bg-blue-500 cursor-pointer sm:w-auto"
+            >
+              <Play className='h-4 w-4' /> Start Session
+            </button>
+          </form>}
       </section>
 
       <div className="grid gap-6 lg:grid-cols-5">
@@ -81,6 +104,24 @@ export default async function Page({ params }) {
           <ConsultationPlan caseId={caseId} initialPlan={prep?.plan ?? ''} />
         </div>
       </div>
+
+      <section className='flex flex-col gap-4'>
+        <div className='flex flex-wrap items-end justify-between gap-2'>
+          <div>
+            <div className='eyebrow'>Your practice</div>
+            <h2 className='mt-0.5 text-xl font-bold'>Your attempts</h2>
+          </div>
+          {attempts.length > 5 &&
+            <Link href={`/attempts?case=${patient.slug}`} className='text-sm font-medium text-light-blue hover:text-primary-dark'>
+              View all {attempts.length}
+            </Link>}
+        </div>
+        <AttemptList
+          attempts={attempts.slice(0, 5)}
+          showCase={false}
+          emptyText="You haven't tried this case yet. Start a session when you're ready."
+        />
+      </section>
     </PageContainer>
   )
 }
