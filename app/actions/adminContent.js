@@ -2,11 +2,10 @@
 
 import { isValidObjectId } from 'mongoose'
 import { dbconnect } from '@/lib/mongo'
-import { getAdminUser } from '@/lib/currentUser'
+import { authorizeAdminAction } from '@/lib/currentUser'
 import Announcement from '@/models/Announcement'
 import Faq from '@/models/Faq'
 
-const NOT_ALLOWED = { success: false, message: 'Only admins can do this.' };
 const MAX_LENGTH = 5000;
 
 function cleanText(value) {
@@ -29,7 +28,8 @@ function toAnnouncement(values) {
 }
 
 export async function saveAnnouncement(id, values) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
 
     const { announcement, error } = toAnnouncement(values);
     if (error) return { success: false, message: error };
@@ -46,7 +46,8 @@ export async function saveAnnouncement(id, values) {
 }
 
 export async function deleteAnnouncement(id) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(id)) return { success: false, message: 'Announcement not found.' };
 
     await dbconnect();
@@ -57,7 +58,8 @@ export async function deleteAnnouncement(id) {
 // ---------- FAQ ----------
 
 export async function saveFaq(id, values) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
 
     const faq = { question: cleanText(values?.question), answer: cleanText(values?.answer) };
     if (!faq.question || !faq.answer) return { success: false, message: 'Question and answer are required.' };
@@ -76,7 +78,8 @@ export async function saveFaq(id, values) {
 }
 
 export async function deleteFaq(id) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(id)) return { success: false, message: 'Question not found.' };
 
     await dbconnect();
@@ -86,7 +89,8 @@ export async function deleteFaq(id) {
 
 // Swaps a question with its neighbour above (-1) or below (1)
 export async function moveFaq(id, direction) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(id) || ![-1, 1].includes(direction)) return { success: false, message: 'Invalid move.' };
 
     await dbconnect();

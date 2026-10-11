@@ -2,14 +2,12 @@
 
 import { isValidObjectId } from 'mongoose'
 import { dbconnect } from '@/lib/mongo'
-import { getAdminUser } from '@/lib/currentUser'
+import { authorizeAdminAction } from '@/lib/currentUser'
 import Case from '@/models/Case'
 import CaseAttempt from '@/models/CaseAttempt'
 import CasePrep from '@/models/CasePrep'
 import { formToCase } from '@/utils/caseFields'
 import { slugify } from '@/utils/slugify'
-
-const NOT_ALLOWED = { success: false, message: 'Only admins can do this.' };
 
 // A slug based on the title that no other case uses yet, e.g. "chest-pain-2"
 async function uniqueSlug(title) {
@@ -22,7 +20,8 @@ async function uniqueSlug(title) {
 }
 
 export async function createCase(values) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
 
     const { data, error } = formToCase(values);
     if (error) return { success: false, message: error };
@@ -37,7 +36,8 @@ export async function createCase(values) {
 }
 
 export async function updateCase(caseId, values) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(caseId)) return { success: false, message: 'Case not found.' };
 
     const { update, error } = formToCase(values);
@@ -52,7 +52,8 @@ export async function updateCase(caseId, values) {
 }
 
 export async function setCasePublished(caseId, isPublished) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(caseId)) return { success: false, message: 'Case not found.' };
 
     await dbconnect();
@@ -62,7 +63,8 @@ export async function setCasePublished(caseId, isPublished) {
 }
 
 export async function deleteCase(caseId) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(caseId)) return { success: false, message: 'Case not found.' };
 
     await dbconnect();

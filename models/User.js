@@ -20,6 +20,11 @@ const UserSchema = new mongoose.Schema({
         enum: ["student", "admin"],
         default: "student",
     },
+    // Shared portfolio demo account (see scripts/seed-demo.mjs); the demo admin is read-only
+    isDemo: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
 })

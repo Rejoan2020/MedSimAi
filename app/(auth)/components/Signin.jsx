@@ -2,12 +2,13 @@
 import { signin } from '@/app/actions/auth';
 import AuthField from '@/app/components/AuthField';
 import AuthHero from '@/app/components/AuthHero';
+import DemoAccess from '@/app/components/DemoAccess';
 import { Lock, Mail } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link';
 import { useActionState } from 'react';
 
-export default function Signin() {
+export default function Signin({ demo }) {
     const [state, formAction, pending] = useActionState(signin, null);
     return (
         <div className='grid min-h-full w-full items-center lg:grid-cols-2'>
@@ -36,6 +37,10 @@ export default function Signin() {
                     </div>
                 </form>
 
+                {demo &&
+                    <div className='-mt-4 w-full max-w-92 sm:-mt-8'>
+                        <DemoAccess />
+                    </div>}
 
             </div>
 

@@ -8,7 +8,7 @@ export default async function layout({ children }) {
     if (!user) redirect('/signin');
 
     return (
-        <AppShell name={user.name} email={user.email} isAdmin={isAdmin(user)}>
+        <AppShell name={user.name} email={user.email} isAdmin={isAdmin(user)} demo={Boolean(user.isDemo)}>
             {children}
         </AppShell>
     )

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Lock, Mail, User } from 'lucide-react'
 import AuthField from '@/app/components/AuthField'
 import AuthHero from '@/app/components/AuthHero'
+import DemoAccess from '@/app/components/DemoAccess'
 import { adminLogout, adminSignin, adminSignup } from '@/app/actions/auth'
 
 const buttonClass = 'flex items-center justify-center rounded-full bg-light-blue px-5 py-3 font-semibold text-white hover:bg-primary-dark cursor-pointer disabled:opacity-60'
@@ -43,7 +44,7 @@ function SignUpForm() {
     )
 }
 
-export default function AdminAuth({ allowSignup, signedInAs }) {
+export default function AdminAuth({ allowSignup, signedInAs, demo }) {
     const [mode, setMode] = useState(allowSignup ? 'signup' : 'signin')
 
     return (
@@ -80,6 +81,8 @@ export default function AdminAuth({ allowSignup, signedInAs }) {
                     </div>}
 
                 {mode === 'signup' && allowSignup ? <SignUpForm /> : <SignInForm />}
+
+                {demo && <DemoAccess roles={['admin']} />}
 
                 {!allowSignup &&
                     <div className='text-sm text-Secondary-Text'>

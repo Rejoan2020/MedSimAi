@@ -6,7 +6,7 @@ export default async function layout({ children }) {
     const user = await requireAdminPage();
 
     return (
-        <AppShell name={user.name} email={user.email} variant="admin">
+        <AppShell name={user.name} email={user.email} variant="admin" demo={Boolean(user.isDemo)}>
             {children}
         </AppShell>
     )

@@ -1,14 +1,25 @@
 import React from 'react'
+import { Info } from 'lucide-react'
 import Sidebar from './Sidebar'
 import MobileNav from './MobileNav'
 
+const DEMO_NOTES = {
+    student: "You're exploring a shared demo account, so you may see other visitors' attempts.",
+    admin: "You're exploring the demo admin. Look around freely; changes aren't saved.",
+}
+
 // Page frame for signed-in areas: sidebar on large screens, top bar + menu below
-export default function AppShell({ children, ...navProps }) {
+export default function AppShell({ children, demo = false, ...navProps }) {
     return (
         <div className='flex h-dvh w-full flex-col overflow-hidden lg:flex-row'>
             <MobileNav {...navProps} />
             <Sidebar {...navProps} />
             <div className='min-w-0 flex-1 overflow-y-auto bg-gray-50'>
+                {demo &&
+                    <div role='note' className='flex items-center justify-center gap-2 border-b border-brand-secondary bg-brand-primary px-4 py-2 text-center text-sm text-deep-blue'>
+                        <Info className='h-4 w-4 shrink-0 text-light-blue' aria-hidden />
+                        {DEMO_NOTES[navProps.variant === 'admin' ? 'admin' : 'student']}
+                    </div>}
                 {children}
             </div>
         </div>

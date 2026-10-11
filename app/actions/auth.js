@@ -3,6 +3,7 @@
 import { AuthError } from "next-auth";
 import { signIn, signOut } from "@/auth";
 import { adminExists, createAccount } from "@/lib/accounts";
+import { DEMO_ACCOUNTS, demoEnabled } from "@/lib/demo";
 
 // Signs in and redirects. Wrong credentials return an error message instead of throwing;
 // the redirect after a successful sign-in is itself thrown, so other errors are re-thrown.
@@ -65,6 +66,15 @@ async function adminSignup(prevState, formData) {
     return signInWith(formData.get('email'), password, '/admin-dashboard');
 }
 
+// One-click sign-in to a shared demo account; the password never reaches the browser
+async function demoSignin(prevState, formData) {
+    const account = DEMO_ACCOUNTS[formData.get('role')];
+    if (!account || !demoEnabled()) return { error: "The demo isn't available right now." };
+
+    const result = await signInWith(account.email, process.env.DEMO_PASSWORD, account.redirectTo);
+    if (result?.error) return { error: "The demo accounts haven't been set up yet." };
+}
+
 async function logout() {
     await signOut({
         redirectTo: '/signin',
@@ -78,4 +88,4 @@ async function adminLogout() {
     })
 }
 
-export { signin, signup, adminSignin, adminSignup, logout, adminLogout };
+export { signin, signup, adminSignin, adminSignup, demoSignin, logout, adminLogout };

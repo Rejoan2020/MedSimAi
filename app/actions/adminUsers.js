@@ -3,16 +3,15 @@
 import bcrypt from 'bcryptjs'
 import { isValidObjectId } from 'mongoose'
 import { dbconnect } from '@/lib/mongo'
-import { getAdminUser } from '@/lib/currentUser'
+import { authorizeAdminAction } from '@/lib/currentUser'
 import { createAccount, passwordError, ROLES } from '@/lib/accounts'
 import User from '@/models/User'
 import CaseAttempt from '@/models/CaseAttempt'
 import CasePrep from '@/models/CasePrep'
 
-const NOT_ALLOWED = { success: false, message: 'Only admins can do this.' };
-
 export async function createUser(values) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
 
     const { error } = await createAccount({
         name: values?.name,
@@ -25,7 +24,8 @@ export async function createUser(values) {
 }
 
 export async function resetPassword(userId, password) {
-    if (!(await getAdminUser())) return NOT_ALLOWED;
+    const { denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(userId)) return { success: false, message: 'User not found.' };
 
     const invalidPassword = passwordError(password);
@@ -38,8 +38,8 @@ export async function resetPassword(userId, password) {
 }
 
 export async function setUserRole(userId, role) {
-    const admin = await getAdminUser();
-    if (!admin) return NOT_ALLOWED;
+    const { admin, denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(userId) || !ROLES.includes(role)) return { success: false, message: 'Invalid request.' };
     // Stops admins from accidentally locking themselves out
     if (admin._id.toString() === userId) return { success: false, message: "You can't change your own role." };
@@ -51,8 +51,8 @@ export async function setUserRole(userId, role) {
 }
 
 export async function deleteUser(userId) {
-    const admin = await getAdminUser();
-    if (!admin) return NOT_ALLOWED;
+    const { admin, denied } = await authorizeAdminAction();
+    if (denied) return denied;
     if (!isValidObjectId(userId)) return { success: false, message: 'User not found.' };
     if (admin._id.toString() === userId) return { success: false, message: "You can't delete your own account." };
 
