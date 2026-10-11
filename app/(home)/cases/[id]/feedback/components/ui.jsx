@@ -15,22 +15,21 @@ const RING_SIZES = {
     lg: { outer: 'h-36 w-36 sm:h-40 sm:w-40', inner: 'h-28 w-28 sm:h-32 sm:w-32', text: 'text-4xl' },
 }
 
-// Donut chart for a 0-100 score, coloured by its band; `dark` is for use on the navy hero
-export function ScoreRing({ score, size = 'md', dark = false }) {
+// Donut chart for a 0-100 score, coloured by its band
+export function ScoreRing({ score, size = 'md' }) {
     const band = scoreBand(score)
     const s = RING_SIZES[size]
-    const track = dark ? 'rgb(255 255 255 / 0.18)' : 'var(--color-brand-primary)'
 
     return (
         <div
             role='img'
             aria-label={`${score} out of 100, ${band.label.toLowerCase()}`}
             className={`flex shrink-0 items-center justify-center rounded-full ${s.outer}`}
-            style={{ background: `conic-gradient(${dark ? '#FFFFFF' : band.color} 0 ${score}%, ${track} ${score}% 100%)` }}
+            style={{ background: `conic-gradient(${band.color} 0 ${score}%, var(--color-brand-primary) ${score}% 100%)` }}
         >
-            <div className={`flex flex-col items-center justify-center rounded-full ${s.inner} ${dark ? 'bg-[#1C3D66]' : 'bg-white'}`}>
-                <span className={`font-bold leading-none ${s.text}`} style={dark ? undefined : { color: band.color }}>{score}</span>
-                {size !== 'sm' && <span className={`mt-1 text-xs ${dark ? 'text-white/70' : 'text-Secondary-Text'}`}>out of 100</span>}
+            <div className={`flex flex-col items-center justify-center rounded-full ${s.inner} bg-white`}>
+                <span className={`font-bold leading-none ${s.text}`} style={{ color: band.color }}>{score}</span>
+                {size !== 'sm' && <span className='mt-1 text-xs text-Secondary-Text'>out of 100</span>}
             </div>
         </div>
     )

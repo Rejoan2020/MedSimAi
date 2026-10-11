@@ -6,7 +6,7 @@ import CategoryCard from './CategoryCard';
 import PlanReview from './PlanReview';
 import ConfidenceCheck from './ConfidenceCheck';
 import SelfReflection from './SelfReflection';
-import { HeroBanner, PageContainer } from '@/app/components/PageHeader';
+import { PageContainer } from '@/app/components/PageHeader';
 import { ScoreRing, scoreBand } from './ui';
 
 const selfReflectionQuestions = [
@@ -67,29 +67,30 @@ export default function Feedback({ feedback, messages = [], notes = "", caseTitl
             </div>
 
             {activeTab === 'AI Feedback' && <>
-                <HeroBanner className='p-5 sm:p-8'>
-                    <div className='flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10'>
+                <section aria-label='Overall score' className='relative overflow-hidden rounded-3xl border border-brand-secondary bg-gradient-to-br from-white via-[#F4F8FC] to-brand-primary p-5 sm:p-8'>
+                    <div aria-hidden className='pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-light-blue/10 blur-3xl' />
+                    <div className='relative flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10'>
                         <div className='flex flex-col items-center gap-5 text-center sm:flex-row sm:text-left lg:flex-1'>
-                            <ScoreRing score={overallScore} size='lg' dark />
+                            <ScoreRing score={overallScore} size='lg' />
                             <div className='min-w-0'>
-                                <div className='text-xs font-semibold uppercase tracking-[0.12em] text-white/70'>Overall score</div>
-                                <div className='mt-1 text-2xl font-bold text-white'>{scoreBand(overallScore).label}</div>
-                                {summary && <p className='mt-2 leading-relaxed text-white/85'>{summary}</p>}
+                                <div className='eyebrow'>Overall score</div>
+                                <div className='mt-1 text-2xl font-bold text-deep-blue'>{scoreBand(overallScore).label}</div>
+                                {summary && <p className='mt-2 leading-relaxed text-gray-700'>{summary}</p>}
                             </div>
                         </div>
 
                         <nav aria-label='Score breakdown' className='grid gap-2 sm:grid-cols-3 lg:w-80 lg:grid-cols-1'>
                             {CATEGORIES.map(({ id, key, title, icon: Icon }) =>
-                                <a key={id} href={`#${id}`} onClick={() => setOpenSections((prev) => ({ ...prev, [id]: true }))} className='glass flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-white/20'>
-                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15'>
-                                        <Icon className='h-4 w-4 text-white' aria-hidden />
+                                <a key={id} href={`#${id}`} onClick={() => setOpenSections((prev) => ({ ...prev, [id]: true }))} className='flex items-center gap-3 rounded-xl bg-white/80 px-3 py-2.5 ring-1 ring-brand-secondary transition hover:bg-white hover:shadow-sm'>
+                                    <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary'>
+                                        <Icon className='h-4 w-4 text-light-blue' aria-hidden />
                                     </span>
-                                    <span className='min-w-0 flex-1 truncate text-sm font-medium text-white'>{title}</span>
-                                    <span className='text-lg font-bold text-white'>{feedback[key].score}</span>
+                                    <span className='min-w-0 flex-1 truncate text-sm font-medium text-deep-blue'>{title}</span>
+                                    <span className='text-lg font-bold' style={{ color: scoreBand(feedback[key].score).color }}>{feedback[key].score}</span>
                                 </a>)}
                         </nav>
                     </div>
-                </HeroBanner>
+                </section>
 
                 {CATEGORIES.map(({ id, key, title, subtitle, icon }) =>
                     <CategoryCard key={id} id={id} title={title} subtitle={subtitle} icon={icon} category={feedback[key]}
