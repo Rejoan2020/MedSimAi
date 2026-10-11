@@ -1,11 +1,11 @@
-import { Sheet } from 'lucide-react'
+
 import React from 'react'
 import CaseCard from './CaseCard'
 import Section from './Section'
 
 export default function RecentResults({ results }) {
     return (
-        <Section title='Recent results' icon={Sheet}>
+        <Section eyebrow='Feedback' title='Recent results'>
             {results.length === 0
                 ? <div className='text-Secondary-Text'>Complete a case to see your results here.</div>
                 : results.map((result) =>

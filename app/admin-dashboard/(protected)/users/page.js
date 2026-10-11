@@ -10,7 +10,7 @@ export default async function page() {
 
   return (
     <PageContainer>
-      <PageHeader title='Users' description='Students can also sign up themselves at /signup. Create accounts for other admins here.' />
+      <PageHeader eyebrow='Admin' title='Users' description='Students can also sign up themselves at /signup. Create accounts for other admins here.' />
       <UserManager users={users} currentUserId={admin._id.toString()} />
     </PageContainer>
   )

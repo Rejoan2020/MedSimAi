@@ -14,7 +14,7 @@ const selfReflectionQuestions = [
 ];
 
 const TABS = ['AI Feedback', 'Session Recording', 'Self Reflection', 'Tutor feedback'];
-const panelClass = 'rounded-xl border border-gray-200 bg-white p-4 sm:p-6';
+const panelClass = 'rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6';
 
 export default function Feedback({ feedback, messages = [], notes = "", caseTitle, caseSlug }) {
     const [activeTab, setActiveTab] = useState('AI Feedback');
@@ -27,11 +27,12 @@ export default function Feedback({ feedback, messages = [], notes = "", caseTitl
                     <Link href={`/cases/${caseSlug}`} className='inline-flex w-fit items-center gap-1 text-sm text-Secondary-Text hover:text-deep-blue'>
                         <ArrowLeft className='h-4 w-4' /> Back to case
                     </Link>}
-                <h1 className='text-2xl font-semibold'>Session feedback</h1>
+                <div className='eyebrow mt-2'>Results</div>
+                <h1 className='text-2xl font-bold sm:text-3xl'>Session feedback</h1>
                 {caseTitle && <p className='text-Secondary-Text'>{caseTitle}</p>}
             </div>
 
-            <div role='tablist' className='grid grid-cols-2 gap-1 rounded-xl border border-gray-200 bg-white p-1 sm:grid-cols-4'>
+            <div role='tablist' className='grid grid-cols-2 gap-1 rounded-2xl border border-brand-secondary bg-white p-1 sm:grid-cols-4'>
                 {TABS.map((tab) =>
                     <button
                         key={tab}

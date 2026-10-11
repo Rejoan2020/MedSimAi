@@ -86,7 +86,7 @@ export default function CaseForm({ initialCase }) {
     }
 
     return (
-        <div className='rounded-xl border border-gray-200 bg-white p-4 sm:p-8'>
+        <div className='rounded-2xl border border-brand-secondary bg-white p-4 sm:p-8'>
             <div className='mb-8 flex flex-wrap items-start justify-between gap-4'>
                 <div>
                     <h1 className='text-2xl font-semibold text-gray-900'>
@@ -181,7 +181,7 @@ export default function CaseForm({ initialCase }) {
                     <button
                         type='submit'
                         disabled={isSaving}
-                        className='rounded-lg bg-light-blue px-6 py-3 text-sm font-medium text-white hover:bg-blue-500 disabled:opacity-50'
+                        className='rounded-full bg-light-blue px-6 py-3 text-sm font-medium text-white hover:bg-blue-500 disabled:opacity-50'
                     >
                         {isSaving ? 'Saving...' : isEdit ? 'Save changes' : 'Create case'}
                     </button>

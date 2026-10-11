@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 const PDFReader = dynamic(() => import('./PDFReader'), {
     ssr: false,
     loading: () => (
-        <div className='flex h-full items-center justify-center rounded-xl border border-gray-200 bg-white text-sm text-gray-500'>
+        <div className='flex h-full items-center justify-center rounded-2xl border border-brand-secondary bg-white text-sm text-gray-500'>
             Loading document...
         </div>
     ),

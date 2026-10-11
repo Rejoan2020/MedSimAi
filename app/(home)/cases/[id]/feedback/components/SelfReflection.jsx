@@ -3,7 +3,7 @@ import React from 'react'
 export default function SelfReflection({ question, answer }) {
 
     return (
-        <div className='flex flex-col gap-1 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'>
+        <div className='flex flex-col gap-1 rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6'>
             <div className='font-semibold text-deep-blue'>{question}</div>
             {answer
                 ? <div className='text-green-900'>{answer}</div>

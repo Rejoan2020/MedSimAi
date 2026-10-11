@@ -28,7 +28,7 @@ export function NavContent({ name, email, variant = 'student', isAdmin = false, 
                             href={m.link}
                             onClick={onNavigate}
                             aria-current={active ? 'page' : undefined}
-                            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${active ? 'bg-white/15 text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'}`}
+                            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${active ? 'bg-white text-light-blue shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
                         >
                             <Icon className='h-5 w-5 shrink-0' />
                             <span>{m.title}</span>
@@ -69,7 +69,8 @@ export function Logo({ href }) {
                 height={32}
                 alt='MedSimAI'
                 src={'/logo/medsimailogo.png'}
-                className='h-8 w-[182px]'
+                // White version of the logo for the blue gradient navigation
+                className='h-8 w-[182px] brightness-0 invert'
                 priority
             />
         </Link>
@@ -79,7 +80,7 @@ export function Logo({ href }) {
 // Desktop sidebar, shown from the lg breakpoint; MobileNav takes over below it
 export default function Sidebar(props) {
     return (
-        <aside className='hidden w-64 shrink-0 flex-col bg-deep-blue lg:flex'>
+        <aside className='nav-gradient hidden w-64 shrink-0 flex-col lg:flex'>
             <div className='px-6 py-6'>
                 <Logo href={props.variant === 'admin' ? '/admin-dashboard' : '/dashboard'} />
             </div>

@@ -39,12 +39,13 @@ export default function Cases({ data, stats = {} }) {
     return (
         <PageContainer>
             <PageHeader
+                eyebrow='Case library'
                 title='Clinical Cases'
                 description={`${cards.length} ${cards.length === 1 ? 'case' : 'cases'} available`}
                 icon={Stethoscope}
             />
 
-            <div className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4'>
+            <div className='flex flex-col gap-3 rounded-2xl border border-brand-secondary bg-white p-4'>
                 <div className='flex gap-2'>
                 <label className='flex flex-1 items-center gap-2 rounded-lg border border-gray-300 px-3 focus-within:border-light-blue focus-within:ring-2 focus-within:ring-light-blue/20'>
                     <SearchIcon className='h-5 w-5 text-Secondary-Text' />

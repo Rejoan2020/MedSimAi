@@ -1,17 +1,17 @@
 import React from 'react'
 
-// A titled white card used for each dashboard list
-export default function Section({ title, icon: Icon, action, children }) {
+// A titled card used for each dashboard list
+export default function Section({ eyebrow, title, action, children }) {
     return (
-        <section className='flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'>
-            <div className='flex items-center justify-between gap-4'>
-                <h2 className='flex items-center gap-2 text-lg font-semibold'>
-                    {Icon && <Icon className='h-5 w-5 text-light-blue' />}
-                    {title}
-                </h2>
+        <section className='flex min-w-0 flex-col gap-4 rounded-2xl border border-brand-secondary bg-white p-5 sm:p-6'>
+            <div className='flex items-end justify-between gap-4'>
+                <div>
+                    {eyebrow && <div className='eyebrow'>{eyebrow}</div>}
+                    <h2 className='mt-0.5 text-xl font-bold'>{title}</h2>
+                </div>
                 {action}
             </div>
-            {children}
+            <div className='flex flex-col gap-3'>{children}</div>
         </section>
     )
 }

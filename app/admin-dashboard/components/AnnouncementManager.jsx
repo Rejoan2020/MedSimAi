@@ -49,9 +49,9 @@ export default function AnnouncementManager({ announcements }) {
         <div className='flex flex-col gap-6'>
             <form
                 onSubmit={(e) => { e.preventDefault(); run(() => saveAnnouncement(editingId, form), reset) }}
-                className='flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'
+                className='flex flex-col gap-4 rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6'
             >
-                <div className='font-medium text-[#2536A8]'>{editingId ? 'Edit announcement' : 'New announcement'}</div>
+                <div className='font-medium text-deep-blue'>{editingId ? 'Edit announcement' : 'New announcement'}</div>
                 <div className='grid gap-4 md:grid-cols-3'>
                     <input value={form.title} onChange={set('title')} placeholder='Title' required className={`${inputClass} md:col-span-2`} />
                     <input value={form.type} onChange={set('type')} placeholder='Label, e.g. New Cases' className={inputClass} />
@@ -65,7 +65,7 @@ export default function AnnouncementManager({ announcements }) {
                     {error && <p className='text-sm text-red-600'>{error}</p>}
                     <div className='ml-auto flex gap-2'>
                         {editingId && <button type='button' onClick={reset} className='rounded-lg border border-gray-300 px-4 py-2 text-sm'>Cancel</button>}
-                        <button type='submit' disabled={isBusy} className='rounded-lg bg-light-blue px-4 py-2 text-sm text-white disabled:opacity-50'>
+                        <button type='submit' disabled={isBusy} className='rounded-full bg-light-blue px-4 py-2 text-sm text-white disabled:opacity-50'>
                             {isBusy ? 'Saving...' : editingId ? 'Save changes' : 'Publish announcement'}
                         </button>
                     </div>
@@ -76,7 +76,7 @@ export default function AnnouncementManager({ announcements }) {
                 ? <div className='text-Secondary-Text'>No announcements yet.</div>
                 : <div className='flex flex-col gap-3'>
                     {announcements.map((a) =>
-                        <div key={a._id} className='flex flex-wrap items-start justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4'>
+                        <div key={a._id} className='flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-brand-secondary bg-white p-4'>
                             <div className='flex-1'>
                                 <div className='flex items-center gap-2'>
                                     <span className='rounded-full bg-light-blue/10 px-3 py-1 text-xs text-light-blue'>{a.type}</span>

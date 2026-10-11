@@ -29,7 +29,7 @@ export default function ConfidenceRatings({ caseId, initialRatings = {} }) {
     }
 
     return (
-        <div className='rounded-xl border border-gray-200 bg-white p-4 sm:p-6'>
+        <div className='rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6'>
             <div className='mb-2 border-b border-gray-200 pb-3 font-semibold text-deep-blue'>
                 How confident are you?
             </div>

@@ -84,7 +84,7 @@ export default function CaseTable({ cases }) {
 
             {/* Table from md up */}
             <table className='hidden w-full text-left text-sm md:table'>
-                <thead className='border-b border-gray-100 text-[#717680]'>
+                <thead className='border-b border-gray-100 text-Secondary-Text'>
                     <tr>
                         <th className='px-6 py-3 font-normal'>Title</th>
                         <th className='px-3 py-3 font-normal'>Specialty</th>

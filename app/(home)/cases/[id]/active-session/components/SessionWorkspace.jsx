@@ -16,7 +16,7 @@ export default function SessionWorkspace({ slug, title, attemptId, initialMessag
             <Header slug={slug} title={title} attemptId={attemptId} onToggleNotes={() => setNotesOpen((v) => !v)} />
 
             <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-1 gap-4">
-                <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
+                <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-brand-secondary bg-white">
                     <div className="flex shrink-0 items-center gap-3 border-b border-gray-200 px-4 py-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-light-blue font-semibold text-white">
                             AI

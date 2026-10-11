@@ -72,9 +72,9 @@ export default function UserManager({ users, currentUserId }) {
         <div className='flex flex-col gap-6'>
             <form
                 onSubmit={(e) => { e.preventDefault(); run(() => createUser(form), `Account created for ${form.email.trim().toLowerCase()}.`, () => setForm(emptyForm)) }}
-                className='flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'
+                className='flex flex-col gap-4 rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6'
             >
-                <div className='font-medium text-[#2536A8]'>New account</div>
+                <div className='font-medium text-deep-blue'>New account</div>
                 <div className='grid gap-4 sm:grid-cols-2 xl:grid-cols-4'>
                     <input value={form.name} onChange={set('name')} placeholder='Full name' required className={inputClass} />
                     <input value={form.email} onChange={set('email')} type='email' placeholder='Email' required className={inputClass} />
@@ -86,14 +86,14 @@ export default function UserManager({ users, currentUserId }) {
                 </div>
                 <div className='flex items-center gap-4'>
                     {message && <p className={`text-sm ${message.ok ? 'text-green-600' : 'text-red-600'}`}>{message.text}</p>}
-                    <button type='submit' disabled={isBusy} className='ml-auto rounded-lg bg-light-blue px-4 py-2 text-sm text-white disabled:opacity-50'>
+                    <button type='submit' disabled={isBusy} className='ml-auto rounded-full bg-light-blue px-4 py-2 text-sm text-white disabled:opacity-50'>
                         {isBusy ? 'Working...' : 'Create account'}
                     </button>
                 </div>
             </form>
 
 
-            <div className='rounded-xl border border-gray-200 bg-white'>
+            <div className='rounded-2xl border border-brand-secondary bg-white'>
                 {/* Cards on small screens */}
                 <ul className='divide-y divide-gray-100 md:hidden'>
                     {users.map((user) => {
@@ -116,7 +116,7 @@ export default function UserManager({ users, currentUserId }) {
 
                 {/* Table from md up */}
                 <table className='hidden w-full text-left text-sm md:table'>
-                    <thead className='border-b border-gray-100 text-[#717680]'>
+                    <thead className='border-b border-gray-100 text-Secondary-Text'>
                         <tr>
                             <th className='px-6 py-3 font-normal'>Name</th>
                             <th className='px-3 py-3 font-normal'>Email</th>

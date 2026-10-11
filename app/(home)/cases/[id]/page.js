@@ -29,7 +29,6 @@ export default async function Page({ params }) {
 
   const age = patient.aiScenario?.patient?.age;
   const badges = [
-    patient.specialty,
     patient.difficulty,
     patient.duration && <><Clock className='h-3.5 w-3.5' /> {patient.duration}</>,
     age != null && <><PersonStanding className='h-3.5 w-3.5' /> {age >= 18 ? 'Adult' : 'Pediatric'}</>,
@@ -46,12 +45,13 @@ export default async function Page({ params }) {
           Draft: only admins can see this case. Publish it from the admin dashboard to make it available to students.
         </div>}
 
-      <section className='flex flex-col gap-5 rounded-xl border border-gray-200 bg-white p-4 sm:flex-row sm:items-center sm:p-6'>
+      <section className='flex flex-col gap-5 rounded-2xl border border-brand-secondary bg-white p-4 sm:flex-row sm:items-center sm:p-6'>
         <div className='flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-white ring-1 ring-gray-100'>
           <Image height={80} width={80} alt='' src={patient.image || '/cases/person.png'} className='h-20 w-20 object-contain' />
         </div>
         <div className='flex min-w-0 flex-1 flex-col gap-2'>
-          <h1 className="text-2xl font-semibold">{patient.title}</h1>
+          {patient.specialty && <div className='eyebrow'>{patient.specialty}</div>}
+          <h1 className="text-2xl font-bold sm:text-3xl">{patient.title}</h1>
           <p className='text-Secondary-Text'>{patient.description}</p>
           <div className='flex flex-wrap gap-2 text-xs'>
             {badges.map((badge, i) =>
@@ -62,7 +62,7 @@ export default async function Page({ params }) {
           <input type="hidden" name="caseId" value={caseId} />
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-light-blue px-5 py-3 font-medium text-white hover:bg-blue-500 cursor-pointer sm:w-auto"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-light-blue px-5 py-3 font-medium text-white hover:bg-blue-500 cursor-pointer sm:w-auto"
           >
             <Play className='h-4 w-4' /> Start Session
           </button>

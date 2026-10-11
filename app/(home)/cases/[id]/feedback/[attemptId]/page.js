@@ -47,7 +47,7 @@ export default async function page({ params }) {
                 </div>
                 {caseAttempt.status === 'completed'
                     ? <GenerateFeedback attemptId={attemptId} />
-                    : <div className='rounded-xl border border-gray-200 bg-white p-6 text-Secondary-Text'>
+                    : <div className='rounded-2xl border border-brand-secondary bg-white p-6 text-Secondary-Text'>
                         Feedback is available once the session has been completed.
                     </div>}
             </div>

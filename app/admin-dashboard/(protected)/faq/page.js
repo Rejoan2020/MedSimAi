@@ -10,7 +10,7 @@ export default async function page() {
 
   return (
     <PageContainer>
-      <PageHeader title='Help & FAQ' description='Shown to students on the Help & FAQ page, in this order.' />
+      <PageHeader eyebrow='Admin' title='Help & FAQ' description='Shown to students on the Help & FAQ page, in this order.' />
       <FaqManager faqs={faqs} />
     </PageContainer>
   )

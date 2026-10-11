@@ -27,7 +27,7 @@ export default function ConsultationPlan({ caseId, initialPlan = '' }) {
     }
 
     return (
-        <div className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+        <div className="flex flex-col gap-4 rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6">
             <div className='border-b border-gray-200 pb-3 font-semibold text-deep-blue'>
                 Consultation Plan
             </div>

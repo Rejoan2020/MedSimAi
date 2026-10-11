@@ -25,7 +25,7 @@ export default function GenerateFeedback({ attemptId }) {
     }
 
     return (
-        <div className='flex flex-col items-start gap-3 rounded-xl border border-gray-200 bg-white p-6'>
+        <div className='flex flex-col items-start gap-3 rounded-2xl border border-brand-secondary bg-white p-6'>
             <div>
                 <h2 className='font-semibold'>Your feedback isn&apos;t ready yet</h2>
                 <p className='mt-1 text-sm text-Secondary-Text'>
@@ -36,7 +36,7 @@ export default function GenerateFeedback({ attemptId }) {
                 type='button'
                 onClick={generate}
                 disabled={isGenerating}
-                className='inline-flex items-center gap-2 rounded-lg bg-light-blue px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-500 cursor-pointer disabled:cursor-wait disabled:opacity-60'
+                className='inline-flex items-center gap-2 rounded-full bg-light-blue px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-500 cursor-pointer disabled:cursor-wait disabled:opacity-60'
             >
                 <Sparkles className='h-4 w-4' />
                 {isGenerating ? 'Generating feedback...' : 'Generate feedback'}

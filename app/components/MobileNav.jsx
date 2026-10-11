@@ -22,7 +22,7 @@ export default function MobileNav(props) {
 
     return (
         <div className='lg:hidden'>
-            <header className='flex h-14 items-center justify-between bg-deep-blue px-4'>
+            <header className='nav-gradient flex h-14 items-center justify-between px-4'>
                 <Logo href={props.variant === 'admin' ? '/admin-dashboard' : '/dashboard'} />
                 <button
                     type='button'
@@ -38,7 +38,7 @@ export default function MobileNav(props) {
             {open &&
                 <div className='fixed inset-0 z-50' role='dialog' aria-modal='true' aria-label='Menu'>
                     <div className='absolute inset-0 bg-black/40' onClick={() => setOpen(false)} />
-                    <div className='absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-deep-blue shadow-xl'>
+                    <div className='nav-gradient absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col shadow-xl'>
                         <div className='flex items-center justify-between px-4 py-4'>
                             <Logo href={props.variant === 'admin' ? '/admin-dashboard' : '/dashboard'} />
                             <button

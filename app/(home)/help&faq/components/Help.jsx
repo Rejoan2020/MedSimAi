@@ -7,6 +7,7 @@ export default function Help({ questions }) {
     return (
         <PageContainer>
             <PageHeader
+                eyebrow='Help centre'
                 title='Frequently Asked Questions'
                 description='Find answers to common questions about MedSimAI.'
                 icon={HelpCircle}

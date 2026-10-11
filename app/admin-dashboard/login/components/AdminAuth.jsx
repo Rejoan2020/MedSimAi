@@ -4,9 +4,10 @@ import { useActionState, useState } from 'react'
 import Image from 'next/image'
 import { Lock, Mail, User } from 'lucide-react'
 import AuthField from '@/app/components/AuthField'
+import AuthHero from '@/app/components/AuthHero'
 import { adminLogout, adminSignin, adminSignup } from '@/app/actions/auth'
 
-const buttonClass = 'border p-2 flex justify-center items-center bg-light-blue text-white rounded-md cursor-pointer disabled:opacity-60'
+const buttonClass = 'flex items-center justify-center rounded-full bg-light-blue px-5 py-3 font-semibold text-white hover:bg-primary-dark cursor-pointer disabled:opacity-60'
 
 function SignInForm() {
     const [state, formAction, pending] = useActionState(adminSignin, null)
@@ -46,11 +47,13 @@ export default function AdminAuth({ allowSignup, signedInAs }) {
     const [mode, setMode] = useState(allowSignup ? 'signup' : 'signin')
 
     return (
-        <div className='flex min-h-full w-full items-center justify-center p-8'>
+        <div className='grid min-h-full w-full lg:grid-cols-2'>
+        <div className='flex w-full items-center justify-center px-4 py-10 sm:p-8'>
             <div className='flex w-full max-w-92 flex-col gap-8'>
                 <Image height={32} width={182} alt='MedSimAI' src={'/logo/medsimailogo.png'} className='h-8 w-[182px]' />
                 <div>
-                    <div className='text-[32px]'>MedSimAI Admin</div>
+                    <div className='eyebrow'>Admin</div>
+                    <div className='mt-1 text-3xl font-bold sm:text-4xl'>MedSimAI Admin</div>
                     <div className='text-Secondary-Text'>Manage cases, announcements, FAQ and users.</div>
                 </div>
 
@@ -64,13 +67,13 @@ export default function AdminAuth({ allowSignup, signedInAs }) {
                     </div>}
 
                 {allowSignup &&
-                    <div className='grid grid-cols-2 rounded-lg border border-gray-200 text-sm'>
+                    <div className='grid grid-cols-2 gap-1 rounded-full border border-brand-secondary p-1 text-sm'>
                         {[['signup', 'Create admin account'], ['signin', 'Sign in']].map(([value, label]) =>
                             <button
                                 key={value}
                                 type='button'
                                 onClick={() => setMode(value)}
-                                className={`rounded-lg py-2 cursor-pointer ${mode === value ? 'bg-light-blue text-white' : ''}`}
+                                className={`rounded-full py-2 font-medium cursor-pointer ${mode === value ? 'bg-light-blue text-white' : 'text-deep-blue'}`}
                             >
                                 {label}
                             </button>)}
@@ -83,6 +86,8 @@ export default function AdminAuth({ allowSignup, signedInAs }) {
                         Need an admin account? Ask an existing admin to create one for you from the Users page.
                     </div>}
             </div>
+        </div>
+        <AuthHero title='Manage cases, content and students in one place.' />
         </div>
     )
 }

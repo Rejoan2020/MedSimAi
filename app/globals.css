@@ -1,9 +1,81 @@
 @import "tailwindcss";
 
+/*
+  MedSimAI theme, modelled on a clean clinical look: one medical blue for actions,
+  deep navy for headings, blue-grey text and soft blue tints. The grey scale is
+  replaced with blue-greys so every border, background and muted text matches.
+*/
 @theme {
-  --color-brand-primary: #F0F4FE; 
-  --color-Secondary-Text: #717680;
-  --color-brand-secondary: #DDE7FC;
-  --color-light-blue: #6796F2;
-  --color-deep-blue: #1A2151;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand */
+  --color-light-blue: #307BC4;      /* primary: buttons, links, highlights */
+  --color-primary-dark: #2563A3;    /* primary hover */
+  --color-deep-blue: #274760;       /* headings, navigation */
+  --color-brand-primary: #EAF3FB;   /* light blue tint for chips and panels */
+  --color-brand-secondary: #CDE1F3; /* light blue borders */
+  --color-Secondary-Text: #5F7A91;  /* body and muted text */
+
+  /* Blue-grey neutrals in place of Tailwind's grey */
+  --color-gray-50: #F5F9FD;
+  --color-gray-100: #EBF2F9;
+  --color-gray-200: #D9E6F2;
+  --color-gray-300: #BACFE3;
+  --color-gray-400: #8DA6BE;
+  --color-gray-500: #6A8299;
+  --color-gray-600: #50687F;
+  --color-gray-700: #3B5268;
+  --color-gray-800: #2C4256;
+  --color-gray-900: #22394C;
+
+  /* Primary hover used by existing buttons */
+  --color-blue-500: #2563A3;
+}
+
+@layer base {
+  body {
+    color: var(--color-deep-blue);
+    background-color: #ffffff;
+  }
+
+  h1, h2, h3 {
+    color: var(--color-deep-blue);
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-secondary);
+  }
+}
+
+/*
+  Hero banners use the same navy as the sidebar, lifted slightly at one corner and
+  with a soft blue glow so they have depth without drifting into grey.
+*/
+@utility hero-gradient {
+  background-image:
+    radial-gradient(60% 90% at 100% 0%, rgb(48 123 196 / 0.35) 0%, transparent 70%),
+    linear-gradient(120deg, #24497A 0%, #1C3D66 50%, #16314F 100%);
+}
+
+/* Deep navy for the sidebar and mobile menu, so the bright content area stands out */
+@utility nav-gradient {
+  background-image: linear-gradient(180deg, #1C3D66 0%, #16314F 100%);
+}
+
+/* Frosted glass panel for content on top of the gradient */
+@utility glass {
+  background-color: rgb(255 255 255 / 0.14);
+  border: 1px solid rgb(255 255 255 / 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Small uppercase label above section headings */
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-light-blue);
 }

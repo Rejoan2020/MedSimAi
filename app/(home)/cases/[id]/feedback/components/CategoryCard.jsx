@@ -20,7 +20,7 @@ export default function CategoryCard({ title, category }) {
     const label = scoreLabel(category.score)
 
     return (
-        <section className='overflow-hidden rounded-xl border border-gray-200 bg-white'>
+        <section className='overflow-hidden rounded-2xl border border-brand-secondary bg-white'>
             <div className='flex items-center justify-between gap-4 border-b border-gray-100 bg-brand-primary px-4 py-3 sm:px-6'>
                 <h2 className='font-semibold text-deep-blue'>{title}</h2>
                 <button

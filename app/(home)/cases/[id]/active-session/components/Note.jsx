@@ -44,18 +44,18 @@ export default function Note({ attemptId, initialNotes = '' }) {
                 <span className={`text-sm ${status === 'Saved' ? 'text-green-600' : 'text-red-600'}`}>
                     {status || (hasChanges ? <span className='text-Secondary-Text'>Unsaved changes</span> : '')}
                 </span>
-                <div className='flex gap-2 text-white'>
+                <div className='flex gap-2'>
                     <button
                         onClick={handleDiscard}
                         disabled={!hasChanges || isSaving}
-                        className='rounded-lg bg-light-blue p-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
+                        className='rounded-full border border-brand-secondary px-4 py-2 text-sm text-deep-blue hover:bg-brand-primary cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
                     >
                         Discard
                     </button>
                     <button
                         onClick={handleSave}
                         disabled={!hasChanges || isSaving}
-                        className='rounded-lg bg-light-blue p-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
+                        className='rounded-full bg-light-blue px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
                     >
                         {isSaving ? 'Saving...' : 'Save'}
                     </button>

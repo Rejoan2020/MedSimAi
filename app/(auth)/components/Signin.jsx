@@ -1,6 +1,7 @@
 'use client'
 import { signin } from '@/app/actions/auth';
 import AuthField from '@/app/components/AuthField';
+import AuthHero from '@/app/components/AuthHero';
 import { Lock, Mail } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link';
@@ -9,13 +10,14 @@ import { useActionState } from 'react';
 export default function Signin() {
     const [state, formAction, pending] = useActionState(signin, null);
     return (
-        <div className='grid xl:grid-cols-2 items-center w-full h-full'>
+        <div className='grid min-h-full w-full items-center lg:grid-cols-2'>
             <div className='flex w-full flex-col items-center gap-10 px-4 py-10 sm:gap-14'>
-                <Image height={32} width={182} alt='MedSimAI' src={'/logo/medsimailogo.png'}
-                    className='h-8 w-[182px]' />
                 <div className='w-full max-w-92'>
-                    <div className='text-3xl font-semibold sm:text-4xl'>Welcome to MedSimAI</div>
-                    <div className='text-Secondary-Text'>Enter your email to sign in to your account.</div>
+                    <Image height={32} width={182} alt='MedSimAI' src={'/logo/medsimailogo.png'}
+                        className='mb-10 h-8 w-[182px]' />
+                    <div className='eyebrow'>{'Welcome back'}</div>
+                    <div className='mt-1 text-3xl font-bold sm:text-4xl'>Sign in to MedSimAI</div>
+                    <div className='mt-2 text-Secondary-Text'>Enter your email and password to continue.</div>
                 </div>
                 <form action={formAction} className='max-w-92 w-full flex flex-col gap-4'>
                     <AuthField label='Email address' icon={Mail} name='email' type='email' autoComplete='email' />
@@ -24,7 +26,7 @@ export default function Signin() {
                     <button
                         type='submit'
                         disabled={pending}
-                        className='border p-2 flex justify-center items-center bg-light-blue text-white rounded-md cursor-pointer disabled:opacity-60'
+                        className='flex items-center justify-center rounded-full bg-light-blue px-5 py-3 font-semibold text-white hover:bg-primary-dark cursor-pointer disabled:opacity-60'
                     >
                         {pending ? 'Signing in...' : 'Sign in'}
                     </button>
@@ -37,9 +39,7 @@ export default function Signin() {
 
             </div>
 
-            <div className='w-full h-full hidden xl:block '>
-                <Image height={800} width={600} alt='image' src={'/logo/sidelogin.svg'} className='h-full' />
-            </div>
+            <AuthHero />
         </div>
     )
 }

@@ -45,16 +45,16 @@ export default function FaqManager({ faqs }) {
         <div className='flex flex-col gap-6'>
             <form
                 onSubmit={(e) => { e.preventDefault(); run(() => saveFaq(editingId, form), reset) }}
-                className='flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 sm:p-6'
+                className='flex flex-col gap-4 rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6'
             >
-                <div className='font-medium text-[#2536A8]'>{editingId ? 'Edit question' : 'New question'}</div>
+                <div className='font-medium text-deep-blue'>{editingId ? 'Edit question' : 'New question'}</div>
                 <input value={form.question} onChange={(e) => setForm({ ...form, question: e.target.value })} placeholder='Question' required className={inputClass} />
                 <textarea value={form.answer} onChange={(e) => setForm({ ...form, answer: e.target.value })} placeholder='Answer' rows={3} required className={inputClass} />
                 <div className='flex flex-wrap items-center gap-4'>
                     {error && <p className='text-sm text-red-600'>{error}</p>}
                     <div className='ml-auto flex gap-2'>
                         {editingId && <button type='button' onClick={reset} className='rounded-lg border border-gray-300 px-4 py-2 text-sm'>Cancel</button>}
-                        <button type='submit' disabled={isBusy} className='rounded-lg bg-light-blue px-4 py-2 text-sm text-white disabled:opacity-50'>
+                        <button type='submit' disabled={isBusy} className='rounded-full bg-light-blue px-4 py-2 text-sm text-white disabled:opacity-50'>
                             {isBusy ? 'Saving...' : editingId ? 'Save changes' : 'Add question'}
                         </button>
                     </div>
@@ -65,7 +65,7 @@ export default function FaqManager({ faqs }) {
                 ? <div className='text-Secondary-Text'>No questions yet.</div>
                 : <div className='flex flex-col gap-3'>
                     {faqs.map((faq, index) =>
-                        <div key={faq._id} className='flex items-start gap-3 rounded-xl border border-gray-200 bg-white p-4'>
+                        <div key={faq._id} className='flex items-start gap-3 rounded-2xl border border-brand-secondary bg-white p-4'>
                             <div className='flex flex-col gap-1'>
                                 <button
                                     onClick={() => run(() => moveFaq(faq._id, -1))}

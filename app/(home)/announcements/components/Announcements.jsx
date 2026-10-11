@@ -6,6 +6,7 @@ export default function Announcements({ announcements }) {
     return (
         <PageContainer>
             <PageHeader
+                eyebrow='Stay informed'
                 title='Announcements'
                 description='Stay updated with the latest news and updates from MedSimAI.'
                 icon={Bell}
@@ -21,7 +22,7 @@ export default function Announcements({ announcements }) {
                 {announcements.map((announcement) => (
                     <article
                         key={announcement._id}
-                        className="rounded-xl border border-gray-200 bg-white p-4 transition hover:border-light-blue/40 hover:shadow-sm sm:p-6"
+                        className="rounded-2xl border border-brand-secondary bg-white p-4 transition hover:border-light-blue/40 hover:shadow-sm sm:p-6"
                     >
                         <div className="flex flex-wrap items-center gap-3">
                             <span className="rounded-full bg-light-blue/10 px-3 py-1 text-xs font-medium text-light-blue">
