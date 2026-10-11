@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { dbconnect } from "@/lib/mongo";
 import { generateWithFallback } from "@/lib/gemini";
+import { DEMO_AI_OFF } from "@/lib/demo";
 
 import CaseAttempt from "@/models/CaseAttempt";
 import Case from "@/models/Case";
@@ -36,6 +37,16 @@ export async function POST(req) {
                     message: "User not found.",
                 },
                 { status: 404 }
+            );
+        }
+
+        if (user.isDemo) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: DEMO_AI_OFF,
+                },
+                { status: 403 }
             );
         }
 

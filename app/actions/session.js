@@ -25,6 +25,9 @@ export async function startSession(formData) {
         throw new Error('Case not found');
     }
 
+    // Demo accounts can't use the AI, so a session would be a dead end; stay on the case page
+    if (user.isDemo) redirect(`/cases/${clinicalCase.slug}`);
+
     // Keep a copy of the plan and confidence ratings as they are now, for this attempt's feedback
     const prep = await CasePrep.findOne({ user: user._id, case: caseId }).lean();
 

@@ -3,6 +3,7 @@ import { isValidObjectId } from "mongoose";
 import { getCurrentUser } from "@/lib/currentUser";
 import { dbconnect } from "@/lib/mongo";
 import { generateFeedback } from "@/lib/feedback";
+import { DEMO_AI_OFF } from "@/lib/demo";
 import CaseAttempt from "@/models/CaseAttempt";
 import Case from "@/models/Case";
 
@@ -62,6 +63,17 @@ export async function POST(req, { params }) {
                 message: "Feedback already exists",
                 data: attempt.feedback,
             });
+        }
+
+        // Demo accounts can read existing feedback but not generate new feedback
+        if (user.isDemo) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: DEMO_AI_OFF,
+                },
+                { status: 403 }
+            );
         }
 
         const clinicalCase = await Case.findById(attempt.case).lean();

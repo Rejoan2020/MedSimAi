@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 import MobileNav from './MobileNav'
 
 const DEMO_NOTES = {
-    student: "You're exploring a shared demo account, so you may see other visitors' attempts.",
+    student: "You're exploring the demo. Live AI sessions are turned off, but you can browse cases and sample AI feedback.",
     admin: "You're exploring the demo admin. Look around freely; changes aren't saved.",
 }
 

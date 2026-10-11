@@ -5,7 +5,7 @@ import { GraduationCap, ShieldCheck } from 'lucide-react'
 import { demoSignin } from '@/app/actions/auth'
 
 const OPTIONS = [
-    { role: 'student', label: 'Student demo', hint: 'Run cases and see AI feedback', icon: GraduationCap },
+    { role: 'student', label: 'Student demo', hint: 'Browse cases and sample AI feedback', icon: GraduationCap },
     { role: 'admin', label: 'Admin demo', hint: 'Browse the CMS (read-only)', icon: ShieldCheck },
 ]
 

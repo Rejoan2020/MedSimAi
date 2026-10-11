@@ -3,7 +3,7 @@ import React from 'react'
 import CaseDocument from '../components/CaseDocument'
 import ConfidenceRatings from '../components/ConfidenceRatings'
 import ConsultationPlan from '../components/ConsultationPlan'
-import { ArrowLeft, Clock, PersonStanding, Play } from 'lucide-react'
+import { ArrowLeft, Clock, Lock, PersonStanding, Play } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { startSession } from '@/app/actions/session';
@@ -65,8 +65,18 @@ export default async function Page({ params }) {
               <span key={i} className='inline-flex items-center gap-1 rounded-full bg-brand-primary px-2.5 py-1 text-deep-blue'>{badge}</span>)}
           </div>
         </div>
-        {/* With an unfinished attempt, resuming it is the main action; starting over is secondary */}
-        {inProgress
+        {/* Demo accounts can't use the AI; with an unfinished attempt, resuming it is the main action */}
+        {user.isDemo
+          ? <div className='flex flex-col items-stretch gap-2 sm:max-w-60 sm:shrink-0 sm:items-end sm:text-right'>
+            <span aria-disabled='true' className='flex items-center justify-center gap-2 rounded-full bg-gray-100 px-5 py-3 font-medium text-gray-500'>
+              <Lock className='h-4 w-4' /> Start Session
+            </span>
+            <p className='text-xs text-Secondary-Text'>
+              Live AI sessions are turned off in the demo.{' '}
+              <Link href='/attempts' className='font-medium text-light-blue hover:text-primary-dark'>See sample feedback</Link>
+            </p>
+          </div>
+          : inProgress
           ? <div className='flex flex-col items-stretch gap-2 sm:shrink-0 sm:items-end'>
             <Link
               href={`/cases/${patient.slug}/active-session?attempt=${inProgress.attemptId}`}
