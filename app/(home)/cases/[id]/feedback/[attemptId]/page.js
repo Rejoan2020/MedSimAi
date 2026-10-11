@@ -4,6 +4,7 @@ import CaseAttempt from '@/models/CaseAttempt';
 import Case from '@/models/Case';
 import Feedback from '../components/Feedback'
 import GenerateFeedback from '../components/GenerateFeedback'
+import { compareConfidence } from '@/utils/confidenceCheck'
 import { dbconnect } from '@/lib/mongo';
 import { getCurrentUser } from '@/lib/currentUser';
 
@@ -62,6 +63,18 @@ export default async function page({ params }) {
         communication: toCategory(stored.communication),
     };
 
+    // The plan and confidence ratings saved when this attempt started, and how they compared
+    const plan = caseAttempt.prep?.plan ?? '';
+    const planReview = stored.planReview?.summary || stored.planReview?.followed?.length
+        ? {
+            summary: stored.planReview.summary ?? '',
+            followed: stored.planReview.followed ?? [],
+            skipped: stored.planReview.skipped ?? [],
+            missing: stored.planReview.missing ?? [],
+        }
+        : null;
+    const confidenceRows = compareConfidence(caseAttempt.prep?.confidence, feedback);
+
     return (
         <Feedback
             feedback={feedback}
@@ -69,6 +82,9 @@ export default async function page({ params }) {
             notes={caseAttempt.notes ?? ""}
             caseTitle={clinicalCase?.title}
             caseSlug={clinicalCase?.slug}
+            plan={plan}
+            planReview={planReview}
+            confidenceRows={confidenceRows}
         />
     )
 }

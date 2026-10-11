@@ -1,7 +1,13 @@
+import { SkeletonHeader, SkeletonPage, SkeletonRow } from '@/app/components/Skeleton'
+
+// Mirrors My attempts: header with the case filter, then a list of attempts
 export default function Loading() {
     return (
-        <div className="flex min-h-screen items-center justify-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
-        </div>
+        <SkeletonPage label='Loading your attempts'>
+            <SkeletonHeader withAction />
+            <div className='flex flex-col gap-3'>
+                {[0, 1, 2, 3, 4].map((i) => <SkeletonRow key={i} />)}
+            </div>
+        </SkeletonPage>
     )
 }

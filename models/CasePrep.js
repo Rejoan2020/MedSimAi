@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { defineModel } from "@/lib/model";
 
 // A student's preparation for a case before starting it: confidence ratings and consultation plan
 const casePrepSchema = new mongoose.Schema({
@@ -31,4 +32,4 @@ const casePrepSchema = new mongoose.Schema({
 
 casePrepSchema.index({ user: 1, case: 1 }, { unique: true });
 
-export default mongoose.models.CasePrep || mongoose.model("CasePrep", casePrepSchema);
+export default defineModel("CasePrep", casePrepSchema);

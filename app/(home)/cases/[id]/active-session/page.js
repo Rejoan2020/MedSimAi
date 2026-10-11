@@ -6,6 +6,7 @@ import { dbconnect } from '@/lib/mongo'
 import { getCurrentUser } from '@/lib/currentUser'
 import Case from '@/models/Case'
 import CaseAttempt from '@/models/CaseAttempt'
+import CasePrep from '@/models/CasePrep'
 
 export default async function Page({ params, searchParams }) {
     const { id: slug } = await params;
@@ -35,6 +36,11 @@ export default async function Page({ params, searchParams }) {
     }
     if (caseAttempt.status !== 'started') notFound();
 
+    // The plan saved with this attempt; sessions started before plans were saved use the current one
+    const plan = caseAttempt.prep?.plan != null
+        ? caseAttempt.prep.plan
+        : (await CasePrep.findOne({ user: user._id, case: clinicalCase._id }).select('plan').lean())?.plan ?? '';
+
     return (
         <SessionWorkspace
             slug={slug}
@@ -42,6 +48,7 @@ export default async function Page({ params, searchParams }) {
             attemptId={caseAttempt._id.toString()}
             initialMessages={caseAttempt.messages.map(({ role, content }) => ({ role, content }))}
             initialNotes={caseAttempt.notes ?? ''}
+            plan={plan}
             startedAt={(caseAttempt.startedAt ?? caseAttempt.createdAt)?.toISOString()}
         />
     )

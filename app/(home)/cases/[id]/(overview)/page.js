@@ -1,8 +1,8 @@
 
 import React from 'react'
-import CaseDocument from './components/CaseDocument'
-import ConfidenceRatings from './components/ConfidenceRatings'
-import ConsultationPlan from './components/ConsultationPlan'
+import CaseDocument from '../components/CaseDocument'
+import ConfidenceRatings from '../components/ConfidenceRatings'
+import ConsultationPlan from '../components/ConsultationPlan'
 import { ArrowLeft, Clock, PersonStanding, Play } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,7 +11,7 @@ import { getPublicCaseBySlug } from '@/lib/cases';
 import { getCurrentUser, isAdmin } from '@/lib/currentUser';
 import CasePrep from '@/models/CasePrep';
 import { getStudentAttempts } from '@/lib/stats';
-import AttemptList from '../../components/AttemptList';
+import AttemptList from '../../../components/AttemptList';
 import { PageContainer } from '@/app/components/PageHeader';
 import { notFound, redirect } from 'next/navigation';
 

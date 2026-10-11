@@ -78,7 +78,7 @@ export async function POST(req, { params }) {
 
         let feedback;
         try {
-            feedback = await generateFeedback(clinicalCase, attempt.messages);
+            feedback = await generateFeedback(clinicalCase, attempt.messages, attempt.prep?.plan);
         } catch (error) {
             console.error("Feedback generation failed:", error);
             return NextResponse.json(

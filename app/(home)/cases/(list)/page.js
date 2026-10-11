@@ -1,6 +1,6 @@
 import React from 'react'
 import { redirect } from 'next/navigation';
-import Cases from './components/Cases'
+import Cases from '../components/Cases'
 import { getPublicCases } from '@/lib/cases';
 import { getCurrentUser } from '@/lib/currentUser';
 import { getCaseStats } from '@/lib/stats';

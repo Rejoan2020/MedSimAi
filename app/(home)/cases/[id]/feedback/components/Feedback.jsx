@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import CategoryCard from './CategoryCard';
+import PlanReview from './PlanReview';
+import ConfidenceCheck from './ConfidenceCheck';
 import SelfReflection from './SelfReflection';
 import { PageContainer } from '@/app/components/PageHeader';
 
@@ -16,7 +18,7 @@ const selfReflectionQuestions = [
 const TABS = ['AI Feedback', 'Session Recording', 'Self Reflection', 'Tutor feedback'];
 const panelClass = 'rounded-2xl border border-brand-secondary bg-white p-4 sm:p-6';
 
-export default function Feedback({ feedback, messages = [], notes = "", caseTitle, caseSlug }) {
+export default function Feedback({ feedback, messages = [], notes = "", caseTitle, caseSlug, plan = "", planReview = null, confidenceRows = [] }) {
     const [activeTab, setActiveTab] = useState('AI Feedback');
     const { overallScore, consultation, medicalKnowledge, communication, summary } = feedback;
 
@@ -55,6 +57,8 @@ export default function Feedback({ feedback, messages = [], notes = "", caseTitl
                 <CategoryCard title='Consultation' category={consultation} />
                 <CategoryCard title='Clinical Reasoning' category={medicalKnowledge} />
                 <CategoryCard title='Communication' category={communication} />
+                {plan && <PlanReview plan={plan} review={planReview} />}
+                {confidenceRows.length > 0 && <ConfidenceCheck rows={confidenceRows} />}
             </>}
 
             {activeTab === 'Session Recording' &&

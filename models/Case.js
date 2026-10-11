@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { defineModel } from "@/lib/model";
 
 const CasesSchema = new mongoose.Schema({
     title: { type: String, required: true, },
@@ -154,4 +155,4 @@ const CasesSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-export default mongoose.models.Case || mongoose.model("Case", CasesSchema);
+export default defineModel("Case", CasesSchema);

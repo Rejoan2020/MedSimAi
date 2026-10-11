@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { defineModel } from "@/lib/model";
 
 const FaqSchema = new mongoose.Schema({
     question: { type: String, required: true },
@@ -9,4 +10,4 @@ const FaqSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-export default mongoose.models.Faq || mongoose.model("Faq", FaqSchema);
+export default defineModel("Faq", FaqSchema);

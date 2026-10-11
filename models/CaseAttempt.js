@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { defineModel } from "@/lib/model";
 
 const caseAttemptSchema = new mongoose.Schema({
     user: {
@@ -125,10 +126,28 @@ const caseAttemptSchema = new mongoose.Schema({
             recommendations: [String],
         },
         summary: String,
+
+        // How the consultation compared with the student's plan (only when they wrote one)
+        planReview: {
+            summary: String,
+            followed: [String],
+            skipped: [String],
+            missing: [String],
+        },
+    },
+
+    // Copy of the student's consultation plan and confidence ratings when the session started,
+    // so each attempt keeps what was planned at the time even if the plan is edited later
+    prep: {
+        plan: String,
+        confidence: {
+            type: Map,
+            of: Number,
+        },
     },
     score: Number,
 }, {
     timestamps: true,
 })
 
-export default mongoose.models.CaseAttempt || mongoose.model("CaseAttempt", caseAttemptSchema);
+export default defineModel("CaseAttempt", caseAttemptSchema);

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { dbconnect } from "@/lib/mongo";
-import ai from "@/lib/gemini";
+import { generateWithFallback } from "@/lib/gemini";
 
 import CaseAttempt from "@/models/CaseAttempt";
 import Case from "@/models/Case";
@@ -155,8 +155,8 @@ IMPORTANT RULES:
 - Respond as the patient, not as an AI assistant.
 `;
 
-        const response = await ai.models.generateContent({
-            model: "gemini-3.5-flash",
+        // Falls back to lighter Gemini models when the main one is over quota or overloaded
+        const response = await generateWithFallback({
             contents: [
                 ...history,
                 {

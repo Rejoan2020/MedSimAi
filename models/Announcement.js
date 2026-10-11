@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { defineModel } from "@/lib/model";
 
 const AnnouncementSchema = new mongoose.Schema({
     title: { type: String, required: true },
@@ -11,4 +12,4 @@ const AnnouncementSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-export default mongoose.models.Announcement || mongoose.model("Announcement", AnnouncementSchema);
+export default defineModel("Announcement", AnnouncementSchema);

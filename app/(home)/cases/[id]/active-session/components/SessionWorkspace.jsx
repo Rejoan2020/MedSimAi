@@ -8,8 +8,9 @@ import Note from './Note'
 
 // Chat plus notes. Notes are a side panel on large screens and a slide-up panel below,
 // using a single Note instance so unsaved text survives opening and closing it.
-export default function SessionWorkspace({ slug, title, attemptId, startedAt, initialMessages, initialNotes }) {
+export default function SessionWorkspace({ slug, title, attemptId, startedAt, initialMessages, initialNotes, plan = '' }) {
     const [notesOpen, setNotesOpen] = useState(false)
+    const [panelTab, setPanelTab] = useState('notes')
 
     return (
         <div className="flex h-full min-h-0 w-full flex-col gap-3 p-3 sm:p-4 lg:p-6">
@@ -39,8 +40,20 @@ export default function SessionWorkspace({ slug, title, attemptId, startedAt, in
                     aria-label="Consultation notes"
                     className={`${notesOpen ? 'flex' : 'hidden'} fixed inset-x-0 bottom-0 z-50 h-[75dvh] flex-col overflow-hidden rounded-t-2xl bg-white shadow-xl lg:static lg:z-auto lg:flex lg:h-auto lg:w-80 lg:shrink-0 lg:rounded-xl lg:border lg:border-gray-200 lg:shadow-none`}
                 >
-                    <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-4 py-3">
-                        <h2 className="font-semibold">Consultation Notes</h2>
+                    <div className="flex shrink-0 items-center justify-between gap-2 border-b border-gray-200 px-3 py-2.5">
+                        <div role="tablist" aria-label="Notes and plan" className="grid flex-1 grid-cols-2 gap-1 rounded-full bg-brand-primary p-1 text-sm">
+                            {[['notes', 'Notes'], ['plan', 'Your plan']].map(([value, label]) =>
+                                <button
+                                    key={value}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={panelTab === value}
+                                    onClick={() => setPanelTab(value)}
+                                    className={`rounded-full py-1.5 font-medium cursor-pointer ${panelTab === value ? 'bg-white text-light-blue shadow-sm' : 'text-deep-blue'}`}
+                                >
+                                    {label}
+                                </button>)}
+                        </div>
                         <button
                             type="button"
                             onClick={() => setNotesOpen(false)}
@@ -50,9 +63,18 @@ export default function SessionWorkspace({ slug, title, attemptId, startedAt, in
                             <X className="h-5 w-5" />
                         </button>
                     </div>
-                    <div className="min-h-0 flex-1 overflow-y-auto">
+                    {/* Notes stay mounted while the plan tab is open, so unsaved notes aren't lost */}
+                    <div className={`min-h-0 flex-1 overflow-y-auto ${panelTab === 'notes' ? '' : 'hidden'}`}>
                         <Note attemptId={attemptId} initialNotes={initialNotes} />
                     </div>
+                    {panelTab === 'plan' &&
+                        <div className="min-h-0 flex-1 overflow-y-auto p-4">
+                            {plan
+                                ? <p className="whitespace-pre-wrap text-sm leading-6 text-deep-blue">{plan}</p>
+                                : <p className="text-sm text-Secondary-Text">
+                                    You didn&apos;t write a consultation plan for this case. Add one on the case page before your next attempt.
+                                </p>}
+                        </div>}
                 </aside>
             </div>
         </div>
