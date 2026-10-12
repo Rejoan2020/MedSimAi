@@ -34,7 +34,6 @@ export default function FAQ({ questions }) {
                         }`}
                     >
 
-                        {/* Question */}
                         <button
                             type="button"
                             onClick={() => toggleQuestion(item._id)}
@@ -55,7 +54,6 @@ export default function FAQ({ questions }) {
                         </button>
 
 
-                        {/* Answer */}
                         {isOpen && (
                             <div className="border-t border-gray-100 px-4 py-4 sm:px-6 sm:py-5">
                                 <p className="text-sm leading-6 text-gray-600">

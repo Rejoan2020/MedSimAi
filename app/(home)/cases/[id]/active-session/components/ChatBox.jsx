@@ -7,7 +7,6 @@ export default function ChatBox({ attemptId, initialMessages = [] }) {
 
     const [message, setMessage] = useState('')
 
-    // Start from the saved conversation so a page refresh doesn't lose it
     const [messages, setMessages] = useState(initialMessages)
 
     const [isSending, setIsSending] = useState(false)
@@ -67,7 +66,6 @@ export default function ChatBox({ attemptId, initialMessages = [] }) {
         } catch (error) {
             console.error("AI consultation error:", error)
 
-            // The message wasn't saved, so take it back out and let the student resend it
             setMessages((prev) => prev.slice(0, -1))
             setMessage(userMessage)
             setError("The patient couldn't respond. Please try sending your message again.")

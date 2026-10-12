@@ -12,7 +12,6 @@ import {
     Users,
 } from 'lucide-react'
 
-// Menus shared by the desktop sidebar and the mobile menu
 export function getMenu(variant, isAdmin) {
     if (variant === 'admin') {
         return [

@@ -7,7 +7,6 @@ import PageHeader, { PageContainer } from '@/app/components/PageHeader'
 const LEVELS = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 const selectClass = 'w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-light-blue focus:ring-2 focus:ring-light-blue/20';
 
-// Unique, sorted values for a filter, built from the cases themselves
 function optionsFrom(values) {
     return ['All', ...[...new Set(values.filter(Boolean))].sort()];
 }
@@ -18,7 +17,6 @@ export default function Cases({ data, stats = {} }) {
     const [difficulty, setDifficulty] = useState('All');
     const [specialty, setSpecialty] = useState('All');
     const [casetype, setCasetype] = useState('All');
-    // On phones the filters are behind a button to keep the list near the top
     const [showFilters, setShowFilters] = useState(false);
 
     const specialties = useMemo(() => optionsFrom(cards.map((c) => c.specialty)), [cards]);

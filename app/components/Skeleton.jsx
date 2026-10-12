@@ -1,16 +1,10 @@
 import React from 'react'
 
-// Building blocks for loading screens that mirror each page's layout, so content
-// appears in place instead of after a blank spinner.
-
-// A single placeholder shape
 export function Bone({ className = '' }) {
-    // A background passed in className replaces the default tint
     const background = /(^|\s)bg-/.test(className) ? '' : 'bg-brand-primary'
     return <div aria-hidden className={`animate-pulse rounded-lg ${background} motion-reduce:animate-none ${className}`} />
 }
 
-// Wraps a loading screen: announced once to screen readers, with the page's usual spacing
 export function SkeletonPage({ children, label = 'Loading', className = '' }) {
     return (
         <div role='status' aria-live='polite' className={`mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8 lg:py-10 ${className}`}>
@@ -20,7 +14,6 @@ export function SkeletonPage({ children, label = 'Loading', className = '' }) {
     )
 }
 
-// Page title area: small label, title and description
 export function SkeletonHeader({ withIcon = true, withAction = false }) {
     return (
         <div className='flex flex-wrap items-end justify-between gap-4'>
@@ -37,12 +30,10 @@ export function SkeletonHeader({ withIcon = true, withAction = false }) {
     )
 }
 
-// White card in the app's card style
 export function SkeletonCard({ children, className = '' }) {
     return <div className={`rounded-2xl border border-brand-secondary bg-white p-5 sm:p-6 ${className}`}>{children}</div>
 }
 
-// A list row: icon tile, two lines of text and a pill on the right
 export function SkeletonRow({ withPill = true }) {
     return (
         <div className='flex items-center gap-4 rounded-xl border border-brand-secondary bg-white p-4'>
@@ -56,7 +47,6 @@ export function SkeletonRow({ withPill = true }) {
     )
 }
 
-// A titled card holding a few rows, like the dashboard sections
 export function SkeletonSection({ rows = 3 }) {
     return (
         <SkeletonCard className='flex flex-col gap-4'>
@@ -69,7 +59,6 @@ export function SkeletonSection({ rows = 3 }) {
     )
 }
 
-// A few lines of paragraph text, the last one shorter
 export function SkeletonText({ lines = 3 }) {
     return (
         <div className='flex flex-col gap-2'>

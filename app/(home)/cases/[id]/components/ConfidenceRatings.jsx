@@ -10,7 +10,6 @@ export default function ConfidenceRatings({ caseId, initialRatings = {} }) {
     const [savingSkill, setSavingSkill] = useState(null)
     const [error, setError] = useState('')
 
-    // Each click saves straight away; roll back if the save fails
     async function rate(skill, rating) {
         const previous = ratings[skill]
         setRatings((prev) => ({ ...prev, [skill]: rating }))

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Activity, Baby, Brain, HeartPulse, Scissors, Siren, Stethoscope, Wind } from 'lucide-react'
 
-// Line icon per specialty, in the style of a department card
 const ICONS = {
     cardiology: HeartPulse,
     respiratory: Wind,

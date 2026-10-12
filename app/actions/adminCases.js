@@ -9,7 +9,6 @@ import CasePrep from '@/models/CasePrep'
 import { formToCase } from '@/utils/caseFields'
 import { slugify } from '@/utils/slugify'
 
-// A slug based on the title that no other case uses yet, e.g. "chest-pain-2"
 async function uniqueSlug(title) {
     const base = slugify(title) || 'case';
     let slug = base;
@@ -44,7 +43,6 @@ export async function updateCase(caseId, values) {
     if (error) return { success: false, message: error };
     if (Object.keys(update.$unset).length === 0) delete update.$unset;
 
-    // The slug is kept as is so existing links and attempts keep working
     await dbconnect();
     const result = await Case.updateOne({ _id: caseId }, update, { runValidators: true });
     if (!result.matchedCount) return { success: false, message: 'Case not found.' };

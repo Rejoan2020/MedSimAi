@@ -10,7 +10,6 @@ import { CONFIDENCE_SKILLS } from '@/utils/confidenceSkills'
 
 const MAX_TEXT_LENGTH = 10000;
 
-// Shared checks for saving prep for a case; returns the user or an error result
 async function authorizeCase(caseId) {
     const user = await getCurrentUser();
     if (!user) return { error: 'You need to sign in again.' };

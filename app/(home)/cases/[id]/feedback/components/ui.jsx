@@ -1,6 +1,3 @@
-// Shared pieces for the feedback page: score bands, the score ring and icon tiles
-
-// Same bands the AI evaluator is told to use (see the feedback prompt)
 export function scoreBand(score) {
     if (score >= 90) return { label: 'Excellent', color: '#15803D', pill: 'bg-green-100 text-green-700' }
     if (score >= 80) return { label: 'Very good', color: '#16A34A', pill: 'bg-green-100 text-green-700' }
@@ -15,7 +12,6 @@ const RING_SIZES = {
     lg: { outer: 'h-36 w-36 sm:h-40 sm:w-40', inner: 'h-28 w-28 sm:h-32 sm:w-32', text: 'text-4xl' },
 }
 
-// Donut chart for a 0-100 score, coloured by its band
 export function ScoreRing({ score, size = 'md' }) {
     const band = scoreBand(score)
     const s = RING_SIZES[size]
@@ -35,7 +31,6 @@ export function ScoreRing({ score, size = 'md' }) {
     )
 }
 
-// Rounded square with an icon, used beside section headings
 export function IconTile({ icon: Icon, className = 'bg-brand-primary text-light-blue' }) {
     return (
         <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${className}`}>

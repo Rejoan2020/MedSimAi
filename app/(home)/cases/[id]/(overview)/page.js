@@ -25,12 +25,10 @@ export default async function Page({ params }) {
   if (!patient) notFound();
   const caseId = patient._id;
 
-  // The student's saved confidence ratings and consultation plan for this case
   const [prep, attempts] = await Promise.all([
     CasePrep.findOne({ user: user._id, case: caseId }).lean(),
     getStudentAttempts(user._id, { caseId }),
   ]);
-  // The newest unfinished attempt at this case, if any (attempts are newest first)
   const inProgress = attempts.find((a) => a.status === 'started') ?? null;
   const initialRatings = prep?.confidence ? Object.fromEntries(Object.entries(prep.confidence)) : {};
 
@@ -65,7 +63,6 @@ export default async function Page({ params }) {
               <span key={i} className='inline-flex items-center gap-1 rounded-full bg-brand-primary px-2.5 py-1 text-deep-blue'>{badge}</span>)}
           </div>
         </div>
-        {/* Demo accounts can't use the AI; with an unfinished attempt, resuming it is the main action */}
         {user.isDemo
           ? <div className='flex flex-col items-stretch gap-2 sm:max-w-60 sm:shrink-0 sm:items-end sm:text-right'>
             <span aria-disabled='true' className='flex items-center justify-center gap-2 rounded-full bg-gray-100 px-5 py-3 font-medium text-gray-500'>

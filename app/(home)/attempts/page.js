@@ -18,7 +18,6 @@ export default async function page({ searchParams }) {
   const { case: caseSlug } = await searchParams;
   const allAttempts = await getStudentAttempts(user._id);
 
-  // Cases the student has attempted, for the filter
   const attemptedCases = [...new Map(allAttempts.map((a) => [a.slug, { slug: a.slug, title: a.title }])).values()]
     .sort((a, b) => a.title.localeCompare(b.title));
   const selected = attemptedCases.some((c) => c.slug === caseSlug) ? caseSlug : null;

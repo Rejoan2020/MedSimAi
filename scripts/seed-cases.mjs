@@ -1,5 +1,4 @@
 // Usage: node --env-file=.env scripts/seed-cases.mjs
-// Adds demo cases. Existing cases with the same slug are left untouched, so it is safe to re-run.
 import mongoose from "mongoose";
 
 const behavior = (emotionalState) => ({

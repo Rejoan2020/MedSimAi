@@ -27,8 +27,6 @@ export default function Dashboard({ name, data }) {
         <PageContainer>
             <Welcome name={name} stats={stats} nextCase={data.recommendedCases[0] ?? null} />
 
-            {/* With unfinished sessions: what's next and what to resume side by side, results below.
-                Without: what's next beside recent results. */}
             {hasInProgress
                 ? <>
                     <div className='grid items-start gap-6 xl:grid-cols-2'>

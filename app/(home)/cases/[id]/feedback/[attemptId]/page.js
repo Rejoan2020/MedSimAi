@@ -8,7 +8,6 @@ import { compareConfidence } from '@/utils/confidenceCheck'
 import { dbconnect } from '@/lib/mongo';
 import { getCurrentUser } from '@/lib/currentUser';
 
-// Turns a stored feedback category into plain props, tolerating missing fields
 function toCategory(category) {
     return {
         score: category?.score ?? 0,
@@ -63,7 +62,6 @@ export default async function page({ params }) {
         communication: toCategory(stored.communication),
     };
 
-    // The plan and confidence ratings saved when this attempt started, and how they compared
     const plan = caseAttempt.prep?.plan ?? '';
     const planReview = stored.planReview?.summary || stored.planReview?.followed?.length
         ? {

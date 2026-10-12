@@ -29,8 +29,6 @@ const CasesSchema = new mongoose.Schema({
         },
 
         clinicalData: {
-            // chiefComplaint: String,
-
             historyOfPresentIllness: String,
 
             symptoms: {
@@ -109,18 +107,6 @@ const CasesSchema = new mongoose.Schema({
             },
         },
 
-        // investigations: {
-        //     available: {
-        //         type: [
-        //             {
-        //                 name: String,
-        //                 result: String,
-        //             },
-        //         ],
-        //         default: [],
-        //     },
-        // },
-
         diagnosis: {
             primary: String,
 
@@ -140,11 +126,6 @@ const CasesSchema = new mongoose.Schema({
                 type: [String],
                 default: [],
             },
-
-            // scoringCriteria: {
-            //     type: [String],
-            //     default: [],
-            // },
         },
     },
     isPublished: {

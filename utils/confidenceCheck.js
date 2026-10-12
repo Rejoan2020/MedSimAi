@@ -1,7 +1,5 @@
 import { CONFIDENCE_SKILLS } from './confidenceSkills'
 
-// Which part of the feedback reflects each skill students rate before a case.
-// A matching section score (e.g. "Red Flag Recognition") is used when the evaluator gave one.
 const SKILL_SOURCES = {
     'History taking': { category: 'consultation' },
     'Clinical reasoning': { category: 'medicalKnowledge' },
@@ -10,7 +8,6 @@ const SKILL_SOURCES = {
     'Forming a differential diagnosis': { category: 'medicalKnowledge', section: /differential/i },
 }
 
-// A gap this large (in percentage points) between confidence and score is worth pointing out
 const GAP = 25
 
 function skillScore(feedback, { category, section }) {
@@ -21,8 +18,6 @@ function skillScore(feedback, { category, section }) {
     return typeof data.score === 'number' ? data.score : null
 }
 
-// Compares the student's 1-5 confidence ratings with how they actually scored.
-// A rating of 1-5 is read as 20-100%; returns one row per rated skill.
 export function compareConfidence(confidence, feedback) {
     if (!confidence) return []
     return CONFIDENCE_SKILLS

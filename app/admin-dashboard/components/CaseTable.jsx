@@ -66,7 +66,6 @@ export default function CaseTable({ cases }) {
         <div className='flex flex-col'>
             {error && <p className='px-4 pt-4 text-sm text-red-600 sm:px-6'>{error}</p>}
 
-            {/* Cards on small screens */}
             <ul className='divide-y divide-gray-100 md:hidden'>
                 {cases.map((c) =>
                     <li key={c._id} className='flex flex-col gap-2 p-4'>
@@ -82,7 +81,6 @@ export default function CaseTable({ cases }) {
                     </li>)}
             </ul>
 
-            {/* Table from md up */}
             <table className='hidden w-full text-left text-sm md:table'>
                 <thead className='border-b border-gray-100 text-Secondary-Text'>
                     <tr>

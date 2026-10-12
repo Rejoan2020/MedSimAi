@@ -8,7 +8,6 @@ const VERDICTS = {
     underconfident: { label: 'Underconfident', className: 'bg-brand-primary text-light-blue' },
 }
 
-// How confident the student said they were before the case, next to how they scored
 export default function ConfidenceCheck({ rows }) {
     const overconfident = rows.filter((r) => r.verdict === 'overconfident').map((r) => r.skill.toLowerCase())
 

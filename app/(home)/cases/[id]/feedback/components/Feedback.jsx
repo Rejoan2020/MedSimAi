@@ -23,7 +23,6 @@ const TABS = [
     { name: 'Tutor feedback', short: 'Tutor', icon: GraduationCap },
 ];
 
-// The three scored categories, in the order they're shown
 const CATEGORIES = [
     { id: 'consultation', key: 'consultation', title: 'Consultation', subtitle: 'History taking, structure and coverage', icon: Stethoscope },
     { id: 'clinical-reasoning', key: 'medicalKnowledge', title: 'Clinical Reasoning', subtitle: 'Differentials, red flags and next steps', icon: BrainCircuit },
@@ -33,7 +32,6 @@ const panelClass = 'rounded-2xl border border-brand-secondary bg-white p-4 sm:p-
 
 export default function Feedback({ feedback, messages = [], notes = "", caseTitle, caseSlug, plan = "", planReview = null, confidenceRows = [] }) {
     const [activeTab, setActiveTab] = useState('AI Feedback');
-    // Category cards start collapsed; each opens independently
     const [openSections, setOpenSections] = useState({});
     const toggleSection = (id) => setOpenSections((prev) => ({ ...prev, [id]: !prev[id] }));
     const { overallScore, summary } = feedback;

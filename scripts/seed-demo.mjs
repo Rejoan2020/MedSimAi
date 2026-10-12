@@ -1,8 +1,4 @@
-// Creates the shared demo accounts and gives the demo student a realistic attempt history,
-// so portfolio visitors can explore the app without signing up or waiting for the AI.
-// Re-running it resets the demo student's attempts and preparation to this sample data.
-//
-// Usage: npm run seed:demo   (needs MONGODB_URI and DEMO_PASSWORD in .env; run seed-cases.mjs first)
+// Usage: npm run seed:demo (run seed-cases.mjs first)
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
@@ -30,7 +26,6 @@ const category = (score, description, performance, strengths, improvements, reco
     recommendations,
 });
 
-// Turns [["student", "..."], ["patient", "..."]] into messages a minute apart
 const transcript = (startedAt, lines) =>
     lines.map(([role, content], i) => ({ _id: new mongoose.Types.ObjectId(), role, content, createdAt: new Date(startedAt + i * 50 * 1000) }));
 
@@ -49,7 +44,6 @@ const CHEST_PAIN_CONFIDENCE = {
     "Forming a differential diagnosis": 3,
 };
 
-// Oldest first, so the dashboard shows progress over time
 const ATTEMPTS = [
     {
         slug: "shortness-of-breath",
@@ -266,7 +260,6 @@ for (const account of ACCOUNTS) {
     console.log(`ready   ${account.email} (${account.role})`);
 }
 
-// Reset the demo student's history
 const student = ids.student;
 const attempts = db.collection("caseattempts");
 const preps = db.collection("casepreps");

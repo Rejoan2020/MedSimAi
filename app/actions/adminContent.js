@@ -12,8 +12,6 @@ function cleanText(value) {
     return typeof value === 'string' ? value.trim().slice(0, MAX_LENGTH) : '';
 }
 
-// ---------- Announcements ----------
-
 function toAnnouncement(values) {
     const announcement = {
         title: cleanText(values?.title),
@@ -55,8 +53,6 @@ export async function deleteAnnouncement(id) {
     return { success: true };
 }
 
-// ---------- FAQ ----------
-
 export async function saveFaq(id, values) {
     const { denied } = await authorizeAdminAction();
     if (denied) return denied;
@@ -66,7 +62,6 @@ export async function saveFaq(id, values) {
 
     await dbconnect();
     if (!id) {
-        // New questions go to the end of the list
         const last = await Faq.findOne().sort({ order: -1 }).select('order').lean();
         await Faq.create({ ...faq, order: (last?.order ?? 0) + 1 });
         return { success: true };
@@ -87,7 +82,6 @@ export async function deleteFaq(id) {
     return { success: true };
 }
 
-// Swaps a question with its neighbour above (-1) or below (1)
 export async function moveFaq(id, direction) {
     const { denied } = await authorizeAdminAction();
     if (denied) return denied;
@@ -100,7 +94,6 @@ export async function moveFaq(id, direction) {
     if (index === -1 || target < 0 || target >= faqs.length) return { success: true };
 
     [faqs[index], faqs[target]] = [faqs[target], faqs[index]];
-    // Renumber everything so the order stays consistent even if numbers had gaps or ties
     await Faq.bulkWrite(faqs.map((f, i) => ({
         updateOne: { filter: { _id: f._id }, update: { $set: { order: i + 1 } } },
     })));

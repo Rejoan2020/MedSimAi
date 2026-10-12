@@ -1,6 +1,5 @@
 import { Bone } from '@/app/components/Skeleton'
 
-// Mirrors the live session: header with timer and stop button, chat, and notes panel
 export default function Loading() {
     const bubbles = [
         { side: 'end', width: 'w-2/3 sm:w-1/2' },

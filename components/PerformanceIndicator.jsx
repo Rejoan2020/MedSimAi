@@ -1,6 +1,5 @@
 import React from 'react'
 
-// Horizontal bar for a section score out of 10
 export default function PerformanceIndicator({ score, color = 'var(--color-light-blue)' }) {
   const percentage = Math.max(0, Math.min(100, score * 10));
   return (

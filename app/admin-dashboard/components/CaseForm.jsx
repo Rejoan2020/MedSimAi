@@ -33,7 +33,6 @@ export default function CaseForm({ initialCase }) {
         setValues((prev) => ({ ...prev, [field]: value }))
     }
 
-    // Small helpers so every field is wired the same way
     const text = (field, label, props = {}) => (
         <label className='flex flex-col gap-2 text-sm font-medium'>
             {label}

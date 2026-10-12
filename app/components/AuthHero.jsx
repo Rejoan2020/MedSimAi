@@ -7,7 +7,6 @@ const FEATURES = [
     { icon: Sparkles, title: 'Instant feedback', text: 'Scored on consultation, reasoning and communication' },
 ]
 
-// Gradient side panel for the sign-in and sign-up pages (large screens only)
 export default function AuthHero({ title = 'Compassionate care starts with confident practice.' }) {
     return (
         <div className='hero-gradient relative hidden h-full min-h-dvh overflow-hidden lg:flex'>

@@ -3,8 +3,6 @@ import React from 'react'
 import Link from 'next/link'
 import SpecialtyIcon from '@/app/components/SpecialtyIcon'
 
-// Compact case row; fills with the primary blue on hover, like a selected department card.
-// meta replaces the default "specialty · level" line; result is shown in a pill on the right.
 export default function CaseCard({ href, title, type, level, meta, result }) {
     return (
         <Link

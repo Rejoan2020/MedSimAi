@@ -6,8 +6,6 @@ import Header from './Header'
 import ChatBox from './ChatBox'
 import Note from './Note'
 
-// Chat plus notes. Notes are a side panel on large screens and a slide-up panel below,
-// using a single Note instance so unsaved text survives opening and closing it.
 export default function SessionWorkspace({ slug, title, attemptId, startedAt, initialMessages, initialNotes, plan = '' }) {
     const [notesOpen, setNotesOpen] = useState(false)
     const [panelTab, setPanelTab] = useState('notes')
@@ -63,7 +61,6 @@ export default function SessionWorkspace({ slug, title, attemptId, startedAt, in
                             <X className="h-5 w-5" />
                         </button>
                     </div>
-                    {/* Notes stay mounted while the plan tab is open, so unsaved notes aren't lost */}
                     <div className={`min-h-0 flex-1 overflow-y-auto ${panelTab === 'notes' ? '' : 'hidden'}`}>
                         <Note attemptId={attemptId} initialNotes={initialNotes} />
                     </div>

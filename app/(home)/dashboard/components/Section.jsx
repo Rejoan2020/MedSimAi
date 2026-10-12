@@ -1,6 +1,5 @@
 import React from 'react'
 
-// A titled card used for each dashboard list
 export default function Section({ eyebrow, title, action, children }) {
     return (
         <section className='flex min-w-0 flex-col gap-4 rounded-2xl border border-brand-secondary bg-white p-5 sm:p-6'>

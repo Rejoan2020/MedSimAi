@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation'
 
-// Filters the attempts page by case through the URL (?case=<slug>), so filtered views can be linked to
 export default function CaseFilter({ cases, selected }) {
     const router = useRouter()
 

@@ -7,7 +7,6 @@ import { adminLogout, logout } from '../actions/auth'
 import { usePathname } from 'next/navigation'
 import { getMenu, isActive } from './navigation'
 
-// Menu links, user details and sign out; used by the desktop sidebar and the mobile menu
 export function NavContent({ name, email, variant = 'student', isAdmin = false, onNavigate }) {
     const pathname = usePathname()
     const menu = getMenu(variant, isAdmin)
@@ -69,7 +68,6 @@ export function Logo({ href }) {
                 height={32}
                 alt='MedSimAI'
                 src={'/logo/medsimailogo.png'}
-                // White version of the logo for the blue gradient navigation
                 className='h-8 w-[182px] brightness-0 invert'
                 priority
             />
@@ -77,7 +75,6 @@ export function Logo({ href }) {
     )
 }
 
-// Desktop sidebar, shown from the lg breakpoint; MobileNav takes over below it
 export default function Sidebar(props) {
     return (
         <aside className='nav-gradient hidden w-64 shrink-0 flex-col lg:flex'>

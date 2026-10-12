@@ -10,7 +10,6 @@ export default function CaseCard({ title, slug, image, tags, specialty, difficul
     return (
         <article className='flex flex-col overflow-hidden rounded-2xl border border-brand-secondary bg-white transition hover:border-light-blue hover:shadow-[0_8px_30px_rgb(48_123_196_/_0.12)]'>
             <div className='flex flex-col gap-4 p-4 sm:flex-row sm:p-5'>
-                {/* Case image fills its tile; cropped towards the top so faces and chests stay in view */}
                 <div className='relative h-44 shrink-0 overflow-hidden rounded-xl bg-brand-primary ring-1 ring-brand-secondary sm:h-32 sm:w-32'>
                     <Image
                         fill alt='' src={image || '/cases/person.png'} priority={priority}

@@ -1,6 +1,5 @@
 import { Bone, SkeletonPage, SkeletonSection, SkeletonText } from '@/app/components/Skeleton'
 
-// Mirrors the dashboard: hero with text and doctor image, stats card, then the sections
 export default function Loading() {
     return (
         <SkeletonPage label='Loading your dashboard'>

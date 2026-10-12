@@ -4,15 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Logo, NavContent } from './Sidebar'
 
-// Top bar with a slide-in menu, shown below the lg breakpoint
 export default function MobileNav(props) {
     const pathname = usePathname()
-    // The page the menu was opened on; navigating anywhere else closes it
     const [openedOn, setOpenedOn] = useState(null)
     const open = openedOn === pathname
     const setOpen = (value) => setOpenedOn(value ? pathname : null)
 
-    // Close on Escape
     useEffect(() => {
         if (!open) return
         const onKey = (e) => e.key === 'Escape' && setOpenedOn(null)

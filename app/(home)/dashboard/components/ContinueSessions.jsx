@@ -4,7 +4,6 @@ import { ArrowRight } from 'lucide-react'
 import CaseCard from './CaseCard'
 import Section from './Section'
 
-// "3 hours ago", "2 days ago"
 function timeAgo(value) {
     const seconds = Math.round((new Date(value) - Date.now()) / 1000)
     const units = [['year', 31536000], ['month', 2592000], ['day', 86400], ['hour', 3600], ['minute', 60]]
@@ -15,7 +14,6 @@ function timeAgo(value) {
     return 'just now'
 }
 
-// Unfinished sessions the student can resume
 export default function ContinueSessions({ sessions, total }) {
     return (
         <Section

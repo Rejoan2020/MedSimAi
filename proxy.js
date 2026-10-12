@@ -7,11 +7,9 @@ export default auth((req) => {
     const { pathname } = req.nextUrl
     const isAdminArea = pathname.startsWith("/admin-dashboard")
 
-    // The admin login page must stay reachable while signed out
     if (pathname === ADMIN_LOGIN) return
 
-    // Static files in public/ (e.g. /cases/chest.png) must load without a session:
-    // the image optimizer fetches them without the user's cookies
+    // Static files must load without a session (the image optimizer has no cookies)
     if (/\.[a-z0-9]+$/i.test(pathname)) return
 
     if (!req.auth) {

@@ -20,7 +20,6 @@ export default async function Page({ params, searchParams }) {
     const clinicalCase = await Case.findOne({ slug }).select('_id title').lean();
     if (!clinicalCase) notFound();
 
-    // Load the attempt from the URL; without one, fall back to the newest in-progress attempt
     let caseAttempt = null;
     if (isValidObjectId(attemptId)) {
         caseAttempt = await CaseAttempt.findOne({ _id: attemptId, user: user._id, case: clinicalCase._id });
@@ -36,7 +35,6 @@ export default async function Page({ params, searchParams }) {
     }
     if (caseAttempt.status !== 'started') notFound();
 
-    // The plan saved with this attempt; sessions started before plans were saved use the current one
     const plan = caseAttempt.prep?.plan != null
         ? caseAttempt.prep.plan
         : (await CasePrep.findOne({ user: user._id, case: clinicalCase._id }).select('plan').lean())?.plan ?? '';

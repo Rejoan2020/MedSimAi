@@ -24,7 +24,6 @@ function StatusBadge({ status }) {
     )
 }
 
-// The action for an attempt: feedback once completed, or resume while in progress
 function AttemptAction({ attempt }) {
     if (attempt.status === 'completed') {
         return (
@@ -49,7 +48,6 @@ function AttemptAction({ attempt }) {
     return null
 }
 
-// A student's attempts, newest first. showCase adds the case name for mixed lists.
 export default function AttemptList({ attempts, showCase = true, emptyText = "You haven't attempted any cases yet." }) {
     if (attempts.length === 0) {
         return <div className='rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center text-Secondary-Text'>{emptyText}</div>

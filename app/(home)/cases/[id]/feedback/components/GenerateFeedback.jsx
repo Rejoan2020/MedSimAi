@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Sparkles } from 'lucide-react'
 
-// Shown when a completed session has no feedback yet (e.g. the AI was busy when the session ended)
 export default function GenerateFeedback({ attemptId }) {
     const router = useRouter()
     const [isGenerating, setIsGenerating] = useState(false)

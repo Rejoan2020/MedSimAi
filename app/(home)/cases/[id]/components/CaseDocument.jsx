@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 
-// react-pdf needs browser APIs (DOMMatrix), so the viewer is only rendered in the browser
+// react-pdf needs browser APIs, so render client-side only
 const PDFReader = dynamic(() => import('./PDFReader'), {
     ssr: false,
     loading: () => (

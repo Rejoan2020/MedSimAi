@@ -21,7 +21,6 @@ function PointList({ icon: Icon, iconClass, title, points, empty }) {
     )
 }
 
-// The plan the student wrote before this attempt, and how the consultation compared with it
 export default function PlanReview({ plan, review }) {
     const [showPlan, setShowPlan] = useState(false)
 

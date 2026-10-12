@@ -1,6 +1,5 @@
 import { SkeletonHeader, SkeletonPage, SkeletonRow } from '@/app/components/Skeleton'
 
-// Mirrors My attempts: header with the case filter, then a list of attempts
 export default function Loading() {
     return (
         <SkeletonPage label='Loading your attempts'>

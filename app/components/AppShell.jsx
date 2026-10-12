@@ -8,7 +8,6 @@ const DEMO_NOTES = {
     admin: "You're exploring the demo admin. Look around freely; changes aren't saved.",
 }
 
-// Page frame for signed-in areas: sidebar on large screens, top bar + menu below
 export default function AppShell({ children, demo = false, ...navProps }) {
     return (
         <div className='flex h-dvh w-full flex-col overflow-hidden lg:flex-row'>

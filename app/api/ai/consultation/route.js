@@ -12,7 +12,6 @@ export async function POST(req) {
     try {
         await dbconnect();
 
-        // Authenticate user
         const session = await auth();
 
         if (!session?.user) {
@@ -25,7 +24,6 @@ export async function POST(req) {
             );
         }
 
-        // Find user
         const user = await User.findOne({
             email: session.user.email,
         });
@@ -50,7 +48,6 @@ export async function POST(req) {
             );
         }
 
-        // Get request data
         const { attemptId, message } = await req.json();
 
         if (!attemptId || !message?.trim()) {
@@ -63,7 +60,6 @@ export async function POST(req) {
             );
         }
 
-        // Find case attempt
         const attempt = await CaseAttempt.findById(attemptId);
 
         if (!attempt) {
@@ -76,7 +72,6 @@ export async function POST(req) {
             );
         }
 
-        // Make sure this attempt belongs to the logged-in user
         if (attempt.user.toString() !== user._id.toString()) {
             return NextResponse.json(
                 {
@@ -87,7 +82,6 @@ export async function POST(req) {
             );
         }
 
-        // Make sure the case is still active
         if (attempt.status !== "started") {
             return NextResponse.json(
                 {
@@ -98,7 +92,6 @@ export async function POST(req) {
             );
         }
 
-        // Get clinical case
         const clinicalCase = await Case.findById(attempt.case);
 
         if (!clinicalCase) {
@@ -111,13 +104,11 @@ export async function POST(req) {
             );
         }
 
-        // Convert previous messages into Gemini format
         const history = attempt.messages.map((msg) => ({
             role: msg.role === "student" ? "user" : "model",
             parts: [{ text: msg.content }],
         }));
 
-        // Turn the case's behavior flags into explicit rules for the patient
         const { behavior = {}, diagnosis } = clinicalCase.aiScenario;
 
         const disclosureRule = behavior.revealInformationOnlyWhenAsked
@@ -132,7 +123,6 @@ export async function POST(req) {
             ? "You may use medical terms, as a patient familiar with their condition would."
             : "Use everyday language, not medical terminology.";
 
-        // System instructions for the simulated patient
         const instructions = `
 You are a simulated patient in a medical education platform called MedSimAI.
 
@@ -166,7 +156,6 @@ IMPORTANT RULES:
 - Respond as the patient, not as an AI assistant.
 `;
 
-        // Falls back to lighter Gemini models when the main one is over quota or overloaded
         const response = await generateWithFallback({
             contents: [
                 ...history,
@@ -190,13 +179,11 @@ IMPORTANT RULES:
             throw new Error("Gemini returned an empty response.");
         }
 
-        // Save student's message
         attempt.messages.push({
             role: "student",
             content: message.trim(),
         });
 
-        // Save AI patient's response
         attempt.messages.push({
             role: "patient",
             content: aiMessage,

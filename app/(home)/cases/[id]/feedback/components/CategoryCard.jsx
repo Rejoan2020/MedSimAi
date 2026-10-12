@@ -5,7 +5,6 @@ import PerformanceIndicator from '@/components/PerformanceIndicator'
 import Details from './Details'
 import { IconTile, ScoreRing, scoreBand } from './ui'
 
-// One feedback category (consultation, clinical reasoning or communication); starts collapsed
 export default function CategoryCard({ id, title, subtitle, icon, category, open, onToggle }) {
     const band = scoreBand(category.score)
 

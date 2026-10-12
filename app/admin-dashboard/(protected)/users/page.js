@@ -9,7 +9,6 @@ export default async function page() {
   const admin = await requireAdminPage();
   const users = await getUsersWithStats();
 
-  // The demo admin is public, so real people's details are masked before they reach the browser
   const visibleUsers = admin.isDemo
     ? users.map((user) => user.isDemo ? user : { ...user, name: maskName(user.name), email: maskEmail(user.email) })
     : users;

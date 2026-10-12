@@ -1,10 +1,6 @@
-// Every field an admin can edit on a case, keyed by its path in the Case document.
-// The CMS form and the server actions both use this, so they stay in sync.
-
 export const DIFFICULTIES = ["Beginner", "Intermediate", "Advanced"];
 export const GENDERS = ["Male", "Female", "Other"];
 
-// Lists are edited as one item per line
 export const LIST_FIELDS = [
     "features",
     "aiScenario.clinicalData.symptoms.present",
@@ -74,7 +70,6 @@ function setPath(obj, path, value) {
     target[keys.at(-1)] = value;
 }
 
-// Flat form values for a case (or defaults for a new one)
 export function caseToForm(caseDoc = {}) {
     const values = {};
     for (const field of ALL_FIELDS) {
@@ -96,9 +91,6 @@ export function caseToForm(caseDoc = {}) {
     return values;
 }
 
-// Turns submitted form values into a Case document. Returns { data, update } or { error }:
-// data is for creating a case, update is a field-by-field MongoDB update for editing one
-// (so fields the form doesn't show are kept). Only known fields are read.
 export function formToCase(values) {
     const data = {};
     const cleared = [];
@@ -132,7 +124,6 @@ export function formToCase(values) {
     if (gender && !GENDERS.includes(gender)) return { error: "Invalid patient gender." };
     if (!gender) delete data.aiScenario.patient.gender;
 
-    // Stored as text, e.g. "10 minutes"
     data.duration = `${Math.round(data.durationMinutes)} minutes`;
     delete data.durationMinutes;
 

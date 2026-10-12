@@ -1,6 +1,5 @@
 import { SkeletonCard, SkeletonHeader, SkeletonPage, SkeletonText, Bone } from '@/app/components/Skeleton'
 
-// Fallback for student pages without their own loading screen (Announcements, Help & FAQ)
 export default function Loading() {
     return (
         <SkeletonPage>

@@ -20,7 +20,6 @@ function PointPanel({ icon: Icon, title, points, itemIcon: ItemIcon, panelClass,
     )
 }
 
-// Strengths, areas to improve and recommendations for one feedback category
 export default function Details({ strengths, improvements, recommendations }) {
     return (
         <div className='flex flex-col gap-4'>

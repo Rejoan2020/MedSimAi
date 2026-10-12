@@ -94,7 +94,6 @@ export default function UserManager({ users, currentUserId }) {
 
 
             <div className='rounded-2xl border border-brand-secondary bg-white'>
-                {/* Cards on small screens */}
                 <ul className='divide-y divide-gray-100 md:hidden'>
                     {users.map((user) => {
                         const isSelf = user._id === currentUserId
@@ -114,7 +113,6 @@ export default function UserManager({ users, currentUserId }) {
                     })}
                 </ul>
 
-                {/* Table from md up */}
                 <table className='hidden w-full text-left text-sm md:table'>
                     <thead className='border-b border-gray-100 text-Secondary-Text'>
                         <tr>

@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 import { defineModel } from "@/lib/model";
 
-// A student's preparation for a case before starting it: confidence ratings and consultation plan
 const casePrepSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,7 +19,6 @@ const casePrepSchema = new mongoose.Schema({
         default: '',
     },
 
-    // Skill name -> rating from 1 (not confident) to 5 (very confident)
     confidence: {
         type: Map,
         of: Number,

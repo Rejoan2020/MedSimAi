@@ -1,6 +1,4 @@
 // Usage: node --env-file=.env scripts/seed-content.mjs
-// Moves the announcements and FAQ that used to be hard-coded into the database.
-// Each collection is only seeded while it is empty, so it is safe to re-run.
 import mongoose from "mongoose";
 
 const announcements = [

@@ -7,7 +7,6 @@ import { DEMO_AI_OFF } from "@/lib/demo";
 import CaseAttempt from "@/models/CaseAttempt";
 import Case from "@/models/Case";
 
-// AI evaluation can take a while; give it time to finish
 export const maxDuration = 60;
 
 export async function POST(req, { params }) {
@@ -28,7 +27,6 @@ export async function POST(req, { params }) {
 
         const { attemptId } = await params;
 
-        // Only look up attempts owned by the signed-in user
         const attempt = isValidObjectId(attemptId)
             ? await CaseAttempt.findOne({
                 _id: attemptId,
@@ -56,7 +54,6 @@ export async function POST(req, { params }) {
             );
         }
 
-        // Feedback is generated once per attempt; return the saved copy on repeat calls
         if (attempt.feedback?.overallScore != null) {
             return NextResponse.json({
                 success: true,
@@ -65,7 +62,6 @@ export async function POST(req, { params }) {
             });
         }
 
-        // Demo accounts can read existing feedback but not generate new feedback
         if (user.isDemo) {
             return NextResponse.json(
                 {
@@ -102,7 +98,7 @@ export async function POST(req, { params }) {
             );
         }
 
-        // Only save if no feedback was stored meanwhile (e.g. by a second request), so it's never overwritten
+        // Never overwrite feedback saved by a parallel request
         const result = await CaseAttempt.updateOne(
             { _id: attempt._id, "feedback.overallScore": null },
             { $set: { feedback } },

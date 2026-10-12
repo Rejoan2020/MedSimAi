@@ -2,8 +2,6 @@ import { auth } from "@/auth";
 import { getPublicCases } from "@/lib/cases";
 import { NextResponse } from "next/server";
 
-// Cases are created and edited through the admin CMS (app/actions/adminCases.js)
-
 export async function GET() {
     try {
         const session = await auth();

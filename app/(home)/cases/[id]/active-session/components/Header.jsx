@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
 
-// "04:05", or "1:02:03" once past an hour
 function formatElapsed(totalSeconds) {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -14,7 +13,6 @@ function formatElapsed(totalSeconds) {
 }
 
 export default function Header({ slug, title, attemptId, startedAt, onToggleNotes }) {
-    // The timer counts from when the session started, so resuming or refreshing continues it
     const [now, setNow] = useState(() => Date.now());
     const [isStopping, setIsStopping] = useState(false);
     const [error, setError] = useState('');
@@ -35,7 +33,6 @@ export default function Header({ slug, title, attemptId, startedAt, onToggleNote
         setError('');
 
         try {
-            // On a retry the attempt may already be completed; only feedback is left to do
             if (!isCompletedRef.current) {
                 const completeResponse = await fetch(`/api/attempts/${attemptId}`, {
                     method: 'PATCH',
@@ -54,8 +51,6 @@ export default function Header({ slug, title, attemptId, startedAt, onToggleNote
                 isCompletedRef.current = true;
             }
 
-            // Generate feedback now if possible. If the AI is busy, the feedback page
-            // offers a "Generate feedback" button, so a failure here isn't a dead end.
             try {
                 const feedbackResponse = await fetch(`/api/attempts/${attemptId}/feedback`, { method: "POST" });
                 if (!feedbackResponse.ok) console.error("Feedback generation failed:", await feedbackResponse.text());

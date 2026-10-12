@@ -1,6 +1,5 @@
 import { Bone, SkeletonPage, SkeletonText } from '@/app/components/Skeleton'
 
-// Mirrors the feedback page: title, tabs, overall score hero, then category cards
 export default function Loading() {
     return (
         <SkeletonPage label='Loading feedback'>

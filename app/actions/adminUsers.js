@@ -41,7 +41,6 @@ export async function setUserRole(userId, role) {
     const { admin, denied } = await authorizeAdminAction();
     if (denied) return denied;
     if (!isValidObjectId(userId) || !ROLES.includes(role)) return { success: false, message: 'Invalid request.' };
-    // Stops admins from accidentally locking themselves out
     if (admin._id.toString() === userId) return { success: false, message: "You can't change your own role." };
 
     await dbconnect();
@@ -59,7 +58,6 @@ export async function deleteUser(userId) {
     await dbconnect();
     const result = await User.deleteOne({ _id: userId });
     if (!result.deletedCount) return { success: false, message: 'User not found.' };
-    // Remove the student's attempts and case preparation along with the account
     await Promise.all([
         CaseAttempt.deleteMany({ user: userId }),
         CasePrep.deleteMany({ user: userId }),

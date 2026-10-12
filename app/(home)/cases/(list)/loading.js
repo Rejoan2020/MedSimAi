@@ -1,6 +1,5 @@
 import { Bone, SkeletonCard, SkeletonHeader, SkeletonPage, SkeletonText } from '@/app/components/Skeleton'
 
-// Mirrors the case library: header, search and filters, then case cards
 export default function Loading() {
     return (
         <SkeletonPage label='Loading cases'>

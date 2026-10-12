@@ -5,8 +5,6 @@ import { signIn, signOut } from "@/auth";
 import { adminExists, createAccount } from "@/lib/accounts";
 import { DEMO_ACCOUNTS, demoEnabled } from "@/lib/demo";
 
-// Signs in and redirects. Wrong credentials return an error message instead of throwing;
-// the redirect after a successful sign-in is itself thrown, so other errors are re-thrown.
 async function signInWith(email, password, redirectTo) {
     try {
         await signIn("credentials", { email, password, redirectTo });
@@ -22,7 +20,6 @@ async function signin(prevState, formData) {
     return signInWith(formData.get('email'), formData.get('password'), '/dashboard');
 }
 
-// Public sign-up always creates a student account
 async function signup(prevState, formData) {
     const password = formData.get('password');
     if (password !== formData.get('confirmPassword')) {
@@ -44,7 +41,6 @@ async function adminSignin(prevState, formData) {
     return signInWith(formData.get('email'), formData.get('password'), '/admin-dashboard');
 }
 
-// Only allowed while no admin exists; later admins are added from the Users page
 async function adminSignup(prevState, formData) {
     if (await adminExists()) {
         return { error: "An admin account already exists. Ask an admin to create your account from the Users page." };
@@ -66,7 +62,6 @@ async function adminSignup(prevState, formData) {
     return signInWith(formData.get('email'), password, '/admin-dashboard');
 }
 
-// One-click sign-in to a shared demo account; the password never reaches the browser
 async function demoSignin(prevState, formData) {
     const account = DEMO_ACCOUNTS[formData.get('role')];
     if (!account || !demoEnabled()) return { error: "The demo isn't available right now." };
@@ -81,7 +76,6 @@ async function logout() {
     })
 }
 
-// Used on the admin login page to switch from a student account to an admin one
 async function adminLogout() {
     await signOut({
         redirectTo: '/admin-dashboard/login',

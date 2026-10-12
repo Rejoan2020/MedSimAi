@@ -20,7 +20,6 @@ const caseAttemptSchema = new mongoose.Schema({
 
     abandonedAt: Date,
 
-    // The student's own notes taken during the session
     notes: {
         type: String,
         default: '',
@@ -127,7 +126,6 @@ const caseAttemptSchema = new mongoose.Schema({
         },
         summary: String,
 
-        // How the consultation compared with the student's plan (only when they wrote one)
         planReview: {
             summary: String,
             followed: [String],
@@ -136,8 +134,6 @@ const caseAttemptSchema = new mongoose.Schema({
         },
     },
 
-    // Copy of the student's consultation plan and confidence ratings when the session started,
-    // so each attempt keeps what was planned at the time even if the plan is edited later
     prep: {
         plan: String,
         confidence: {

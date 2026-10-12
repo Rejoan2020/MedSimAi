@@ -1,6 +1,5 @@
 import React from 'react'
 
-// Consistent page width and spacing for signed-in pages
 export function PageContainer({ children, className = '' }) {
     return (
         <div className={`mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8 lg:py-10 ${className}`}>
@@ -9,7 +8,6 @@ export function PageContainer({ children, className = '' }) {
     )
 }
 
-// Page title with a small uppercase label above it, optional description and actions
 export default function PageHeader({ eyebrow, title, description, icon: Icon, actions }) {
     return (
         <div className='flex flex-wrap items-end justify-between gap-4'>
@@ -29,7 +27,6 @@ export default function PageHeader({ eyebrow, title, description, icon: Icon, ac
     )
 }
 
-// Blue gradient banner with soft shapes, like a hero section; children go on top
 export function HeroBanner({ children, className = '' }) {
     return (
         <div className={`hero-gradient relative overflow-hidden rounded-3xl text-white ${className}`}>
@@ -40,9 +37,7 @@ export function HeroBanner({ children, className = '' }) {
     )
 }
 
-// Frosted stat strip shown on top of a HeroBanner, like "20+ years of experience"
 export function GlassStats({ stats }) {
-    // Three stats sit in one row; four wrap to 2x2 on phones
     const layout = stats.length === 4
         ? 'grid-cols-2 sm:grid-cols-4 [&>*:nth-child(-n+2)]:border-b sm:[&>*:nth-child(-n+2)]:border-b-0 [&>*:nth-child(even)]:border-l sm:[&>*:not(:first-child)]:border-l'
         : 'grid-cols-3 [&>*:not(:first-child)]:border-l'

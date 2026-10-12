@@ -1,6 +1,5 @@
 import { Bone, SkeletonCard, SkeletonPage, SkeletonText } from '@/app/components/Skeleton'
 
-// Mirrors the case page: case header with start button, case document, and preparation
 export default function Loading() {
     return (
         <SkeletonPage label='Loading case'>

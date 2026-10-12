@@ -25,13 +25,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 }
                 await dbconnect();
 
-                // Emails are stored lowercase (see app/actions/adminUsers.js)
                 const user = await User.findOne({
                     email: String(credentials.email).trim().toLowerCase(),
                 });
 
-                // Same response for unknown emails and wrong passwords, so sign-in
-                // can't be used to discover which emails have accounts
+                // Same response as a wrong password, so emails can't be probed
                 if (!user) {
                     return null;
                 }

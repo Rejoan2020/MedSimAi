@@ -9,7 +9,7 @@ import CaseAttempt from '@/models/CaseAttempt'
 import CasePrep from '@/models/CasePrep'
 
 export async function startSession(formData) {
-    // Server actions are public endpoints: take the user from the session, never from the form
+    // Take the user from the session, never from the form
     const user = await getCurrentUser();
     if (!user) redirect('/signin');
 
@@ -20,15 +20,12 @@ export async function startSession(formData) {
     const clinicalCase = isValidObjectId(caseId)
         ? await Case.findById(caseId).select('slug isPublished').lean()
         : null;
-    // Students can only start published cases; admins can also try out drafts
     if (!clinicalCase || (!clinicalCase.isPublished && !isAdmin(user))) {
         throw new Error('Case not found');
     }
 
-    // Demo accounts can't use the AI, so a session would be a dead end; stay on the case page
     if (user.isDemo) redirect(`/cases/${clinicalCase.slug}`);
 
-    // Keep a copy of the plan and confidence ratings as they are now, for this attempt's feedback
     const prep = await CasePrep.findOne({ user: user._id, case: caseId }).lean();
 
     const attempt = await CaseAttempt.create({

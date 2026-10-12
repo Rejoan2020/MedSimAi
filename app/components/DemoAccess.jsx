@@ -9,7 +9,6 @@ const OPTIONS = [
     { role: 'admin', label: 'Admin demo', hint: 'Browse the CMS (read-only)', icon: ShieldCheck },
 ]
 
-// One-click sign-in to the shared demo accounts, for visitors exploring the project
 export default function DemoAccess({ roles = ['student', 'admin'] }) {
     const [state, formAction, pending] = useActionState(demoSignin, null)
     const [chosen, setChosen] = useState(null)
